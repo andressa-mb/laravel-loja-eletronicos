@@ -7,6 +7,7 @@ use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -24,18 +25,22 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $reqStore, Product $product){
         try{
             $validation = $reqStore->validated();
-            $created = $product->create([
+            $createProduct = [
                 'name' => $validation['name'],
                 'slug' => Str::slug($validation['name']),
                 'description' => $validation['description'],
                 'price' => $validation['price'],
                 'quantity' => $validation['quantity'],
                 'discount' => $validation['discount'],
-                'total' => $validation['price'] - $validation['discount'],
-                'image' => $validation['image'],
-            ]);
+                'total' => $validation['price'] - $validation['discount']
+            ];
+//TIREI O ID DO CAMINHO POIS AINDA NÃO EXISTIA, PENSAR EM QUAL CAMINHO POSSO DEIXAR DEPOIS DISSO
+            if($reqStore->hasFile('image')){
+                $createProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
+            }
 
-            return redirect()->route('category-associate-to-product', ['product' => $created]);
+            $createdProduct = $product->create($createProduct);
+            return redirect()->route('category-associate-to-product', ['product' => $createdProduct]);
         }catch(Throwable $e){
             throw $e;
             return back()->withErrors($e->getMessage());
@@ -48,7 +53,7 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product){
         $validation = $request->validated();
-        $product->update([
+        $formProduct = [
             'name' => $validation['name'],
             'slug' => Str::slug($validation['name']),
             'description' => $validation['description'],
@@ -56,9 +61,13 @@ class ProductController extends Controller
             'quantity' => $validation['quantity'],
             'discount' => $validation['discount'],
             'total' => $validation['price'] - $validation['discount'],
-            'image' => $validation['image'],
-        ]);
+        ];
 
+        if($request->hasFile('image')){
+            $formProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
+        }
+
+        $product->update($formProduct);
         return redirect()->route('category-associate-to-product', ['product' => $product->slug])->with('message', 'Produto atualizado com sucesso.');
     }
 

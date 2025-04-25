@@ -2,7 +2,7 @@
 
 <div class="mt-5">
     <h3>Cadastro de produtos</h3>
-    <form action="{{route('product-store')}}" method="POST" class="content m-auto w-50">
+    <form action="{{route('product-store')}}" method="POST" enctype="multipart/form-data" class="content m-auto w-50">
         @csrf
         <div class="form-group">
             <label for="name">Nome:</label>

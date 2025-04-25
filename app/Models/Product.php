@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class Product extends Model
 {
@@ -18,5 +21,18 @@ class Product extends Model
 
     public function categories(): BelongsToMany{
         return $this->belongsToMany(Category::class, 'categories_products');
+    }
+
+    public function configImage(Product $product, string $path, UploadedFile $file): string{
+        try{
+            /**
+             * @var Storage
+             */
+            $disk = Storage::disk('public');
+            return $disk->putFileAs($path, $file, $file->getClientOriginalName());
+
+        }catch(Throwable $e){
+            throw $e;
+        }
     }
 }

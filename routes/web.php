@@ -37,5 +37,6 @@ Route::delete('/delete-category/{category}', 'Categories\CategoryController@dest
 
 // PRODUCT AND CATEGORIES RELATIONS
 Route::get('/products-associates-in-category/{category}', 'ProductAndCategories\ProductAndCategoriesController@index')->name('products-associates');
+Route::get('/view-product-category/{product}', 'ProductAndCategories\ProductAndCategoriesController@index_product')->name('view-product');
 Route::get('/associate-category-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@associate')->name('category-associate-to-product');
 Route::post('/save-category-associated-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@saveRelationCategoryAndPost')->name('relation-category-post');

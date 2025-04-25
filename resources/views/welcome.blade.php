@@ -65,6 +65,9 @@
                                     <p style="color:red;">COM DESCONTO- </p>
                                 @endif
                                 R$ {{$product->total}}
+                                <a href="{{route('view-product', $product->slug)}}">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
                                 <a href="{{route('product-edit', $product->slug)}}">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>

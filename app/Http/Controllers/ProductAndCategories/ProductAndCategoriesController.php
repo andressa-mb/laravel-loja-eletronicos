@@ -11,7 +11,12 @@ class ProductAndCategoriesController extends Controller
 {
     public function index(Request $request){
         $category = Category::find($request->category);
-        return view('products_in_category.index', ['category' => $category]);
+        return view('products_in_category.index-category', ['category' => $category]);
+    }
+
+    public function index_product(Request $request){
+        $product = Product::where('slug', $request->product)->first();
+        return view('products_in_category.index-product', ['product' => $product]);
     }
 
     public function associate(Product $product){

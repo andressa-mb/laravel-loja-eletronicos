@@ -2,7 +2,7 @@
 
 <div class="mt-5">
     <h3>Alteração dos dados:</h3>
-    <form action="{{route('product-update', $product)}}" method="POST" class="content m-auto w-50">
+    <form action="{{route('product-update', $product)}}" method="POST" enctype="multipart/form-data" class="content m-auto w-50">
         @csrf
         @method('PUT')
         <div class="form-group">
@@ -17,7 +17,7 @@
             <label for="discount">Desconto:</label>
             <input type="number" step=".01" id="discount" name="discount" class="form-control" value="{{$product->discount}}">
             <label for="image">Imagem:</label>
-            <input type="file" id="image" name="image" class="form-control" value="{{$product->image}}">
+            <input type="file" id="image" name="image" class="form-control-file" value="{{$product->image}}">
         </div>
         <button type="submit" class="btn btn-success">Salvar</button>
         <a type="button" class="btn btn-primary" href="{{route('welcome')}}">Voltar</a>
