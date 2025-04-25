@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 <div class="mt-5">
-    <h3>Formulário de cadastro</h3>
+    <h3>Cadastro de produtos</h3>
     <form action="{{route('product-store')}}" method="POST" class="content m-auto w-50">
         @csrf
         <div class="form-group">
@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="price">Preço:</label>
-            <input type="number" id="price" name="price" class="form-control"/>
+            <input type="number" step=".01" id="price" name="price" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="quantity">Quantidade:</label>
@@ -22,13 +22,28 @@
         </div>
         <div class="form-group">
             <label for="discount">Desconto:</label>
-            <input type="text" id="discount" name="discount" class="form-control"/>
+            <input type="number" step=".01" id="discount" name="discount" class="form-control"/>
         </div>
         <div class="form-group">
             <label for="image">Imagem:</label>
             <input type="file" id="image" name="image" class="form-control-file"/>
         </div>
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a type="button" class="btn btn-primary" href="{{route('welcome')}}">Voltar</a>
     </form>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </div>
+
+<script>
+    var foco = document.getElementById('name');
+    foco.focus();
+</script>

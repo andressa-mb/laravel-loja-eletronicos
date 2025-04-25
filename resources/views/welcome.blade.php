@@ -1,32 +1,84 @@
 @extends('layouts.app')
-
-    <div class="content">
-
-
+    <div class="container">
         <div class="m-4">
-            <div class="text-center">
-                <h1>Loja de eletrônicos</h1>
+            <div id="menu-adicionar">
+                <div class="text-center">
+                    <h1>Loja de eletrônicos</h1>
+                </div>
+                <div class="d-flex align-items-center justify-content-around mt-5">
+                    <h3>Cadastrar novo produto</h3>
+                    <a href="{{route('product-create')}}">ADD</a>
+                </div>
+                <div class="d-flex align-items-center justify-content-around mt-5">
+                    <h3>Cadastrar nova categoria</h3>
+                    <a href="{{route('category-create')}}">ADD</a>
+                </div>
             </div>
-            <div class="d-flex align-items-center justify-content-around mt-5">
-                <h3>Cadastrar novo produto</h3>
-                <a href="{{route('product-create')}}">ADD</a>
+
+            <div id="menu-erros-sucessos" class="d-flex align-items-center justify-content-around mt-5">
+                @if (session('message'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
-            <div>
-                <p>som e vídeo</p>
-                <p>computador</p>
-                <p>celular</p>
-                <p>drone</p>
-                <p>controladores</p>
-            </div>
-            <div>
-                <h3>Lista de produtos cadastrados</h3>
-                <ul>
-                    @foreach ($products as $product)
-                        <li>Nome: {{$product->name}} <br>
-                            Valor: {{$product->price}}
-                        </li>
+
+            <div id="menu-listas" class="d-flex flex-column-2 justify-content-around mt-5">
+                <div id="categories" class="">
+                    <h3>Lista de categorias</h3>
+                    @foreach (\App\Models\Category::get() as $category)
+                        <ul class="list-group">
+                            <li class="d-flex justify-content-around list-group-item">{{$category->name}}
+                                <a href="{{route('products-associates', $category)}}">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <a href="{{route('category-edit', $category->id)}}">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <form action="{{route('category-delete', $category->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     @endforeach
-                </ul>
+                </div>
+                <div id="products" class="">
+                    <h3>Lista de produtos cadastrados</h3>
+                    @foreach ($products as $product)
+                        <ul class="list-group">
+                            <li class="d-flex justify-content-around list-group-item">
+                                {{$product->name}} -
+                                @if($product->discount)
+                                    <p style="color:red;">COM DESCONTO- </p>
+                                @endif
+                                R$ {{$product->total}}
+                                <a href="{{route('product-edit', $product->slug)}}">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <form action="{{route('product-delete', $product->slug)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
