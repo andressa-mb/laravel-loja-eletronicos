@@ -10,3 +10,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+.info
+/resources/views/layouts/antigo_app.php

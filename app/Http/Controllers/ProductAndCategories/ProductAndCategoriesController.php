@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 
 class ProductAndCategoriesController extends Controller
 {
-    public function index(Request $request){
-        $category = Category::find($request->category);
-        return view('products_in_category.index-category', ['category' => $category]);
+    //INDEX OK
+    public function index(){
+        $categories = Category::get();
+        return view('products_in_category.index-category', ['categories' => $categories]);
     }
 
+    //OK
     public function index_product(Request $request){
         $product = Product::where('slug', $request->product)->first();
         return view('products_in_category.index-product', ['product' => $product]);
+    }
+
+    public function selling_product(Request $request){
+        return view('selling_product.form-client', ['product' => $request->product]);
     }
 
     public function associate(Product $product){

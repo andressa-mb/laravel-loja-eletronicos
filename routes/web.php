@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Products\ProductController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 }); */
+//PÁGINA PRINCIPAL - OK
+Route::get('/', 'Products\ProductController@index')->name('list-products');
 
 // PRODUCTS
-Route::get('/', 'Products\ProductController@index')->name('welcome');
+//Route::get('/welcome', 'Products\ProductController@index')->name('welcome');
 Route::get('/create-product', 'Products\ProductController@create')->name('product-create');
 Route::post('/save-product', 'Products\ProductController@store')->name('product-store');
 Route::get('/edit-product/{product}', 'Products\ProductController@edit')->name('product-edit');
@@ -36,7 +38,18 @@ Route::put('/update-category/{category}', 'Categories\CategoryController@update'
 Route::delete('/delete-category/{category}', 'Categories\CategoryController@destroy')->name('category-delete');
 
 // PRODUCT AND CATEGORIES RELATIONS
-Route::get('/products-associates-in-category/{category}', 'ProductAndCategories\ProductAndCategoriesController@index')->name('products-associates');
+// OK
 Route::get('/view-product-category/{product}', 'ProductAndCategories\ProductAndCategoriesController@index_product')->name('view-product');
+Route::get('/products-associates-in-category', 'ProductAndCategories\ProductAndCategoriesController@index')->name('products-associates');
+
+//VERIFICAR POIS APENAS OS ADMS IRÃO FAZER ISSO
 Route::get('/associate-category-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@associate')->name('category-associate-to-product');
 Route::post('/save-category-associated-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@saveRelationCategoryAndPost')->name('relation-category-post');
+
+//O USUÁRIO PODERÁ IR NESSA PÁGINA
+Route::post('/selling-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@selling_product')->name('selling-product-info-client');
+
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();

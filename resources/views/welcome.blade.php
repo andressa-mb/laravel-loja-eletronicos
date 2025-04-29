@@ -1,10 +1,8 @@
 @extends('layouts.app')
-    <div class="container">
+@section('content')
+    <div class="">
         <div class="m-4">
             <div id="menu-adicionar">
-                <div class="text-center">
-                    <h1>Loja de eletrônicos</h1>
-                </div>
                 <div class="d-flex align-items-center justify-content-around mt-5">
                     <h3>Cadastrar novo produto</h3>
                     <a href="{{route('product-create')}}">ADD</a>
@@ -56,7 +54,7 @@
                     @endforeach
                 </div>
                 <div id="products" class="">
-                    <h3>Lista de produtos cadastrados</h3>
+                    <h3>Lista de produtos</h3>
                     @foreach ($products as $product)
                         <ul class="list-group">
                             <li class="d-flex justify-content-around list-group-item">
@@ -81,7 +79,9 @@
                             </li>
                         </ul>
                     @endforeach
+                    <a href="{{route('list-products')}}" class="mt-4 btn btn-success">Lista de produtos</a>
                 </div>
             </div>
         </div>
     </div>
+@endsection
