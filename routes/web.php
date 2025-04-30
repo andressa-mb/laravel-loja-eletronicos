@@ -19,10 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 }); */
 //PÁGINA PRINCIPAL - OK
-Route::get('/', 'Products\ProductController@index')->name('list-products');
+Route::get('/', 'Products\ProductController@indexBuyer')->name('list-products');
+Route::get('/profile/{user}', 'HomeController@index')->name('home');
 
 // PRODUCTS
-//Route::get('/welcome', 'Products\ProductController@index')->name('welcome');
+Route::get('/welcome-admin', 'Products\ProductController@index')->name('welcome');
 Route::get('/create-product', 'Products\ProductController@create')->name('product-create');
 Route::post('/save-product', 'Products\ProductController@store')->name('product-store');
 Route::get('/edit-product/{product}', 'Products\ProductController@edit')->name('product-edit');
