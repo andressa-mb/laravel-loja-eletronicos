@@ -60,7 +60,11 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        //
+        $user_admin = $user->roles()->adminRole()->first();
+        if($user_admin){
+            return $user->id == $user_admin->id;
+        }
+        return false;
     }
 
     /**
@@ -72,7 +76,11 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
-        //
+        $user_admin = $user->roles()->adminRole()->first();
+        if($user_admin){
+            return $user->id == $user_admin->id;
+        }
+        return false;
     }
 
     /**

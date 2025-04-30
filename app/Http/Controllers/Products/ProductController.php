@@ -55,6 +55,7 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product){
+        $this->authorize('update', $product);
         return view('product.edit', ['product' => $product]);
     }
 
@@ -79,6 +80,7 @@ class ProductController extends Controller
     }
 
     public function destroy(Product $product){
+        $this->authorize('delete', $product);
         $product->delete();
         return redirect()->route('welcome')->with('message', 'Produto excluído com sucesso.');
     }
