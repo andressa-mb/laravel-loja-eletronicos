@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function create(){
+        $this->authorize('create', Category::class);
         return view('category.create');
 
     }
@@ -31,6 +32,7 @@ class CategoryController extends Controller
     }
 
     public function edit(Category $category){
+        $this->authorize('update', $category);
         return view('category.edit', ['category' => $category]);
     }
 
@@ -46,6 +48,7 @@ class CategoryController extends Controller
     }
 
     public function destroy(Category $category){
+        $this->authorize('delete', $category);
         $category->delete();
         return redirect()->route('index-adm')->with('message', 'Excluído com sucesso');
     }
