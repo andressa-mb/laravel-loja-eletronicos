@@ -35,4 +35,12 @@ class Product extends Model
             throw $e;
         }
     }
+
+    public function categoriesIds(): array{
+        $categoriesIds = [];
+        foreach($this->categories()->get(['categories.id']) as $category){
+            $categoriesIds[] = $category->pivot->category_id;
+        }
+        return $categoriesIds;
+    }
 }

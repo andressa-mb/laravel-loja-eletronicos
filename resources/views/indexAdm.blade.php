@@ -55,7 +55,7 @@
                 </div>
                 <div id="products" class="">
                     <h3>Lista de produtos</h3>
-                    @foreach ($products as $product)
+                    @foreach (\App\Models\Product::get() as $product)
                         <ul class="list-group">
                             <li class="d-flex justify-content-around list-group-item">
                                 {{$product->name}} -
@@ -79,7 +79,7 @@
                             </li>
                         </ul>
                     @endforeach
-                    <a href="{{route('list-products')}}" class="mt-4 btn btn-success">Lista de produtos</a>
+                    <a href="{{route('index-buyer')}}" class="mt-4 btn btn-success">Lista de produtos</a>
                 </div>
             </div>
         </div>

@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index(){
-        $categories = Category::get();
-        return view('welcome', ['categories' => $categories]);
-    }
-
     public function create(){
         return view('category.create');
 
@@ -28,7 +23,7 @@ class CategoryController extends Controller
             'name' => $validation['name']
         ]);
 
-        return redirect()->route('welcome');
+        return redirect()->route('index-adm');
     }
 
     public function show(){
@@ -47,11 +42,11 @@ class CategoryController extends Controller
         $category->update([
             'name' => $validation['name'],
         ]);
-        return redirect()->route('welcome');
+        return redirect()->route('index-adm');
     }
 
     public function destroy(Category $category){
         $category->delete();
-        return redirect()->route('welcome')->with('message', 'Excluído com sucesso');
+        return redirect()->route('index-adm')->with('message', 'Excluído com sucesso');
     }
 }

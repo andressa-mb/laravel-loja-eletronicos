@@ -6,8 +6,7 @@
             <div id="foto" class="">
                 <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
             </div>
-            <form action="{{route('selling-product-info-client', $product)}}" method="POST" id="info" enctype="multipart/form-data">
-                @csrf
+            <form action="{{route('selling-product-info-client', $product)}}" id="info">
                 <h3>{{$product->name}}</h3>
                 <p><strong>Descrição: </strong>{{$product->description}}</p>
                 <p><strong>Quantidade: </strong>{{$product->quantity}}</p>
@@ -22,13 +21,17 @@
                     <p class=""><strong>Desconto: </strong>R$ {{$product->discount}}</p>
                 @endif
                 <p><strong>Valor total: </strong>R$ {{$product->total}}</p>
-                <button type="submit" class="btn btn-success">Comprar</button>
+                @if (Auth::user())
+                    <button type="submit" class="btn btn-success">Comprar</button>
+                @else
+                    <p><strong class="text-danger">Você deve estar logado para realizar a compra!</strong></p>
+                @endif
             </form>
 
         </div>
 
         <div class="m-auto">
-            <a href="{{route('list-products')}}" class="mt-5 btn btn-info rounded">Voltar</a>
+            <a href="{{route('index-buyer')}}" class="mt-5 btn btn-info rounded">Voltar</a>
         </div>
     </div>
 @endsection

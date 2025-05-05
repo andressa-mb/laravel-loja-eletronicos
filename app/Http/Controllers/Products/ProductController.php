@@ -6,24 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
-use Illuminate\Auth\Access\Gate as AccessGate;
-use Illuminate\Contracts\Auth\Access\Gate;
-use Illuminate\Support\Facades\Gate as FacadesGate;
 use Illuminate\Support\Str;
 use Throwable;
 
 class ProductController extends Controller
 {
-    public function index(){
-        $products = Product::get();
-        return view('welcome', ['products' => $products]);
-    }
-
-    public function indexBuyer(){
-        $products = Product::get();
-        return view('product.index', ['products' => $products]);
-    }
-
     public function create(){
         $this->authorize('create', Product::class);
         return view('product.create');
@@ -82,6 +69,6 @@ class ProductController extends Controller
     public function destroy(Product $product){
         $this->authorize('delete', $product);
         $product->delete();
-        return redirect()->route('welcome')->with('message', 'Produto excluído com sucesso.');
+        return redirect()->route('index-adm')->with('message', 'Produto excluído com sucesso.');
     }
 }

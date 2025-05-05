@@ -30,7 +30,7 @@
         @endforeach
 
         <div class="m-auto w-50">
-            <a href="{{route('list-products')}}" class="mt-5 btn btn-info rounded">Voltar</a>
+            <a href="{{route('index-buyer')}}" class="mt-5 btn btn-info rounded">Voltar</a>
         </div>
     </div>
 @endsection

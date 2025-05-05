@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-md-9">
-            @foreach ($products as $product)
+            @foreach (App\Models\Product::get() as $product)
                 @foreach ($product->categories as $category)
                     <div class="card p-4" style="width: 18rem; margin: 20px auto;">
                         <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">

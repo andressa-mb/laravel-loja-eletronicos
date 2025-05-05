@@ -9,23 +9,32 @@
                 <input class="form-control" type="text" value="{{$product->name}}" disabled>
             </div>
             <div class="form-group">
-                @if($product->categories()->exists())
-                    @foreach ($product->categories()->get() as $myCategory)
-                        <label for="categories" class="form-label">Categorias:</label>
-                        <select name="category_id" id="categories" class="form-select">
-                            <option value="{{$myCategory->id}}">{{$myCategory->name}}</option>
-                            @foreach (App\Models\Category::get() as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
-                            @endforeach
-                        </select>
-                    @endforeach
-                @endif
+                @php
+                    $categories_ids = $product->categoriesIds();
+                    $categories = App\Models\Category::get();
+                @endphp
+                @foreach ($categories as $category)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{$category->id}}" name="categories[]" id="category--{{$category->id}}"
+                        @if(in_array($category->id, $categories_ids))
+                            checked
+                        @endif
+                        >
+                        <label class="form-check-label" for="category--{{$category->id}}">
+                            {{$category->name}}
+                        </label>
+                    </div>
+                @endforeach
             </div>
             <button type="submit" class="btn btn-success">Enviar</button>
         </form>
     </div>
 
-
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>

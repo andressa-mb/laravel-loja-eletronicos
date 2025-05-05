@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+{{-- A PENSAR O QUE FAZER E COMO FAZER
+POR ENQUANTO É UM FORM PARA ATUALIZAÇÃO DOS DADOS DO USUÁRIO E
+SENDO ADM PODE TER UM BOTÃO PARA MOSTRAR OS USUÁRIOS E TROCAR SUAS ROLES
+ --}}
 
     <form>
         <div class="form-group">
@@ -25,7 +29,7 @@
                 <input type="text" class="form-control" id="role" value="{{$buyer->title}}" disabled>
             @endif
           </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Atualizar dados</button>
     </form>
 
 @endsection

@@ -21,7 +21,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
+
+    public function indexAdm(){
+        return view('indexAdm');
+    }
+
+    public function indexBuyer(){
+        return view('indexBuyer');
+    }
+    public function indexProfile(Request $request)
     {
         return view('profile.index', ['user' => $request->user()]);
     }
