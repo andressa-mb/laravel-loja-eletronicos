@@ -60,6 +60,4 @@ class Product extends Model
     public function scopeSearchProduct(Builder $builder, $searchProduct): Builder{
         return $builder->where('name', 'ILIKE', "%$searchProduct%");
     }
-
-
 }
