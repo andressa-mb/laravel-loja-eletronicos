@@ -79,7 +79,7 @@
         </div>
 
         <div class="float-right">
-            <a href="{{route('index-buyer')}}" class="mt-5 btn btn-info rounded">Voltar</a>
+            <a href="{{route('index-buyer')}}" class="mt-5 mb-5 btn btn-info rounded">Voltar</a>
         </div>
     </div>
 @endsection

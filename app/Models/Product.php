@@ -44,4 +44,22 @@ class Product extends Model
         }
         return $categoriesIds;
     }
+
+    public function scopeSortBy(Builder $builder, $valueToSort): Builder{
+        if($valueToSort == 'lowest_price'){
+            return $builder->oldest('total');
+        } else if($valueToSort == 'highest_price'){
+            return $builder->latest('total');
+        } else if($valueToSort == 'recent'){
+            return $builder->latest();
+        } else {
+            return $builder;
+        }
+    }
+
+    public function scopeSearchProduct(Builder $builder, $searchProduct): Builder{
+        return $builder->where('name', 'ILIKE', "%$searchProduct%");
+    }
+
+
 }

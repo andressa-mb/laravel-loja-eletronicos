@@ -1,13 +1,17 @@
 @extends('layouts.app')
 @section('content')
-
-
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar produtos..." aria-label="Buscar produtos..." aria-describedby="basic-addon2">
-        <div class="input-group-append">
-        <a href="#"><span class="input-group-text" id="basic-addon2">LUPA</span></a>
+    <form action="{{route('index-buyer')}}" method="GET">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="search" placeholder="Buscar produtos..." aria-label="Buscar produtos..." aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button type="submit" class="btn p-0">
+                    <span class="input-group-text" id="basic-addon2">
+                        <i class="bi bi-search"></i>
+                    </span>
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
 
     <form action="{{route("index-buyer")}}" method="GET" enctype="multipart/form-data">
         @csrf

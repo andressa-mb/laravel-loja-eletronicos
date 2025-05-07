@@ -34,17 +34,13 @@ class HomeController extends Controller
                 'sort' => 'required|in:popular,lowest_price,highest_price,recent'
             ]);
             $value = $valueToSort['sort'];
-            if($value == 'lowest_price'){
-                $products = $product->orderBy('total', 'asc')->get();
-            } else if($value == 'highest_price'){
-                $products = $product->orderBy('total', 'desc')->get();
-            } else if($value == 'recent'){
-                $products = $product->orderBy('created_at', 'desc')->get();
-            } else {
-                $products = $product->get();
-            }
+            $products = $product->sortBy($value)->get();
             return view('indexBuyer', ['products' => $products, 'sort' => $value]);
         }else {
+            if(!is_null($request->search)){
+                $searchProducts = $product->searchProduct($request->search)->get();
+                return view('indexBuyer', ['products' => $searchProducts]);
+            }
             return view('indexBuyer', ['products' => $product->get()]);
         }
     }
