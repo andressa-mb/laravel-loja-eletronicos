@@ -48,10 +48,13 @@
                             <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
                                 <img src="{{asset("storage/{$product->image}")}}" id="{{$category->pivot->category_id}}" class="card-img-top" alt="...">
                                 <h4 class="card-title">{{$product->name}}</h4>
-                                <p class="card-text">{{$product->description}}</p>
+                                <p class="card-text">{{Str::limit($product->description, 60)}}</p>
+                                @if (Str::length($product->description) >= 60)
+                                    <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
+                                @endif
                                 <p class="card-text">Quantidade: {{$product->quantity}}</p>
-                                <p class="card-text">R$ {{$product->total}}</p>
-                                <a href="{{route('view-product', $product)}}"><i class="bi bi-eye-fill">  Ver produto</i></a>
+                                <p class="card-text">R$ {{number_format($product->total, 2, ",", ".")}}</p>
+                                <a href="{{route('view-product', $product)}}"><i class="bi bi-eye-fill">Ver produto</i></a>
                             </div>
                         </div>
                     </div>

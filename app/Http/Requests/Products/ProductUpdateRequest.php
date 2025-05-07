@@ -26,7 +26,7 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:25',
-            'description' => 'max:100|nullable',
+            'description' => 'max:1000|nullable',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'discount' => 'nullable|numeric',
@@ -40,7 +40,7 @@ class ProductUpdateRequest extends FormRequest
             'name.required' => 'Nome do produto é obrigatório',
             'name.min' => 'O nome do produto deve conter mais de 2 caracteres.',
             'name.max' => 'O nome do produto deve conter até 25 caracteres.',
-            'description.max' => 'A descrição deve conter até 100 caracteres.',
+            'description.max' => 'A descrição deve conter até 1000 caracteres.',
             'price.required' => 'O valor do produto é obrigatório.',
             'price.numeric' => 'O valor do produto deve ser numérico.',
             'quantity.required' => 'A quantidade do produto é obrigatório.',
