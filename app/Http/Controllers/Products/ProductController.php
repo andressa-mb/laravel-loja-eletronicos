@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
+use App\Jobs\Product\NewProductAlert;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -28,12 +30,13 @@ class ProductController extends Controller
                 'discount' => $validation['discount'],
                 'total' => $validation['price'] - $validation['discount']
             ];
-//TIREI O ID DO CAMINHO POIS AINDA NÃO EXISTIA, PENSAR EM QUAL CAMINHO POSSO DEIXAR DEPOIS DISSO
+            //TIREI O ID DO CAMINHO POIS AINDA NÃO EXISTIA, PENSAR EM QUAL CAMINHO POSSO DEIXAR DEPOIS DISSO
             if($reqStore->hasFile('image')){
                 $createProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
             }
 
             $createdProduct = $product->create($createProduct);
+           // NewProductAlert::dispatch($createdProduct, Auth::user());
             return redirect()->route('category-associate-to-product', ['product' => $createdProduct]);
         }catch(Throwable $e){
             throw $e;
@@ -64,6 +67,10 @@ class ProductController extends Controller
 
         $product->update($formProduct);
         return redirect()->route('category-associate-to-product', ['product' => $product->slug])->with('message', 'Produto atualizado com sucesso.');
+    }
+
+    public function show(){
+        return view('product.show');
     }
 
     public function destroy(Product $product){

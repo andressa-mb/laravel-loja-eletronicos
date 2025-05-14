@@ -28,7 +28,7 @@ class CategoryController extends Controller
     }
 
     public function show(){
-
+        return view('category.show');
     }
 
     public function edit(Category $category){

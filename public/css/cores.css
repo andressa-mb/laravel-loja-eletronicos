@@ -1,0 +1,47 @@
+@import 'app.css';
+
+.body {
+    background-color: rgb(195, 241, 243);
+}
+
+.bg-blue {
+    background-color: #8ec6f3;
+    color: aliceblue;
+}
+
+.bg-color-light {
+    background-color: rgb(214, 231, 255);
+}
+
+.text-white {
+    color: white;
+    font-size: 22px;
+    text-shadow: 2px 1px 2px #000;
+    font-weight: bolder;
+}
+
+.text-whiteSemShadow {
+    color: white;
+}
+
+.text-categories-nav {
+    color: #008cff;
+    font-weight: 600;
+    font-size: 22px;
+    text-shadow: 1px 1px 0 #002fff;
+}
+
+.form-create-bg {
+    background-color: rgb(195, 241, 243);
+}
+
+.text-footer {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 2px 1px 2px #000;
+    background-color: #8ec6f3;
+    height: 30px;
+    margin-top: 10px;
+}

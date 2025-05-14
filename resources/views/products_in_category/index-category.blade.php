@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
-    <div class="mt-5 table-responsive-md">
+    <div class="table-responsive-md">
+        <a href="{{route('index-buyer')}}" class="mt-5 btn btn-info rounded">Voltar</a>
+
         @foreach ($categories as $category)
-        <h3 class="text-center mt-4">{{$category->name}}</h3>
+            <h3 class="text-center mt-4" id="{{$category->id}}">{{$category->name}}</h3>
             <table class="table border border-black">
                 <thead class="table-dark">
                 <tr>
@@ -29,8 +31,7 @@
             </table>
         @endforeach
 
-        <div class="m-auto">
-            <a href="{{route('index-buyer')}}" class="mt-5 btn btn-info rounded">Voltar</a>
-        </div>
+        <a href="{{route('index-buyer')}}" class="mt-5 mb-5 btn btn-info rounded">Voltar</a>
+
     </div>
 @endsection

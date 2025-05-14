@@ -29,6 +29,7 @@ Route::get('/create-product', 'Products\ProductController@create')->name('produc
 Route::post('/save-product', 'Products\ProductController@store')->name('product-store');
 Route::get('/edit-product/{product}', 'Products\ProductController@edit')->name('product-edit');
 Route::put('/update-product/{product}', 'Products\ProductController@update')->name('product-update');
+Route::get('/show-products', 'Products\ProductController@show')->name('product-show');
 Route::delete('/delete-product/{product}', 'Products\ProductController@destroy')->name('product-delete');
 
 // CATEGORIES
@@ -36,6 +37,7 @@ Route::get('/create-category', 'Categories\CategoryController@create')->name('ca
 Route::post('/save-category', 'Categories\CategoryController@store')->name('category-store');
 Route::get('/edit-category/{category}', 'Categories\CategoryController@edit')->name('category-edit');
 Route::put('/update-category/{category}', 'Categories\CategoryController@update')->name('category-update');
+Route::get('/show-categories', 'Categories\CategoryController@show')->name('category-show');
 Route::delete('/delete-category/{category}', 'Categories\CategoryController@destroy')->name('category-delete');
 
 // PRODUCT AND CATEGORIES RELATIONS - VIEWS E SELLINGS

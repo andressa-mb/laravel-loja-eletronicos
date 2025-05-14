@@ -1,0 +1,19 @@
+@import 'app.css';
+
+.icon-size-p {
+    margin: 5px 10px;
+    font-size: larger;
+}
+
+.font-form {
+    font-size: 22px;
+}
+
+.form-create {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
-    <div class="mt-5">
-        <h3 class="mb-5">Qual categoria para o produto cadastrado?</h3>
-        <form action="{{route('relation-category-post', $product)}}" method="post" class="content m-auto w-50">
+    <div class="row justify-content-center form-create-bg">
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Qual categoria para o produto cadastrado?</h3>
+        <form action="{{route('relation-category-post', $product)}}" method="post" class="mb-5 w-50 form-create">
             @csrf
             <div class="form-group">
-                <label for="product" class="form-label">Produto:</label>
+                <label for="product" class="font-form">Produto:</label>
                 <input class="form-control" type="text" value="{{$product->name}}" disabled>
             </div>
             <div class="form-group">
@@ -20,7 +20,7 @@
                             checked
                         @endif
                         >
-                        <label class="form-check-label" for="category--{{$category->id}}">
+                        <label class="form-check-label font-form" for="category--{{$category->id}}">
                             {{$category->name}}
                         </label>
                     </div>
