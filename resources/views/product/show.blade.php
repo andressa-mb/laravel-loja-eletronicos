@@ -2,6 +2,7 @@
 @section('content')
 
 <div>
+    {{ $products->links() }}
     <table class="table border border-black">
         <thead class="table-dark">
             <tr>
@@ -19,7 +20,7 @@
             </tr>
         </thead>
         <tbody class="table table-striped">
-            @foreach (App\Models\Product::get() as $product)
+            @foreach ($products as $product)
                 @foreach ($product->categories as $category)
                 @php
                     $categoryId = $category->find($category->pivot->category_id);
@@ -27,7 +28,7 @@
                     <tr>
                         <th scope="row">{{$product->id}}</th>
                         <td>
-                            <img src="{{asset("storage/{$product->image}")}}" id="{{$category->pivot->category_id}}" class="card-img-top" alt="{{$product->image}}">
+                            <img src="{{asset("storage/{$product->image}")}}" id="{{$category->pivot->category_id}}" class="card-img-top" alt="{{$product->image}}" height="70px" width="35px">
                         </td>
                         <td>{{$product->name}}</td>
                         <td>{{$product->description}}</td>
@@ -56,5 +57,6 @@
             @endforeach
         </tbody>
     </table>
+    {{ $products->links() }}
 </div>
 @endsection

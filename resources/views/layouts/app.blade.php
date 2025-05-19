@@ -76,7 +76,7 @@
                             </li>
                         @endguest
                         <li class="icon-size-p">
-                            <a href=""><i class="bi bi-cart-fill"></i></a>
+                            <a href="" name="cart"><i class="bi bi-cart-fill"></i></a>
                         </li>
                     </ul>
                 </div>

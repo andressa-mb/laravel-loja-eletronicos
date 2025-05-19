@@ -75,7 +75,8 @@
         </div>
     </form>
 {{-- LISTA DE PRODUTOS --}}
-    <div class=" d-flex flex-wrap justify-content-center align-items-start">
+{{$products->links()}}
+    <div class="d-flex flex-wrap justify-content-center align-items-start">
         @foreach ($products as $product)
             @foreach ($product->categories as $category)
                 <div class="m-2">
@@ -96,4 +97,5 @@
             @endforeach
         @endforeach
     </div>
+{{$products->links()}}
 @endsection

@@ -23,7 +23,30 @@ class ProductAndCategoriesController extends Controller
     }
 
     public function selling_product(Request $request){
+       if($request->action == 'carrinho'){
+            $cart_list = session()->get('cart_list', []);
+            $priceConvertion = str_replace("R$ ", "", $request->price);
+            $priceConvertion = str_replace(".", "", $priceConvertion);
+            $priceConvertion = str_replace(",", ".", $priceConvertion);
+            $discountConversion = str_replace("R$ ", "", $request->discount);
+            $discountConversion = str_replace(".", "", $discountConversion);
+            $discountConversion = str_replace(",", ".", $discountConversion);
+
+            $totalDiscount = $request->quantity * (double)$discountConversion;
+            $totalPrice = $request->quantity * (double)$priceConvertion;
+            $totalResult = $totalPrice - $totalDiscount;
+
+            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $priceConvertion, 'discount' => $discountConversion, 'total' => $totalResult]);
+            session(['cart_list' => $cart_list]);
+            return redirect()->action([static::class, 'cart_list']);
+        }
         return view('selling_product.form-client', ['product' => $request->product]);
+    }
+
+    public function cart_list(Request $request){
+        $cart = $request->session()->get('cart_list');
+
+        return view('selling_product.cart-list', ['cart_list' => $cart]);
     }
 
     public function send_userdata(UserDataStoreRequest $reqStore, $productSlug){

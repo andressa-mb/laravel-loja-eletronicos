@@ -25,20 +25,35 @@ class HomeController extends Controller
 
     public function indexBuyer(Request $request, Product $product){
         $valueToSort = $request->sort;
+        $data = [];
+        $query = $product->query();
         if(!is_null($valueToSort)){
             $valueToSort = $request->validate([
                 'sort' => 'required|in:popular,lowest_price,highest_price,recent'
             ]);
-            $value = $valueToSort['sort'];
-            $products = $product->sortBy($value)->get();
-            return view('indexBuyer', ['products' => $products, 'sort' => $value]);
+            switch($valueToSort['sort']){
+                case 'popular':
+                    $query = $query->orderBy('updated_at', 'desc');
+                    break;
+                case 'lowest_price':
+                    $query = $query->orderBy('price', 'asc');
+                    break;
+                case 'highest_price':
+                    $query = $query->orderBy('price', 'desc');
+                    break;
+                case 'recent':
+                    $query = $query->orderBy('created_at', 'desc');
+                    break;
+            }
+            //$query = $query->orderBy($valueToSort['sort']);
+            $data['sort'] = $valueToSort['sort'];
         }else {
             if(!is_null($request->search)){
-                $searchProducts = $product->searchProduct($request->search)->get();
-                return view('indexBuyer', ['products' => $searchProducts]);
+                $query = $query->searchProduct($request->search);
             }
-            return view('indexBuyer', ['products' => $product->get()]);
         }
+        $data['products'] = $query->paginate(5);
+        return view('indexBuyer', $data);
     }
 
     public function indexProfile(Request $request){

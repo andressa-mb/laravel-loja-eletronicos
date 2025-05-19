@@ -20,6 +20,10 @@
     font-weight: bolder;
 }
 
+.w-border {
+    border: none;
+}
+
 .text-whiteSemShadow {
     color: white;
 }

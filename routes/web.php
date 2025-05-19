@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Products\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +46,7 @@ Route::delete('/delete-category/{category}', 'Categories\CategoryController@dest
 Route::get('/view-product-category/{product}', 'ProductAndCategories\ProductAndCategoriesController@index_product')->name('view-product');
 Route::get('/products-associates-in-category', 'ProductAndCategories\ProductAndCategoriesController@index_category')->name('products-associates');
 Route::get('/selling-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@selling_product')->name('selling-product-info-client');
+Route::get('/products-in-cart', 'ProductAndCategories\ProductAndCategoriesController@cart_list')->name('cart-list');
 Route::post('/user-data-to-send-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@send_userdata')->name('user-data-to-send-product');
 
 Auth::routes();
