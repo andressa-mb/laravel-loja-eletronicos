@@ -1,6 +1,6 @@
 @if(Auth::check())
     @if (Auth::user()->roles()->adminRole()->exists())
-        <ul class="nav justify-content-center">
+        <ul class="nav justify-content-center col-12">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-categories-nav" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categorias</a>
                 <div class="dropdown-menu">
@@ -35,7 +35,7 @@
     @endif
 @endif
 
-<ul class="nav justify-content-center">
+<ul class="nav justify-content-center col-12">
     @foreach (\App\Models\Category::get() as $category)
         <li class="nav-item">
             <a class="nav-link text-categories-nav" href="#{{$category->id}}">{{$category->name}}</a>

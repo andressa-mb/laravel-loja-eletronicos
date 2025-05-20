@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
 {{-- CARROSSEL --}}
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="carousel slide row" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -48,6 +49,7 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+
 {{-- BUSCA DE PRODUTOS --}}
     <form action="{{route('index-buyer')}}" method="GET">
         <div class="input-group mb-3 mt-5">
@@ -61,12 +63,14 @@
             </div>
         </div>
     </form>
+
 {{-- ORDENAR PRODUTOS --}}
     <form  action="{{route("index-buyer")}}" method="GET" enctype="multipart/form-data">
         @csrf
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end row">
             <label for="sort" class="mr-2">Ordenar por:</label>
             <select class="w-25 custom-select custom-select-sm" id="sort" name="sort" onchange="this.form.submit()" required>
+                <option value="" selected></option>
                 <option value="popular">Popular</option>
                 <option value="lowest_price">Menor preço</option>
                 <option value="highest_price">Maior preço</option>
@@ -74,28 +78,27 @@
             </select>
         </div>
     </form>
+
 {{-- LISTA DE PRODUTOS --}}
 {{$products->links()}}
-    <div class="d-flex flex-wrap justify-content-center align-items-start">
-        @foreach ($products as $product)
-            @foreach ($product->categories as $category)
-                <div class="m-2">
-                    <div class="card p-4" style="width: 18rem; margin: 20px auto;">
-                        <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                            <img src="{{asset("storage/{$product->image}")}}" id="{{$category->pivot->category_id}}" class="card-img-top" alt="Imagem: {{$product->name}}">
-                            <h4 class="card-title">{{$product->name}}</h4>
-                            <p class="card-text">{{Str::limit($product->description, 60)}}</p>
-                            @if (Str::length($product->description) >= 60)
-                                <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
-                            @endif
-                            <p class="card-text">Quantidade: {{$product->quantity}}</p>
-                            <p class="card-text">R$ {{number_format($product->total, 2, ",", ".")}}</p>
-                            <a href="{{route('view-product', $product)}}"><i class="bi bi-eye-fill">Ver produto</i></a>
-                        </div>
-                    </div>
+<div class="d-flex flex-wrap justify-content-center align-items-start row">
+    @foreach ($products as $product)
+        <div class="m-2">
+            <div class="card p-4" style="width: 18rem; margin: 20px auto;">
+                <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+                    <img src="{{asset("storage/{$product->image}")}}" id="{{$product->id}}" class="card-img-top" alt="Imagem: {{$product->name}}">
+                    <h4 class="card-title">{{$product->name}}</h4>
+                    <p class="card-text">{{Str::limit($product->description, 60)}}</p>
+                    @if (Str::length($product->description) >= 60)
+                        <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
+                    @endif
+                    <p class="card-text">Quantidade: {{$product->quantity}}</p>
+                    <p class="card-text">R$ {{number_format($product->total, 2, ",", ".")}}</p>
+                    <a href="{{route('view-product', $product)}}"><i class="bi bi-eye-fill">Ver produto</i></a>
                 </div>
-            @endforeach
-        @endforeach
-    </div>
+            </div>
+        </div>
+    @endforeach
+</div>
 {{$products->links()}}
 @endsection

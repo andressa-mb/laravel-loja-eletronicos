@@ -30,7 +30,7 @@ class CreateCategoriesTable extends Migration
             ->references('id')
             ->on('categories')
             ->onUpdate('cascade')
-            ->onDelete('cascade');
+            ->onDelete('restrict');
             $table->timestamps();
         });
     }

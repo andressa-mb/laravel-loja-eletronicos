@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Categories;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -44,12 +43,16 @@ class CategoryController extends Controller
         $category->update([
             'name' => $validation['name'],
         ]);
-        return redirect()->route('index-adm');
+        return back()->with('message', "Categoria atualizada.");
     }
 
     public function destroy(Category $category){
-        $this->authorize('delete', $category);
-        $category->delete();
-        return redirect()->route('index-adm')->with('message', 'Excluído com sucesso');
+        try{
+            $this->authorize('delete', $category);
+            $category->findOrFail($category->id)->delete();
+            return back()->with('message', 'Excluído com sucesso');
+        }catch(Exception $e){
+            return back()->withErrors("Erro ao excluir categoria. " . $e->getMessage());
+        }
     }
 }

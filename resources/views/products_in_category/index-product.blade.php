@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="text-right mt-5">
+    <div class="row text-right mt-5 ml-5">
         <a href="{{route('index-buyer')}}" class="btn btn-info">Voltar</a>
     </div>
 
@@ -21,7 +21,7 @@
             @if ($product->quantity > 0)
                 <div class="form-group col-md-12">
                     <label for="quantity" class="font-form"><strong>Quantidade:</strong></label>
-                    <input type="number" name="quantity" id="quantity" class="form-control" min=1 max="{{$product->quantity}}" value=1 data-toggle="tooltip" data-placement="top" title="{{"Quantidade máxima: ". $product->quantity}}" >
+                    <input type="number" name="quantity" id="quantity" class="form-control" min=1 max="{{$product->quantity}}" value=1 data-toggle="tooltip" data-placement="top" title="{{"Quantidade máxima: ". $product->quantity}}">
                 </div>
             @else
                 <div class="form-group col-md-12">
@@ -68,3 +68,4 @@
         <a href="{{route('index-buyer')}}" class="mt-5 mb-5 btn btn-info">Voltar</a>
     </div>
 @endsection
+

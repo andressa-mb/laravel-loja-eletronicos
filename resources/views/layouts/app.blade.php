@@ -28,7 +28,7 @@
 <body class="body">
     <div id="app" class="container-fluid">
         <header>
-            <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-blue">
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-blue row">
                 <div>
                     <a class="navbar-brand text-white" href="{{ url('/') }}">
                         {{ config('app.name', 'Loja de Eletrônicos') }}
@@ -82,12 +82,12 @@
                 </div>
             </nav>
 
-            <div class="bg-color-light">
+            <div class="row bg-color-light">
                 @include('layouts.menu.nav-submenu')
             </div>
         </header>
 
-        <main>
+        <main class="h-auto pb-5">
             @yield('content')
         </main>
 

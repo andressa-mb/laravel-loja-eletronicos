@@ -52,7 +52,7 @@ class HomeController extends Controller
                 $query = $query->searchProduct($request->search);
             }
         }
-        $data['products'] = $query->paginate(5);
+        $data['products'] = $query->paginate(6);
         return view('indexBuyer', $data);
     }
 
