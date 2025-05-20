@@ -29,15 +29,16 @@
                     <input type="text" name="quantity" disabled class="font-weight-bold text-danger" id="quantity" name="quantity" value="ESGOTADO">
                 </div>
             @endif
-            @foreach ($product->categories as $category)
-                @php
-                    $category = App\Models\Category::find($category->pivot->category_id);
-                @endphp
                 <div class="form-group col-md-12">
                     <label for="category" class="font-form"><strong>Categoria:</strong></label>
-                    <input type="text" name="category" readonly class="form-control-plaintext" id="category" value="{{$category->name}}">
+                    @if ($product->categories->isEmpty())
+                        <input type="text" name="category" readonly class="form-control-plaintext" id="category" value="Sem categoria atribuída.">
+                    @else
+                        @foreach ($product->categories as $category)
+                            <input type="text" name="category" readonly class="form-control-plaintext" id="category" value="{{$category->name}}">
+                        @endforeach
+                    @endif
                 </div>
-            @endforeach
                 <div class="form-group col-md-12">
                     <label for="price" class="font-form"><strong>Valor do produto:</strong></label>
                     <input type="text" name="price" readonly class="form-control-plaintext" id="price" value="R$ {{number_format($product->price, 2, ",", ".")}}">
