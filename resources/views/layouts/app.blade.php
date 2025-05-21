@@ -76,7 +76,7 @@
                             </li>
                         @endguest
                         <li class="icon-size-p">
-                            <a href="" name="cart"><i class="bi bi-cart-fill"></i></a>
+                            <a href="{{route('cart_list')}}" name="cart"><i class="bi bi-cart-fill"></i></a>
                         </li>
                     </ul>
                 </div>

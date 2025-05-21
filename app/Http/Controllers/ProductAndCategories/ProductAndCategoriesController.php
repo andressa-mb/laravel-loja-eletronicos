@@ -7,6 +7,7 @@ use App\Http\Requests\UserData\UserDataStoreRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\UserDataToSend;
+use App\Services\Orders\CartProductsService;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -45,8 +46,20 @@ class ProductAndCategoriesController extends Controller
 
     public function cart_list(Request $request){
         $cart = $request->session()->get('cart_list');
-
         return view('selling_product.cart-list', ['cart_list' => $cart]);
+    }
+
+    public function selling_itens_cart_list(Request $request){
+        $productsInCart = $request->input('productsCarts');
+
+        $result = app()->make(CartProductsService::class)->addProducts($productsInCart);
+        if(!$result){
+            return back()->with('message', 'Não foi selecionado nenhum item do carrinho para compra.');
+        }
+
+        app()->make(CartProductsService::class)->atualizarCart();
+
+        return back()->with('message', 'Pedido enviado.');
     }
 
     public function send_userdata(UserDataStoreRequest $reqStore, $productSlug){

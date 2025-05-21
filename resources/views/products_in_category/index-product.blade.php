@@ -16,7 +16,7 @@
             </div>
             <div class="form-group col-md-12">
                 <label for="description" class="font-form"><strong>Descrição:</strong></label>
-                 <textarea name="description" id="description" cols="18" rows="5" readonly class="form-control-plaintext">{{$product->description}}</textarea>
+                <textarea name="description" id="description" cols="12" rows="2" readonly class="form-control-plaintext">{{$product->description}}</textarea>
             </div>
             @if ($product->quantity > 0)
                 <div class="form-group col-md-12">
