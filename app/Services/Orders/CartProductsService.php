@@ -6,11 +6,7 @@ class CartProductsService{
 
     public function addProducts(array $productsInCart): bool {
         $allCart = session()->get('cart_list', ['product_id', 'name', 'quantity', 'price', 'discount', 'total']);
-
         if($productsInCart){
-/*             $x = collect($productsInCart);
-            $y = $x->toArray();
-            dd('x: ', $x, ' y ', $y); */
             foreach($productsInCart as $product){
                 foreach($allCart as $cart){
                     if($cart['product_id'] == $product){
@@ -29,7 +25,6 @@ class CartProductsService{
     public function atualizarCart(){
         $allCart = collect(session()->get('cart_list'));
         $orderList = collect(session()->get('order'));
-
         $orderProductIds = $orderList->pluck('product_id');
         $updatedCart = $allCart->whereNotIn('product_id', $orderProductIds)->values();
 

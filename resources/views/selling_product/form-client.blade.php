@@ -23,7 +23,7 @@
         @endif
     </div>
 
-    <form action="{{ route('user-data-to-send-product', $product) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('user-data-to-send-product')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="fullname">Nome Completo:</label>
@@ -86,6 +86,33 @@
             </label>
         </div>
 
+        <div class="row">
+            <h3 class="text-center col mt-3">Produtos selecionados:</h3>
+        </div>
+        <div class="row">
+            @foreach ($product as $index => $prod)
+                <div class="card m-4 col" style="width: 18rem;">
+                    <div class="card-header">
+                        <input type="hidden" name="products[{{$index}}][product_id]" value="{{$prod['product_id']}}">
+                        <input type="text" class="form-control-plaintext text-center font-weight-bold" name="products[{{$index}}][name]" readonly value="Nome: {{$prod['name']}}">
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <input type="text" class="form-control-plaintext" name="products[{{$index}}][quantity]" readonly value="Quantidade: {{$prod['quantity']}}">
+                        </li>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control-plaintext" name="products[{{$index}}][price]" readonly value="Preço: {{number_format($prod['price'], 2, ',', '.')}}">
+                        </li>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control-plaintext" name="products[{{$index}}][discount]" readonly value="Desconto: {{number_format((double)$prod['discount'], 2, ',', '.')}}">
+                        </li>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control-plaintext" name="products[{{$index}}][total]" readonly value="Total: {{number_format($prod['total'], 2, ',', '.')}}">
+                        </li>
+                    </ul>
+                </div>
+            @endforeach
+        </div>
         <button type="submit" class="mt-4 btn btn-success">Enviar</button>
     </form>
 

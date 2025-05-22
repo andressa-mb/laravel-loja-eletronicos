@@ -1,6 +1,28 @@
 @extends('layouts.app')
 @section('content')
 
+    <div class="row">
+        @if (session('message') || $errors->any())
+            <div id="message" class="col">
+
+                @if (session('message'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+        @endif
+    </div>
+
 {{-- CARROSSEL --}}
     <div id="myCarousel" class="carousel slide row" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -80,25 +102,36 @@
     </form>
 
 {{-- LISTA DE PRODUTOS --}}
-{{$products->links()}}
-<div class="d-flex flex-wrap justify-content-center align-items-start row">
-    @foreach ($products as $product)
-        <div class="m-2">
-            <div class="card p-4" style="width: 18rem; margin: 20px auto;">
-                <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                    <img src="{{asset("storage/{$product->image}")}}" id="{{$product->id}}" class="card-img-top" alt="Imagem: {{$product->name}}">
-                    <h4 class="card-title">{{$product->name}}</h4>
-                    <p class="card-text">{{Str::limit($product->description, 60)}}</p>
-                    @if (Str::length($product->description) >= 60)
-                        <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
-                    @endif
-                    <p class="card-text">Quantidade: {{$product->quantity}}</p>
-                    <p class="card-text">R$ {{number_format($product->total, 2, ",", ".")}}</p>
-                    <a href="{{route('view-product', $product)}}"><i class="bi bi-eye-fill">Ver produto</i></a>
+    {{$products->links()}}
+    <div class="d-flex flex-wrap justify-content-center align-items-start row">
+        @foreach ($products as $product)
+            <div class="m-2">
+                <div class="card p-4" style="width: 18rem; margin: 20px auto;">
+                    <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+                        <img src="{{asset("storage/{$product->image}")}}" id="{{$product->id}}" class="card-img-top" alt="Imagem: {{$product->name}}">
+                        <h4 class="card-title">{{$product->name}}</h4>
+                        <p class="card-text">{{Str::limit($product->description, 60)}}</p>
+                        @if (Str::length($product->description) >= 60)
+                            <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
+                        @endif
+                        <p class="card-text">Quantidade: {{$product->quantity}}</p>
+                        <p class="card-text">R$ {{number_format($product->total, 2, ",", ".")}}</p>
+                        <a href="{{route('view-product', $product)}}"><i class="bi bi-eye-fill">Ver produto</i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    @endforeach
-</div>
-{{$products->links()}}
+        @endforeach
+    </div>
+    {{$products->links()}}
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const message = document.getElementById('message');
+            if (message) {
+                setTimeout(function () {
+                    message.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
 @endsection

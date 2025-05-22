@@ -32,12 +32,13 @@ class ProductAndCategoriesController extends Controller
             $discountConversion = str_replace("R$ ", "", $request->discount);
             $discountConversion = str_replace(".", "", $discountConversion);
             $discountConversion = str_replace(",", ".", $discountConversion);
+            $idModel = Product::find($request->product_id);
 
             $totalDiscount = $request->quantity * (double)$discountConversion;
             $totalPrice = $request->quantity * (double)$priceConvertion;
             $totalResult = $totalPrice - $totalDiscount;
 
-            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $priceConvertion, 'discount' => $discountConversion, 'total' => $totalResult]);
+            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $priceConvertion, 'discount' => $discountConversion, 'total' => $totalResult, 'stock' => $idModel->quantity]);
             session(['cart_list' => $cart_list]);
             return redirect()->action([static::class, 'cart_list']);
         }
@@ -51,33 +52,34 @@ class ProductAndCategoriesController extends Controller
 
     public function selling_itens_cart_list(Request $request){
         $productsInCart = $request->input('productsCarts');
-
         $result = app()->make(CartProductsService::class)->addProducts($productsInCart);
         if(!$result){
             return back()->with('message', 'Não foi selecionado nenhum item do carrinho para compra.');
         }
-
         app()->make(CartProductsService::class)->atualizarCart();
 
-        return back()->with('message', 'Pedido enviado.');
+        return view('selling_product.form-client', ['product' => session()->get('order')]);
     }
 
-    public function send_userdata(UserDataStoreRequest $reqStore, $productSlug){
+    public function send_userdata(UserDataStoreRequest $reqStore){
         //user validate para validar os dados do form e após isso retirar os produtos
         try{
-            $product = Product::where('slug', $productSlug)->first();
-            if (!$product) {
-                return back()->withErrors('Produto não encontrado.');
+            $products = $reqStore->input('products');
+
+            foreach($products as $prod){
+                $findProduct = Product::find($prod['product_id']);
+                if($findProduct){
+                    $qtdConvertion = str_replace("Quantidade: ", "", $prod['quantity']);
+                    $newQtd = $findProduct->quantity <= $qtdConvertion ? 'Estoque insuficiente.' : $findProduct->quantity - $qtdConvertion;
+                    $findProduct->update([
+                        'quantity' => $newQtd
+                    ]);
+                }
             }
             UserDataToSend::create($reqStore->validated());
             //Teria que ir para uma página para realizar o pagamento que escolheu
             //por enquanto não tem, logo só vou atualizar a quantidade do produto.
-            $product->update([
-                'quantity' => $product->quantity - 1
-            ]);
-
-            return back()->with('message', "Compra concluída.");
-
+            return redirect()->route('index-buyer')->with('message', "Compra concluída.");
         }catch(Throwable $e){
             throw $e;
             return back()->withErrors($e->getMessage());
