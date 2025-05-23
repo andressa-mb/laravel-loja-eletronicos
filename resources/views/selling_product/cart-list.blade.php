@@ -1,27 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-    <div class="row">
-        @if (session('message') || $errors->any())
-            <div id="message" class="col">
-                @if (session('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div>
-        @endif
-    </div>
-
     @php
     $productsCarts = [];
     @endphp
@@ -32,36 +10,36 @@
             <table class="table table-hover table-secondary table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ID</th>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">ID</th>
                         <th scope="col">Nome</th>
-                        <th scope="col">Quantidade</th>
-                        <th scope="col">Preço</th>
-                        <th scope="col">Desconto</th>
-                        <th scope="col">Total</th>
+                        <th scope="col" class="text-center">Quantidade</th>
+                        <th scope="col" class="text-center">Preço</th>
+                        <th scope="col" class="text-center">Desconto</th>
+                        <th scope="col" class="text-center">Total</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!is_null($cart_list))
                         @foreach ($cart_list as $cart)
                             <tr>
-                                <th scope="row" class="form-check ml-4">
+                                <th scope="row" class="form-check ml-4 text-center">
                                     <input class="form-check-input" type="checkbox" value="{{$cart['product_id']}}" name="productsCarts[]" id="cart--{{$cart['product_id']}}"
                                     @if(in_array($cart['product_id'], $productsCarts))
                                         checked
                                     @endif
                                     >
                                 </th>
-                                <td>{{$cart['product_id']}}</td>
+                                <td class="text-center">{{$cart['product_id']}}</td>
                                 <td>{{$cart['name']}}</td>
-                                <td>
-                                    <a id="qtdLeft"><i class="bi bi-arrow-left-square left"></i></a>
-                                        <span id="cart--{{$cart['product_id']}}" class="cartQtd">{{$cart['quantity']}}</span>
-                                    <a id="qtdRight"><i class="bi bi-arrow-right-square right"></i></a>
+                                <td class="text-center">
+                                    <a onclick="decreaseQtd({{$cart['product_id']}})" style="cursor: pointer;"><i class="bi bi-arrow-left-square left"></i></a>
+                                        <span id="qtd-{{$cart['product_id']}}">{{$cart['quantity']}}</span>
+                                    <a onclick="increaseQtd({{$cart['product_id']}}, {{$cart['stock']}})" style="cursor: pointer;"><i class="bi bi-arrow-right-square right"></i></a>
                                 </td>
-                                <td>R$ {{number_format((double)$cart['price'], 2, ",", ".")}}</td>
-                                <td>R$ {{number_format((double)$cart['discount'], 2, ",", ".")}}</td>
-                                <td>R$ {{number_format((double)$cart['total'], 2, ",", ".")}}</td>
+                                <td id="price-{{$cart['product_id']}}" class="text-center">R$ {{number_format((double)$cart['price'], 2, ",", ".")}}</td>
+                                <td id="discount-{{$cart['product_id']}}" class="text-center">R$ {{number_format((double)$cart['discount'], 2, ",", ".")}}</td>
+                                <td id="total-{{$cart['product_id']}}" class="text-center">R$ {{number_format((double)$cart['total'], 2, ",", ".")}}</td>
                             </tr>
                         @endforeach
                     @else
@@ -83,37 +61,47 @@
 @endsection
 
 <script>
-//    var leftButton = document.getElementById('qtdLeft');
-//    var rightButton = document.getElementById('qtdRight');
+    function increaseQtd(productId, stockMax){
+        let qtdSpan = document.getElementById('qtd-' + productId);
+        let priceElement = document.getElementById('price-' + productId);
+        let discountElement = document.getElementById('discount-' + productId);
+        let totalElement = document.getElementById('total-' + productId);
 
-/*     qtdChange.addEventListener('click', action);
+        priceValue = parseInt(priceElement.innerText.replace("R$ ", ""));
+        discountValue = parseInt(discountElement.innerText.replace("R$ ", ""));
+        totalValue = parseInt(totalElement.innerText.replace("R$ ", ""));
+        let convertQtd = parseInt(qtdSpan.innerText);
 
-    function action(){
-        console.log('entrou');
-        if(document.querySelectorAll('.left')){
-            qtdValue = quantity++;
+        if(convertQtd < stockMax){
+            let newQtd = qtdSpan.innerText = convertQtd+1;
+            if(convertQtd !== newQtd){
+                let newPrice = newQtd * priceValue;
+                let newDiscount = newQtd * discountValue;
+                let newTotal = newPrice - newDiscount;
+                totalElement.innerText = newTotal.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+            }
         }
-        if(document.querySelectorAll('.right')){
-            quantity--;
-        }
-    } */
-
-    function left(){
-         var qtd = document.querySelector('.cartQtd');
-         qtd = qtd.nodeValue --;
     }
 
-    function right(){
-         var qtd = document.querySelector('.cartQtd');
-         qtd = qtd.nodeValue ++;
-    }
+    function decreaseQtd(productId){
+        let qtdSpan = document.getElementById('qtd-' + productId);
+        let priceElement = document.getElementById('price-' + productId);
+        let discountElement = document.getElementById('discount-' + productId);
+        let totalElement = document.getElementById('total-' + productId);
 
-    window.addEventListener('DOMContentLoaded', function () {
-        const message = document.getElementById('message');
-        if (message) {
-            setTimeout(function () {
-                message.style.display = 'none';
-            }, 3000);
+        priceValue = parseFloat(priceElement.innerText.replace("R$ ", ""));
+        discountValue = parseFloat(discountElement.innerText.replace("R$ ", ""));
+        totalValue = parseFloat(totalElement.innerText.replace("R$ ", ""));
+        let convertQtd = parseInt(qtdSpan.innerText);
+
+        if(convertQtd > 1){
+            newQtd = qtdSpan.innerText = convertQtd-1;
+            if(convertQtd != newQtd){
+                let newPrice = newQtd * priceValue;
+                let newDiscount = newQtd * discountValue;
+                let newTotal = newPrice - newDiscount;
+                totalElement.innerText = newTotal.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+            }
         }
-    });
+    }
 </script>

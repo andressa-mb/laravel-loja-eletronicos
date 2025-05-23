@@ -70,3 +70,22 @@
     </div>
 @endsection
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let qtdElement = document.getElementById('quantity');
+        let priceElement = document.getElementById('price');
+        let discountElement = document.getElementById('discount');
+        let totalElement = document.getElementById('total');
+
+        function updateTotal(){
+            let qtd = parseInt(qtdElement.value);
+            let price = parseFloat(priceElement.value.replace("R$ ", ""));
+            let discount = discountElement ? parseFloat(discountElement.value.replace("R$ ", "")) : 0;
+            let total = parseFloat(totalElement.value.replace("R$ ", ""));
+            let newValue = (price - discount) * qtd;
+            totalElement.value = newValue.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+        }
+
+        qtdElement.addEventListener('input', updateTotal);
+    })
+</script>

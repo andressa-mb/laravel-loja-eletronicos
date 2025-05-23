@@ -1,27 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-    <div class="row">
-        @if (session('message') || $errors->any())
-            <div id="message" class="col">
-                @if (session('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div>
-        @endif
-    </div>
-
     <div class="row">
         <table class="table border border-black">
             <thead class="table-dark">
@@ -52,15 +30,4 @@
             </tbody>
         </table>
     </div>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', function () {
-            const message = document.getElementById('message');
-            if (message) {
-                setTimeout(function () {
-                    message.style.display = 'none';
-                }, 3000);
-            }
-        });
-    </script>
 @endsection

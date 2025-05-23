@@ -1,28 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-    <div class="row">
-        @if (session('message') || $errors->any())
-            <div id="message" class="col">
-
-                @if (session('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div>
-        @endif
-    </div>
-
     <form action="{{route('user-data-to-send-product')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
@@ -115,15 +92,4 @@
         </div>
         <button type="submit" class="mt-4 btn btn-success">Enviar</button>
     </form>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', function () {
-            const message = document.getElementById('message');
-            if (message) {
-                setTimeout(function () {
-                    message.style.display = 'none';
-                }, 3000);
-            }
-        });
-    </script>
 @endsection
