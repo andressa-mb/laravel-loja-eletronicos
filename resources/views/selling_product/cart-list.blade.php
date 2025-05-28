@@ -35,6 +35,11 @@
                                 <td class="text-center">
                                     <a onclick="decreaseQtd({{$cart['product_id']}})" style="cursor: pointer;"><i class="bi bi-arrow-left-square left"></i></a>
                                         <span id="qtd-{{$cart['product_id']}}">{{$cart['quantity']}}</span>
+
+
+                                        <input type="hidden" name="quantities[{{$cart['product_id']}}]" id="qtdInp-{{$cart['product_id']}}" value="{{$cart['quantity']}}">
+
+
                                     <a onclick="increaseQtd({{$cart['product_id']}}, {{$cart['stock']}})" style="cursor: pointer;"><i class="bi bi-arrow-right-square right"></i></a>
                                 </td>
                                 <td id="price-{{$cart['product_id']}}" class="text-center">R$ {{number_format((double)$cart['price'], 2, ",", ".")}}</td>
@@ -74,6 +79,9 @@
 
         if(convertQtd < stockMax){
             let newQtd = qtdSpan.innerText = convertQtd+1;
+            let qtdInp = document.getElementById('qtdInp-' + productId);
+            qtdInp.value = newQtd;
+
             if(convertQtd !== newQtd){
                 let newPrice = newQtd * priceValue;
                 let newDiscount = newQtd * discountValue;
@@ -96,6 +104,9 @@
 
         if(convertQtd > 1){
             newQtd = qtdSpan.innerText = convertQtd-1;
+            let qtdInp = document.getElementById('qtdInp-' + productId);
+            qtdInp.value = newQtd;
+
             if(convertQtd != newQtd){
                 let newPrice = newQtd * priceValue;
                 let newDiscount = newQtd * discountValue;

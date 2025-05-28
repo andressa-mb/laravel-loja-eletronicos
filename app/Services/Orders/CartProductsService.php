@@ -4,8 +4,25 @@ namespace App\Services\Orders;
 
 class CartProductsService{
 
+    public function atualizarCart(array $quantities): array{
+        $newList = [];
+        foreach(session()->get('cart_list') as $cartItem){
+            $productId = $cartItem['product_id'];
+            if(isset($quantities[$productId])){
+                $newQty = (int)$quantities[$productId];
+                $cartItem['quantity'] = $newQty;
+                $cartItem['total'] = ($cartItem['price'] - $cartItem['discount']) * $newQty;
+            }
+            $newList[] = $cartItem;
+            session(['updated_cart_list' => $newList]);
+        }
+        session()->forget('cart_list');
+
+        return $newList;
+    }
+
     public function addProducts(array $productsInCart): bool {
-        $allCart = session()->get('cart_list', ['product_id', 'name', 'quantity', 'price', 'discount', 'total']);
+        $allCart = session()->get('updated_cart_list', ['product_id', 'name', 'quantity', 'price', 'discount', 'total']);
         if($productsInCart){
             foreach($productsInCart as $product){
                 foreach($allCart as $cart){
@@ -22,12 +39,4 @@ class CartProductsService{
         }
     }
 
-    public function atualizarCart(){
-        $allCart = collect(session()->get('cart_list'));
-        $orderList = collect(session()->get('order'));
-        $orderProductIds = $orderList->pluck('product_id');
-        $updatedCart = $allCart->whereNotIn('product_id', $orderProductIds)->values();
-
-        return session()->put('cart_list',  $updatedCart->toArray());
-    }
 }

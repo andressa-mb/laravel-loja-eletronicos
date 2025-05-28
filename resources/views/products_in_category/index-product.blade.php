@@ -9,7 +9,6 @@
             <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
         </div>
         <form class="col" action="{{route('selling-product-info-client', $product)}}" id="info">
-
             <div class="form-group row">
                 <input type="hidden" name="product_id" value="{{$product->id}}">
                 <input name="name" class="col-md-12 rounded-pill mt-3 mb-3 text-white bg-info text-center w-border position-static" id="withoutLabel" value="{{$product->name}}" aria-label="name">
@@ -41,12 +40,14 @@
                 </div>
                 <div class="form-group col-md-12">
                     <label for="price" class="font-form"><strong>Valor do produto:</strong></label>
-                    <input type="text" name="price" readonly class="form-control-plaintext" id="price" value="R$ {{number_format($product->price, 2, ",", ".")}}">
+                    <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->price, 2, ",", ".")}}">
+                    <input type="hidden" name="price" id="price" value="{{$product->price}}">
                 </div>
             @if ($product->discount != 0)
                 <div class="form-group col-md-12">
                     <label for="discount" class="font-form"><strong>Desconto:</strong></label>
-                    <input type="text" name="discount" readonly class="form-control-plaintext" id="discount" value="R$ {{number_format($product->discount, 2, ",", ".")}}">
+                    <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->discount, 2, ",", ".")}}">
+                    <input type="hidden" name="discount" id="discount" value="{{$product->discount}}">
                 </div>
             @endif
             <div class="form-group col-md-12">

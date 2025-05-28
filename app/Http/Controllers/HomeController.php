@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -58,5 +59,9 @@ class HomeController extends Controller
 
     public function indexProfile(Request $request){
         return view('profile.index', ['user' => $request->user()]);
+    }
+
+    public function purchases(Order $order){
+        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->get()]);
     }
 }

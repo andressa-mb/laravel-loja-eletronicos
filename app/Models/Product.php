@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
@@ -59,5 +60,9 @@ class Product extends Model
 
     public function scopeSearchProduct(Builder $builder, $searchProduct): Builder{
         return $builder->where('name', 'ILIKE', "%$searchProduct%");
+    }
+
+    public function orderItems(): HasMany{
+        return $this->hasMany(OrderProductItem::class, 'product_id', 'id');
     }
 }

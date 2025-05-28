@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 //PÁGINA DO COMPRADOR E PROFILE
 Route::get('/', 'HomeController@indexBuyer')->name('index-buyer');
 Route::get('/profile/{user}', 'HomeController@indexProfile')->name('my-profile');
+Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
 
 //PÁGINA DO ADM
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Order;
 use App\Models\Roles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,5 +43,9 @@ class User extends Authenticatable
 
     public function roles(): BelongsToMany{
         return $this->belongsToMany(Roles::class, 'user_roles', 'user_id', 'role_id');
+    }
+
+    public function orders(): BelongsToMany{
+        return $this->belongsToMany(Order::class, 'orders', 'user_id', 'id');
     }
 }
