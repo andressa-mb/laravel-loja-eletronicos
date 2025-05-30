@@ -4,7 +4,7 @@ namespace App\Services\Orders;
 
 class CartProductsService{
 
-    public function atualizarCart(array $quantities): array{
+    public function updateCart(array $quantities): array{
         $newList = [];
         foreach(session()->get('cart_list') as $cartItem){
             $productId = $cartItem['product_id'];
@@ -37,6 +37,18 @@ class CartProductsService{
         }else {
             return false;
         }
+    }
+
+    public function updateSessions(): void{
+        $prodsUpdates = collect(session()->get('updated_cart_list', []));
+        $selectedOrder = collect(session()->get('order', []));
+
+        $rejected = $prodsUpdates->reject(function ($item) use ($selectedOrder) {
+            return $selectedOrder->contains('product_id', $item['product_id']);
+        });
+
+        session()->put('cart_list', $rejected->values()->toArray());
+        session()->forget('updated_cart_list');
     }
 
 }

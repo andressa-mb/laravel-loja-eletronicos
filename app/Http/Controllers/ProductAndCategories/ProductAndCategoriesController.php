@@ -50,11 +50,14 @@ class ProductAndCategoriesController extends Controller
     public function selling_itens_cart_list(Request $request){
         $productsInCart = $request->input('productsCarts');
         $quantities = $request->input('quantities', []);
-        app()->make(CartProductsService::class)->atualizarCart($quantities);
+        app()->make(CartProductsService::class)->updateCart($quantities);
         $result = app()->make(CartProductsService::class)->addProducts($productsInCart);
         if(!$result){
             return back()->with('message', 'Não foi selecionado nenhum item do carrinho para compra.');
         }
+
+        app()->make(CartProductsService::class)->updateSessions();
+
         return view('selling_product.form-client', ['product' => session()->get('order')]);
     }
 

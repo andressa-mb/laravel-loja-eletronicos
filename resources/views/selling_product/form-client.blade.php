@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
     <form action="{{route('user-data-to-send-product')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
