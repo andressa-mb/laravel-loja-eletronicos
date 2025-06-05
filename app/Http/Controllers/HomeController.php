@@ -54,6 +54,7 @@ class HomeController extends Controller
             }
         }
         $data['products'] = $query->paginate(6);
+
         return view('indexBuyer', $data);
     }
 

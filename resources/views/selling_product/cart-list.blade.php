@@ -6,8 +6,8 @@
 
     <div class="row">
         <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Carrinho de Compras</h1>
-        <form action="{{route('selling-itens-cart-list')}}" method="POST" class="col">
-            @csrf
+        <form action="{{route('selling-itens-cart-list')}}" class="col">
+
             <table class="table table-hover table-secondary table-striped">
                 <thead>
                     <tr>

@@ -39,7 +39,16 @@ class ProductAndCategoriesController extends Controller
             session(['cart_list' => $cart_list]);
             return redirect()->action([static::class, 'cart_list']);
         }
-        return view('selling_product.form-client', ['product' => $request->product]);
+        $product = Product::find($request->product_id);
+        $product->quantity = $request->quantity;
+        $product->price = $request->price;
+        $product->discount = $request->discount;
+        $totalDiscount = (int)$request->quantity * (double)$request->discount;
+        $totalPrice = (int)$request->quantity * (double)$request->price;
+        $product->total = $totalPrice - $totalDiscount;
+        $this->data['product'] = $product;
+
+        return view('selling_product.form-client', $this->data);
     }
 
     public function cart_list(Request $request){
@@ -48,14 +57,13 @@ class ProductAndCategoriesController extends Controller
     }
 
     public function selling_itens_cart_list(Request $request){
-        $productsInCart = $request->input('productsCarts');
+        $productIdsInCart = $request->input('productsCarts');
         $quantities = $request->input('quantities', []);
         app()->make(CartProductsService::class)->updateCart($quantities);
-        $result = app()->make(CartProductsService::class)->addProducts($productsInCart);
+        $result = app()->make(CartProductsService::class)->addProducts($productIdsInCart);
         if(!$result){
             return back()->with('message', 'Não foi selecionado nenhum item do carrinho para compra.');
         }
-
         app()->make(CartProductsService::class)->updateSessions();
 
         return view('selling_product.form-client', ['product' => session()->get('order')]);
@@ -63,67 +71,24 @@ class ProductAndCategoriesController extends Controller
 
     public function send_userdata(UserDataStoreRequest $reqStore){
         try{
-            $products = $reqStore->input('products');
-            $user_data = UserDataToSend::create($reqStore->validated());
-
-            $newOrder = Order::create([
-                'status' => Order::pendente,
-                'user_id' => auth()->id(),
-                'user_data_id' => $user_data->id
-            ]);
-
-
+            $products = $reqStore->input('product');
+            $user_data = $reqStore->validated();
             if(is_array($products)){
                 foreach($products as $prod){
-                    $findProduct = Product::find($prod['product_id']);
+                    $findProduct = Product::find($prod['id']);
                     if($findProduct){
-                        SellService::new()->newOrder($newOrder, $findProduct, $prod);
+                        $user_data = UserDataToSend::create($user_data);
+                        SellService::new()->newOrder($user_data, $findProduct, $prod);
                     } else {
                         return back()->withErrors("Erro ao encontrar o produto.");
                     }
                 }
-            } else {
-                $findProduct = Product::find($products);
-                if($findProduct){
-                    $qtdConvertion = intval(str_replace("Quantidade: ", "", $reqStore->input('qtd-'.$findProduct->id)));
-                    $newQtd = $findProduct->quantity <= $qtdConvertion ? 0 : $findProduct->quantity - $qtdConvertion;
-                    $findProduct->update([
-                        'quantity' => $newQtd
-                    ]);
-                    $price = $reqStore->input('price-'.$findProduct->id);
-                    $price = str_replace("Preço: ", "", $price);
-                    $price = str_replace(".", "", $price);
-                    $price = str_replace(",", ".", $price);
-
-                    $discount = $reqStore->input('discount-'.$findProduct->id);
-                    $discount = str_replace("Desconto: ", "", $discount);
-                    $discount = str_replace(".", "", $discount);
-                    $discount = str_replace(",", ".", $discount);
-
-                    $total = $reqStore->input('total-'.$findProduct->id);
-                    $total = str_replace("Total: ", "", $total);
-                    $total = str_replace(".", "", $total);
-                    $total = str_replace(",", ".", $total);
-
-                    OrderProductItem::create([
-                        'order_id' => $newOrder->id,
-                        'product_id' => $findProduct->id,
-                        'order_quantity' => $qtdConvertion,
-                        'order_price' => (double)$price,
-                        'order_discount' => (double)$discount,
-                        'order_total' => (double)$total
-                    ]);
-                } else {
-                    return back()->withErrors("Erro ao encontrar o produto.");
-                }
             }
-
 
             session()->forget('order');
             //NÃO SERÁ FEITO: Teria que ir para uma página para realizar o pagamento que escolheu por enquanto não tem, logo só vou atualizar a quantidade do produto.
             return redirect()->route('index-buyer')->with('message', "Compra concluída.");
-        }catch(Throwable $e){
-            throw $e;
+        } catch(Throwable $e){
             return back()->withErrors($e->getMessage());
         }
     }

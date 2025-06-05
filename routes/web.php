@@ -48,7 +48,7 @@ Route::get('/view-product-category/{product}', 'ProductAndCategories\ProductAndC
 Route::get('/products-associates-in-category', 'ProductAndCategories\ProductAndCategoriesController@index_category')->name('products-associates');
 Route::get('/selling-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@selling_product')->name('selling-product-info-client');
 Route::get('/products-in-cart', 'ProductAndCategories\ProductAndCategoriesController@cart_list')->name('cart_list');
-Route::post('/selling-products-in-cart', 'ProductAndCategories\ProductAndCategoriesController@selling_itens_cart_list')->name('selling-itens-cart-list');
+Route::get('/selling-products-in-cart', 'ProductAndCategories\ProductAndCategoriesController@selling_itens_cart_list')->name('selling-itens-cart-list');
 Route::post('/user-data-to-send-product', 'ProductAndCategories\ProductAndCategoriesController@send_userdata')->name('user-data-to-send-product');
 
 Auth::routes();

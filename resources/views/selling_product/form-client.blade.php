@@ -73,35 +73,8 @@
                 @foreach ($product as $index => $prod)
                     @include('selling_product.page', ['product' => $prod, 'index' => $index])
                 @endforeach
-            @else
-                @php
-                    $productObj = App\Models\Product::where('slug', $product)->first();
-                @endphp
-                    @include('selling_product.page', ['product' => $productObj, 'index' => 0])
-                {{-- <div class="card m-4 col" style="width: 18rem;">
-                    <div class="card-header">
-                        <input type="hidden" name="products" id="{{$productObj->id}}" value="{{$productObj->id}}">
-                        <input type="text" class="form-control-plaintext text-center font-weight-bold" name="name-{{$productObj->name}}" readonly value="Nome: {{$productObj->name}}">
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <input type="text" class="form-control-plaintext" readonly value="Quantidade: {{$productObj->quantity}}">
-                            <input type="hidden" name="qtd-{{$productObj->id}}" value="{{$productObj->quantity}}">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="text" class="form-control-plaintext" readonly value="Preço: {{number_format($productObj->price, 2, ',', '.')}}">
-                            <input type="hidden" name="price-{{$productObj->id}}" value="{{$productObj->price}}">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="text" class="form-control-plaintext" name="discount-{{$productObj->id}}" readonly value="Desconto: {{number_format((double)$productObj->discount, 2, ',', '.')}}">
-                            <input type="hidden" name="discount-{{$productObj->id}}" value="{{$productObj->discount}}">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="text" class="form-control-plaintext" readonly value="Total: {{number_format($productObj->total, 2, ',', '.')}}">
-                            <input type="hidden" name="total-{{$productObj->id}}" value="{{$productObj->total}}">
-                        </li>
-                    </ul>
-                </div> --}}
+             @else
+                @include('selling_product.page', ['product' => $product, 'index' => 0])
             @endif
         </div>
         <button type="submit" class="mt-4 btn btn-success">Enviar</button>
