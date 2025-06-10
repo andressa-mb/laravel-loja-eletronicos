@@ -13,7 +13,7 @@ class SellService {
         return app()->make(static::class);
     }
 
-    public function newOrder(UserDataToSend $userDataId, Product $product, array $prod): void{
+    public function newOrder(UserDataToSend $userDataId, Product $product, array $prod): Order{
         $newOrder = Order::create([
             'status' => Order::pendente,
             'user_id' => auth()->id(),
@@ -32,5 +32,7 @@ class SellService {
             'order_discount' => floatval(str_replace("Desconto: ", "", $prod['discount'])),
             'order_total' => floatval(str_replace("Total: ", "", $prod['total']))
         ]);
+
+        return $newOrder;
     }
 }

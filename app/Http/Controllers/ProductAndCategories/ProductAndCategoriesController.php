@@ -5,12 +5,12 @@ namespace App\Http\Controllers\ProductAndCategories;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserData\UserDataStoreRequest;
 use App\Models\Category;
-use App\Models\Order;
-use App\Models\OrderProductItem;
 use App\Models\Product;
 use App\Models\UserDataToSend;
 use App\Services\Orders\CartProductsService;
 use App\Services\Orders\SellService;
+use App\Events\NewOrderReceived;
+use App\User;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -47,7 +47,6 @@ class ProductAndCategoriesController extends Controller
         $totalPrice = (int)$request->quantity * (double)$request->price;
         $product->total = $totalPrice - $totalDiscount;
         $this->data['product'] = $product;
-
         return view('selling_product.form-client', $this->data);
     }
 
@@ -73,18 +72,27 @@ class ProductAndCategoriesController extends Controller
         try{
             $products = $reqStore->input('product');
             $user_data = $reqStore->validated();
+
             if(is_array($products)){
                 foreach($products as $prod){
                     $findProduct = Product::find($prod['id']);
                     if($findProduct){
                         $user_data = UserDataToSend::create($user_data);
-                        SellService::new()->newOrder($user_data, $findProduct, $prod);
+                        $created_new_order = SellService::new()->newOrder($user_data, $findProduct, $prod);
                     } else {
                         return back()->withErrors("Erro ao encontrar o produto.");
                     }
                 }
             }
-
+            $userAuth = User::find(auth()->user()->id);
+            $isAdmin = $userAuth->isAdmin() ? 'true' : 'false';
+            if($isAdmin){
+                event(new NewOrderReceived(
+                    $created_new_order,
+                    $userAuth->id,
+                    "Novo pedido #($created_new_order->id) criado. Usuário: #($userAuth->id). By Constructor."
+                ));
+            }
             session()->forget('order');
             //NÃO SERÁ FEITO: Teria que ir para uma página para realizar o pagamento que escolheu por enquanto não tem, logo só vou atualizar a quantidade do produto.
             return redirect()->route('index-buyer')->with('message', "Compra concluída.");

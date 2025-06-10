@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Products\ProductController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +54,4 @@ Route::get('/selling-products-in-cart', 'ProductAndCategories\ProductAndCategori
 Route::post('/user-data-to-send-product', 'ProductAndCategories\ProductAndCategoriesController@send_userdata')->name('user-data-to-send-product');
 
 Auth::routes();
+Broadcast::routes(['middleware' => ['auth']]);
