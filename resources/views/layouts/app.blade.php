@@ -78,7 +78,7 @@
 
                             <li class="nav-item dropdown icon-size-p">
                                 <a class="nav-link" data-toggle="dropdown" href="#" role="button">
-                                    <i class="bi bi-bell-fill"></i>
+                                    <i class="bi bi-bell-fill" id="notification-bell"></i>
                                     <span class="badge badge-danger navbar-badge" id="notification-count">0</span>
                                 </a>
                             </li>
@@ -132,11 +132,11 @@
         </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     {{-- PUSHER --}}
-    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
 
     <script>
         window.addEventListener('DOMContentLoaded', function () {
@@ -148,32 +148,40 @@
             }
         });
     </script>
+    @php
+        $user = auth()->user();
+    @endphp
+    @auth
+        @if($user->isAdmin())
+            <script>
+                const userId = {{ $user->id }};
+                Pusher.logToConsole = true;
+                var pusher = new Pusher('758b69f324903be2d901', {
+                    cluster: 'sa1',
+                // forceTLS: true,
+                    authEndpoint: '/broadcasting/auth',
+                    auth: {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    }
+                });
 
-    <script>
-        const userId = {{ auth()->user()->id }};
-        Pusher.logToConsole = true;
-        var pusher = new Pusher('758b69f324903be2d901', {
-            cluster: 'sa1',
-            forceTLS: true,
-            authEndpoint: '/broadcasting/auth',
-            auth: {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            }
-        });
+                var channel = pusher.subscribe('admins');
+                channel.bind('new_order', function(data) {
+                    console.log(data);
+                    let notifCount = parseInt(document.getElementById('notification-count').innerText) || 0;
+                    notifCount++;
+                    document.getElementById('notification-count').innerText = notifCount;
+                    let drop = document.getElementById('notification-list');
+                    let newItem = document.createElement('li');
+                    newItem.innerText = data.message;
+                    drop.prepend(newItem);
+                    alert(JSON.stringify(data));
+                });
+            </script>
+        @endif
+    @endauth
 
-        var channel = pusher.subscribe('channel-admin-notifications.' + userId);
-        channel.bind('.new_order', function(data) {
-            let notifCount = parseInt(document.getElementById('notification-count').innerText) || 0;
-            notifCount++;
-            document.getElementById('notification-count').innerText = notifCount;
-            let drop = document.getElementById('notification-list');
-            let newItem = document.createElement('li');
-            newItem.innerText = data.message;
-            drop.prepend(newItem);
-            alert(JSON.stringify(data));
-        });
-    </script>
 </body>
 </html>

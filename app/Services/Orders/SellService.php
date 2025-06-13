@@ -28,9 +28,9 @@ class SellService {
             'order_id' => $newOrder->id,
             'product_id' => $prod['id'],
             'order_quantity' => $qtdConvertion,
-            'order_price' => floatval(str_replace("Preço: ", "", $prod['price'])),
-            'order_discount' => floatval(str_replace("Desconto: ", "", $prod['discount'])),
-            'order_total' => floatval(str_replace("Total: ", "", $prod['total']))
+            'order_price' => floatval(str_replace(['Preço: ', '.', ','], ['', '', '.'], $prod['price'])),
+            'order_discount' => floatval(str_replace(['Desconto: ', '.', ','], ['', '', '.'], $prod['discount'])),
+            'order_total' => floatval(str_replace(['Total: ', '.', ','], ['', '', '.'], $prod['total']))
         ]);
 
         return $newOrder;

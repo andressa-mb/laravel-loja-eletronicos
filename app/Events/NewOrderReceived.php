@@ -30,7 +30,7 @@ class NewOrderReceived implements ShouldBroadcast
         $this->message = $message;
         $this->order = $order;
         $this->userId = $userId;
-        Log::info('EVENTO: NewOrderReceived event created with order ID: ' . $order->id . ' and userID: ' . $userId . ' '. $message);
+        Log::info('EVENTO: NewOrderReceived event created with order ID: ' . $order->id . ' and userID: ' . $userId . ' ' . $message);
     }
 
     /**
@@ -40,8 +40,9 @@ class NewOrderReceived implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+
         return [
-            new Channel('channel-admin-notifications.'. $this->userId),
+            new Channel('admins'),
         ];
     }
 

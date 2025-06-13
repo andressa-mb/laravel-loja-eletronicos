@@ -84,15 +84,13 @@ class ProductAndCategoriesController extends Controller
                     }
                 }
             }
-            $userAuth = User::find(auth()->user()->id);
-            $isAdmin = $userAuth->isAdmin() ? 'true' : 'false';
-            if($isAdmin){
-                event(new NewOrderReceived(
-                    $created_new_order,
-                    $userAuth->id,
-                    "Novo pedido #($created_new_order->id) criado. Usuário: #($userAuth->id). By Constructor."
-                ));
-            }
+            $user = User::find(auth()->user()->id);
+            broadcast(new NewOrderReceived(
+                $created_new_order,
+                $user->id,
+                "Novo pedido #($created_new_order->id) criado. Usuário: #($user->id). By Constructor."
+            ))->toOthers();
+
             session()->forget('order');
             //NÃO SERÁ FEITO: Teria que ir para uma página para realizar o pagamento que escolheu por enquanto não tem, logo só vou atualizar a quantidade do produto.
             return redirect()->route('index-buyer')->with('message', "Compra concluída.");

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +15,6 @@ use Illuminate\Support\Facades\Log;
 //rota é o id do user
 //1º parâmetro o userAutenticado Laravel faz automático
 //2º parâmetro é da URL dinâmica do canal que você está tentando assinar no front-end.
-Broadcast::channel('channel-admin-notifications.{userId}', function ($user, $userId) {
-    return (int) $user->id === (int) $userId || $user->isAdmin();
+Broadcast::channel('admins', function ($user) {
+    return $user->isAdmin();
 });

@@ -63,6 +63,6 @@ class HomeController extends Controller
     }
 
     public function purchases(Order $order){
-        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->get()]);
+        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->get(), 'orderList' => $order->get()]);
     }
 }
