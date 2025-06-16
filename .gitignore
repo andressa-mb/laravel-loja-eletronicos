@@ -12,4 +12,6 @@ npm-debug.log
 yarn-error.log
 
 .info
-/resources/views/layouts/antigo_app.php
+/resources/views/layouts/antigo_app.blade.php
+/resources/views/layouts/antigo2.blade.php
+/resources/views/layouts/menu/dropdown.blade.php

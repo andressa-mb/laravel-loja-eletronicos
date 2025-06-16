@@ -52,4 +52,8 @@ class User extends Authenticatable
     public function isAdmin(): bool{
         return $this->roles()->where('name', 'admin')->exists();
     }
+
+    public function isBuyer(): bool{
+        return $this->roles()->where('name', 'buyer')->exists();
+    }
 }

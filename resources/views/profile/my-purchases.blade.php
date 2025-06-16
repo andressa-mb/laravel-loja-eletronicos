@@ -1,9 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    @if(Auth::user()->isAdmin())
-        @include('order.show')
-    @endif
-
     @if($orders->isEmpty())
         <div class="row">
             <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Você ainda não possui pedidos.</h1>

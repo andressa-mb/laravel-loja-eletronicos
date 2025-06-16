@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 @if($orderList->isEmpty())
     <div class="row">
         <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Não há pedidos no site.</h1>
@@ -30,10 +32,11 @@
                     @endforeach
                     <div class="float-right">
                         <a href="#" class="btn btn-danger">Cancelar Pedido</a>
-                        <a href="#" class="btn btn-primary">Rastrear Pedido</a>
+                        <a href="#" class="btn btn-primary">Editar Pedido</a>
                     </div>
                 </div>
             </div>
         </div>
     @endforeach
 @endif
+@endsection

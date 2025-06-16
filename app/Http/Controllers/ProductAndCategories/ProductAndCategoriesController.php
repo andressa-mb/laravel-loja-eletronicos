@@ -88,7 +88,7 @@ class ProductAndCategoriesController extends Controller
             broadcast(new NewOrderReceived(
                 $created_new_order,
                 $user->id,
-                "Novo pedido #($created_new_order->id) criado. Usuário: #($user->id). By Constructor."
+                "Novo pedido #($created_new_order->id) criado por #($user->name)"
             ))->toOthers();
 
             session()->forget('order');

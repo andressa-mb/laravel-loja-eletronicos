@@ -23,6 +23,7 @@ Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
 
 //PÁGINA DO ADM
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
+Route::get('/orders', 'HomeController@orders')->name('orders');
 
 //ADMS
 //ASSOCIAÇÃO DE PRODUTOS COM CATEGORIAS - APENAS ADMS FAZEM
