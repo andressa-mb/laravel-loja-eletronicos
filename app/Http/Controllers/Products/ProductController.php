@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
-use App\Jobs\Product\NewProductAlert;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Throwable;
@@ -35,7 +34,6 @@ class ProductController extends Controller
             }
 
             $createdProduct = $product->create($createProduct);
-           // NewProductAlert::dispatch($createdProduct, Auth::user());
             return redirect()->route('category-associate-to-product', ['product' => $createdProduct]);
         }catch(Throwable $e){
             throw $e;
@@ -69,6 +67,7 @@ class ProductController extends Controller
     }
 
     public function show(){
+        $this->authorize('view', Product::class);
         $products = Product::paginate(6);
         return view('product.show', ['products' => $products]);
     }

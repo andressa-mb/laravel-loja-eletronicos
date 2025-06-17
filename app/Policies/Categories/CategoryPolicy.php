@@ -25,12 +25,11 @@ class CategoryPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Category  $category
      * @return mixed
      */
-    public function view(User $user, Category $category)
+    public function view(User $user)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**

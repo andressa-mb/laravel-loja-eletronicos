@@ -26,8 +26,9 @@ class CategoryController extends Controller
         return redirect()->route('index-adm');
     }
 
-    public function show(){
-        return view('category.show');
+    public function show(Category $category){
+        $this->authorize('view', $category);
+        return view('category.show', ['categories' => $category->get()]);
     }
 
     public function edit(Category $category){
@@ -43,14 +44,14 @@ class CategoryController extends Controller
         $category->update([
             'name' => $validation['name'],
         ]);
-        return back()->with('message', "Categoria atualizada.");
+        return redirect()->route('category.show')->with('message', "Categoria atualizada.");
     }
 
     public function destroy(Category $category){
         try{
             $this->authorize('delete', $category);
             $category->findOrFail($category->id)->delete();
-            return back()->with('message', 'Excluído com sucesso');
+            return redirect()->route('category.show')->with('message', 'Excluído com sucesso');
         }catch(Exception $e){
             return back()->withErrors("Erro ao excluir categoria. " . $e->getMessage());
         }

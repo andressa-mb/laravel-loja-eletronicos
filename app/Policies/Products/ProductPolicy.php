@@ -30,9 +30,9 @@ class ProductPolicy
      * @param  \App\Product  $product
      * @return mixed
      */
-    public function view(User $user, Product $product)
+    public function view(User $user)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
