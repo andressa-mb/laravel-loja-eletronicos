@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody class="table table-striped">
-                @foreach (App\Models\Category::get() as $category)
+                @foreach ($categories as $category)
                     <tr>
                         <th scope="row">{{$category->id}}</th>
                         <td>{{$category->name}}</td>

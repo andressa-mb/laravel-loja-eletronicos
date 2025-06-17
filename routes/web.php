@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Products\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
@@ -24,6 +25,10 @@ Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
 //PÁGINA DO ADM
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
 Route::get('/orders', 'HomeController@orders')->name('orders');
+Route::get('/users-list', 'HomeController@usersList')->name('users-list');
+Route::get('/user/{user}', 'HomeController@editUser')->name('edit-user');
+Route::put('/update-user/{user}', 'HomeController@updateUser')->name('update-user');
+Route::delete('/delete-user/{user}', 'HomeController@destroy')->name('delete-user');
 
 //ADMS
 //ASSOCIAÇÃO DE PRODUTOS COM CATEGORIAS - APENAS ADMS FAZEM

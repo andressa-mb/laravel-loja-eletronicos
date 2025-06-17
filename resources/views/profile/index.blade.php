@@ -4,6 +4,10 @@
 POR ENQUANTO É UM FORM PARA ATUALIZAÇÃO DOS DADOS DO USUÁRIO E
 SENDO ADM PODE TER UM BOTÃO PARA MOSTRAR OS USUÁRIOS E TROCAR SUAS ROLES
  --}}
+    @php
+        $admin = $user->roles()->adminRole()->first();
+        $buyer = $user->roles()->buyer()->first();
+    @endphp
 
     <form>
         <div class="form-group">
@@ -15,12 +19,6 @@ SENDO ADM PODE TER UM BOTÃO PARA MOSTRAR OS USUÁRIOS E TROCAR SUAS ROLES
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{$user->email}}">
           <small id="emailHelp" class="form-text text-muted">Nunca compartilhe seu e-mail.</small>
         </div>
-
-@php
-  $admin = $user->roles()->adminRole()->first();
-  $buyer = $user->roles()->buyer()->first();
-@endphp
-
         <div class="form-group">
             <label for="role">Tipo de usuário:</label>
             @if($admin)

@@ -37,7 +37,7 @@ class UserDataStoreRequest extends FormRequest
         ];
     }
 
-/*     public function messages()
+    public function messages()
     {
         return [
             'fullname.required' => 'Nome do destinatário é obrigatório',
@@ -60,7 +60,6 @@ class UserDataStoreRequest extends FormRequest
             'district.required' => 'O bairro é obrigatório.',
             'district.max' => 'O bairro deve conter até 50 caracteres.',
             'payment.required' => 'A forma de pagamento é obrigatório.',
-            'payment.max' => 'A forma de pagamento deve conter até 20 caracteres.',
         ];
-    } */
+    }
 }
