@@ -101,8 +101,17 @@ class HomeController extends Controller
         }
     }
 
-    public function destroy(){
+    public function destroy($id){
+        $this->authorize('delete', User::class);
+        try{
+            $user = User::findOrFail($id);
+            $user->delete();
+            return redirect()->route('users-list')->with('message', 'Excluído usuário com sucesso.');
 
+        }catch(Throwable $e) {
+            throw $e;
+            return back()->withErrors($e->getMessage());
+        }
     }
 
 }

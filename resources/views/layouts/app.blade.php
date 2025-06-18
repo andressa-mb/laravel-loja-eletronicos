@@ -124,7 +124,7 @@
         </footer>
     </div>
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
+
     <script>
         window.addEventListener('DOMContentLoaded', function () {
             const message = document.getElementById('message');
@@ -140,5 +140,8 @@
             @include('layouts.script.admin-notif')
         @endif
     @endif
+
+    @yield('scripts')
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
