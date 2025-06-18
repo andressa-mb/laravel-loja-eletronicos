@@ -70,8 +70,12 @@ class HomeController extends Controller
         return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->get()]);
     }
 
-    public function orders(Order $order){
-        return view('order.show', ['orderList' => $order->get()]);
+    public function orders(){
+       $filterOrder = Order::whereHas('user', function ($query){
+        $query->whereNull('deleted_at');
+       })->get();
+
+       return view('order.show', ['orderList' => $filterOrder]);
     }
 
     public function usersList(User $user){
