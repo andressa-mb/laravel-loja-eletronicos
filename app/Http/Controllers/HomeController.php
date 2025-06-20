@@ -73,7 +73,7 @@ class HomeController extends Controller
     public function orders(){
        $filterOrder = Order::whereHas('user', function ($query){
         $query->whereNull('deleted_at');
-       })->get();
+       })->paginate(6);
 
        return view('order.show', ['orderList' => $filterOrder]);
     }

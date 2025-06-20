@@ -3,7 +3,8 @@
 namespace App;
 
 use App\Models\Order;
-use App\Models\Roles;
+use App\Models\Role;
+use App\Models\Wish;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,7 +45,7 @@ class User extends Authenticatable
     ];
 
     public function roles(): BelongsToMany{
-        return $this->belongsToMany(Roles::class, 'user_roles', 'user_id', 'role_id');
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
     }
 
     public function orders(): HasMany{
@@ -57,5 +58,9 @@ class User extends Authenticatable
 
     public function isBuyer(): bool{
         return $this->roles()->where('name', 'buyer')->exists();
+    }
+
+    public function wishes(): HasMany{
+        return $this->hasMany(Wish::class, 'user_id', 'id');
     }
 }

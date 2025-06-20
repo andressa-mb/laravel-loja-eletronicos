@@ -5,9 +5,10 @@
         <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Não há pedidos no site.</h1>
     </div>
 @else
-    <div class="row">
-        <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Lista de pedidos registrados</h1>
-    </div>
+<div class="row">
+    <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Lista de pedidos registrados</h1>
+</div>
+{{ $orderList->links() }}
     @foreach ($orderList as $order)
         <div class="row">
             <div class="card col m-4" style="width: 18rem;">
@@ -38,5 +39,6 @@
             </div>
         </div>
     @endforeach
+{{ $orderList->links() }}
 @endif
 @endsection

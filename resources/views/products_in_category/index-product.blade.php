@@ -3,10 +3,18 @@
     <div class="row text-right mt-5 ml-5">
         <a href="{{route('index-buyer')}}" class="btn btn-info">Voltar</a>
     </div>
-
     <div id="detalhes-produto" class="row justify-content-center mt-5">
-        <div id="foto" class="col-md-12 text-center">
+        <div id="foto" class="col d-flex justify-content-center align-items-center flex-column">
             <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
+            <div class="mt-3">
+                <a href="#" class="d-flex text-decoration-none text-danger font-weight-bold">
+                    <h1>
+                        <i class="bi bi-heart"></i>
+                        {{-- <i class="bi bi-heart-fill"></i> --}}
+                    </h1>
+                    <span class="ml-3">Adicionar a lista de desejo</span>
+                </a>
+            </div>
         </div>
         <form class="col" action="{{route('selling-product-info-client', $product)}}" id="info">
             <div class="form-group row">
@@ -15,7 +23,7 @@
             </div>
             <div class="form-group col-md-12">
                 <label for="description" class="font-form"><strong>Descrição:</strong></label>
-                <textarea name="description" id="description" cols="12" rows="2" readonly class="form-control-plaintext">{{$product->description}}</textarea>
+                <textarea name="description" id="description" cols="12" rows="4" readonly class="form-control-plaintext">{{$product->description}}</textarea>
             </div>
             @if ($product->quantity > 0)
                 <div class="form-group col-md-12">
