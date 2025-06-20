@@ -58,9 +58,16 @@
                                     @include('layouts.menu.menu-admin')
                                 @endif
                             </li>
+                        {{-- BARRA DE LISTA DE DESEJOS --}}
+                            <li class="icon-size-p">
+                                <a href="{{route('my-wish')}}" name="wish" class="text-danger">
+                                    <i class="bi bi-heart-fill"></i>
+                                    {{-- <i class="bi bi-heart-fill"></i> --}}
+                                </a>
+                            </li>
                         {{-- BARRA PARA NOTIFICAÇÕES --}}
                             <li class="nav-item dropdown icon-size-p">
-                                <a class="nav-link" data-toggle="dropdown" href="#" role="button">
+                                <a class="nav-item" data-toggle="dropdown" href="#" role="button">
                                     <i class="bi bi-bell-fill" id="notification-bell"></i>
                                     <span class="badge badge-danger navbar-badge" id="notification-count">0</span>
                                 </a>

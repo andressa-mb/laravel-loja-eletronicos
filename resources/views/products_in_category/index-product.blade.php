@@ -7,13 +7,27 @@
         <div id="foto" class="col d-flex justify-content-center align-items-center flex-column">
             <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
             <div class="mt-3">
-                <a href="#" class="d-flex text-decoration-none text-danger font-weight-bold">
-                    <h1>
-                        <i class="bi bi-heart"></i>
-                        {{-- <i class="bi bi-heart-fill"></i> --}}
-                    </h1>
-                    <span class="ml-3">Adicionar a lista de desejo</span>
-                </a>
+                @if (Auth::user()->id)
+                    @php
+                        $user = App\User::find(Auth::user()->id);
+                        $hasWish = $user->wishes->where('product_id', $product->id)->first();
+                    @endphp
+                    @if ($hasWish)
+                        <a href="{{route('remove-wish', $hasWish->id)}}" class="d-flex text-decoration-none text-danger font-weight-bold">
+                            <h1>
+                                <i class="bi bi-heart-fill"></i>
+                            </h1>
+                            <span class="ml-3">Remover da lista de desejo</span>
+                        </a>
+                    @else
+                        <a href="{{route('add-wish', $product)}}" class="d-flex text-decoration-none text-danger font-weight-bold">
+                            <h1>
+                                <i class="bi bi-heart"></i>
+                            </h1>
+                            <span class="ml-3">Adicionar a lista de desejo</span>
+                        </a>
+                    @endif
+                @endif
             </div>
         </div>
         <form class="col" action="{{route('selling-product-info-client', $product)}}" id="info">

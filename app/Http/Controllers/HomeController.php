@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Roles;
+use App\Models\Wish;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class HomeController extends Controller
@@ -112,6 +113,33 @@ class HomeController extends Controller
             $user->delete();
             return redirect()->route('users-list')->with('message', 'Excluído usuário com sucesso.');
 
+        }catch(Throwable $e) {
+            throw $e;
+            return back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function wish(){
+        $wish = Wish::where('user_id', auth()->user()->id)->paginate(6);
+        return view('wish.show', ['wishList' => $wish]);
+    }
+
+    public function addToWish(Request $request){
+        $findProd = Product::where('slug', $request->product)->first();
+        $userLogado = Auth::user()->id;
+        Wish::create([
+            'user_id' => $userLogado,
+            'product_id' => $findProd->id
+        ]);
+
+        return back()->with('message', 'Adicionado a lista com sucesso.');
+    }
+
+    public function removeWish(Request $request){
+        try{
+            $wish = Wish::findOrFail($request->wish);
+            $wish->delete();
+            return back()->with('message', 'Produto retirado da lista de desejos.');
         }catch(Throwable $e) {
             throw $e;
             return back()->withErrors($e->getMessage());
