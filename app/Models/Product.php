@@ -69,4 +69,8 @@ class Product extends Model
     public function wishes(): HasMany{
         return $this->hasMany(Wish::class, 'product_id', 'id');
     }
+
+    public function discounts(): HasMany{
+        return $this->hasMany(Discount::class, 'product_id', 'id');
+    }
 }

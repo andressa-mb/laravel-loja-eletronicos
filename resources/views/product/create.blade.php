@@ -20,13 +20,51 @@
                 <label for="quantity" class="font-form">Quantidade:</label>
                 <input type="number" id="quantity" name="quantity" class="form-control"/>
             </div>
-            <div class="form-check">
+            <div class="form-check d-flex align-items-center">
                 <input type="hidden" name="hasDiscount" value="0">
                 <input class="form-check-input" type="checkbox" value="1" name="hasDiscount" id="hasDiscount">
                 <label class="form-check-label font-form" for="hasDiscount">
-                    Desconto
+                    Inserir desconto
                 </label>
             </div>
+
+            {{-- SE HOUVER DESCONTO INFORMAR OS DADOS ABAIXO --}}
+            <div class="form-group">
+                <label for="typeDiscount" class="font-form">Tipo:</label>
+                <select class="form-control w-25" id="typeDiscount">
+                    <option>%</option>
+                    <option>R$</option>
+                </select>
+            </div>
+            {{-- se for o tipo porcentagem mostrar as opções abaixo --}}
+            <div class="form-group">
+                <label for="valueDiscount" class="font-form">Tipo:</label>
+                <select class="form-control w-25" id="valueDiscount">
+                    <option>5%</option>
+                    <option>10%</option>
+                    <option>15%</option>
+                    <option>20%</option>
+                    <option>25%</option>
+                    <option>30%</option>
+                </select>
+            </div>
+            {{-- se for o tipo REAL, inserir o valor --}}
+            <div class="form-group">
+                <label for="valueDiscount" class="font-form">Valor do desconto:</label>
+                <input type="number" step=".01" id="valueDiscount" name="valueDiscount" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="startDate" class="font-form">Data de início:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="endDate" class="font-form">Data final:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control"/>
+            </div>
+
+
+
+
             <div class="form-group">
                 <label for="image" class="font-form">Imagem:</label>
                 <input type="file" id="image" name="image" class="form-control-file"/>
