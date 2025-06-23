@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class ProductStoreRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class ProductStoreRequest extends FormRequest
             'description' => 'max:1000|nullable',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'discount' => 'nullable|numeric',
+            'hasDiscount' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
         ];
     }
@@ -47,7 +48,8 @@ class ProductStoreRequest extends FormRequest
             'price.numeric' => 'O valor do produto deve ser numérico.',
             'quantity.required' => 'A quantidade do produto é obrigatório.',
             'quantity.numeric' => 'A quantidade do produto deve ser numérico.',
-            'discount.numeric' => 'O desconto deve ser numérico.',
+            'hasDiscount.nullable' => 'Está nulo.',
+            'hasDiscount.boolean' => 'Deve ser um booleano.',
             'image.mimes' => 'O arquivo de imagem deve ser nos formatos: png, jpg ou jpeg.',
         ];
     }

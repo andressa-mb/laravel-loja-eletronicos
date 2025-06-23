@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Categories;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Http\Request;
+use Throwable;
 
 class CategoryController extends Controller
 {
@@ -16,14 +18,23 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request){
-        $validation = $request->validate([
-            'name' => 'required|min:3|max:25'
-        ]);
-        Category::create([
-            'name' => $validation['name']
-        ]);
+        try{
+            $validation = $request->validate([
+                'name' => 'required|min:3|max:25',
+            ]);
 
-        return redirect()->route('index-adm');
+            $category = [
+                'name' => $validation['name'],
+                'slug' => Str::slug($validation['name'])
+            ];
+
+            Category::create($category);
+
+            return redirect()->route('index-adm')->with('message', 'Categoria criada com sucesso.');
+
+        }catch(Throwable $e){
+            return back()->withErrors("Erro ao criar a categoria. " . $e->getMessage());
+        }
     }
 
     public function show(Category $category){
@@ -37,21 +48,29 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, Category $category){
-        $validation = $request->validate([
-            'name' => 'required|min:3|max:25'
-        ]);
+        try{
+            $validation = $request->validate([
+                'name' => 'required|min:3|max:25'
+            ]);
 
-        $category->update([
-            'name' => $validation['name'],
-        ]);
-        return redirect()->route('category.show')->with('message', "Categoria atualizada.");
+            $categoryToUpdate = [
+                'name' => $validation['name'],
+                'slug' => Str::slug($validation['name'])
+            ];
+
+            $category->update($categoryToUpdate);
+            return redirect()->route('category-show')->with('message', "Categoria atualizada.");
+
+        }catch(Throwable $e){
+            return back()->withErrors('Erro ao editar a categoria. ' . $e->getMessage());
+        }
     }
 
     public function destroy(Category $category){
         try{
             $this->authorize('delete', $category);
             $category->findOrFail($category->id)->delete();
-            return redirect()->route('category.show')->with('message', 'Excluído com sucesso');
+            return redirect()->route('category-show')->with('message', 'Excluído com sucesso');
         }catch(Exception $e){
             return back()->withErrors("Erro ao excluir categoria. " . $e->getMessage());
         }

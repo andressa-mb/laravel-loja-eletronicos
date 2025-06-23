@@ -14,7 +14,7 @@ class Product extends Model
 {
     protected $table = 'products';
     protected $fillable = [
-        'name', 'slug', 'description', 'price', 'quantity', 'discount', 'total', 'image',
+        'name', 'slug', 'description', 'price', 'quantity', 'hasDiscount', 'total', 'image',
     ];
 
     public function getRouteKeyName(): string{

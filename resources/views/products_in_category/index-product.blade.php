@@ -65,11 +65,11 @@
                     <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->price, 2, ",", ".")}}">
                     <input type="hidden" name="price" id="price" value="{{$product->price}}">
                 </div>
-            @if ($product->discount != 0)
+            @if ($product->hasDiscount != 0)
                 <div class="form-group col-md-12">
-                    <label for="discount" class="font-form"><strong>Desconto:</strong></label>
-                    <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->discount, 2, ",", ".")}}">
-                    <input type="hidden" name="discount" id="discount" value="{{$product->discount}}">
+                    <label for="hasDiscount" class="font-form"><strong>Desconto:</strong></label>
+                    <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->hasDiscount, 2, ",", ".")}}">
+                    <input type="hidden" name="hasDiscount" id="hasDiscount" value="{{$product->hasDiscount}}">
                 </div>
             @endif
             <div class="form-group col-md-12">

@@ -15,9 +15,9 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">{{$wish->products->name}}</h5>
                     <br>
-                    @if ($wish->products->discount != 0)
+                    @if ($wish->products->hasDiscount != 0)
                         <p class="card-text">Preço: R$ {{number_format($wish->products->price, 2, ",", ".")}}</p>
-                        <p class="card-text">Desconto: R$ {{number_format($wish->products->discount, 2, ",", ".")}}</p>
+                        <p class="card-text">Desconto: R$ {{number_format($wish->products->hasDiscount, 2, ",", ".")}}</p>
                     @endif
                     <p class="card-text">Total: R$ {{number_format($wish->products->total, 2, ",", ".")}}</p>
                     <hr>

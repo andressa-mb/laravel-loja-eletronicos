@@ -14,8 +14,16 @@
                 <input type="number" id="price" name="price" step=".01" class="form-control" value="{{$product->price}}">
                 <label for="quantity" class="font-form">Quantidade:</label>
                 <input type="number" id="quantity" name="quantity" class="form-control" value="{{$product->quantity}}">
-                <label for="discount" class="font-form">Desconto:</label>
-                <input type="number" step=".01" id="discount" name="discount" class="form-control" value="{{$product->discount}}">
+
+                <div class="form-check">
+                    <input type="hidden" name="hasDiscount" value="0">
+                    <input class="form-check-input" type="checkbox" value="1" name="hasDiscount" id="hasDiscount"
+                     {{ $product->hasDiscount ? 'checked' : '' }}>
+                    <label class="form-check-label font-form" for="hasDiscount">Desconto</label>
+                </div>
+
+
+
                 <label for="image" class="font-form">Imagem:</label>
                 <input type="file" id="image" name="image" class="form-control-file" value="{{$product->image}}">
             </div>

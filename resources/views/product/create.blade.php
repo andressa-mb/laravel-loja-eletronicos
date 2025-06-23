@@ -20,9 +20,12 @@
                 <label for="quantity" class="font-form">Quantidade:</label>
                 <input type="number" id="quantity" name="quantity" class="form-control"/>
             </div>
-            <div class="form-group">
-                <label for="discount" class="font-form">Desconto:</label>
-                <input type="number" step=".01" id="discount" name="discount" class="form-control"/>
+            <div class="form-check">
+                <input type="hidden" name="hasDiscount" value="0">
+                <input class="form-check-input" type="checkbox" value="1" name="hasDiscount" id="hasDiscount">
+                <label class="form-check-label font-form" for="hasDiscount">
+                    Desconto
+                </label>
             </div>
             <div class="form-group">
                 <label for="image" class="font-form">Imagem:</label>

@@ -39,8 +39,8 @@
                             @endif
                         </td>
                         <td class="text-center" style="white-space: nowrap;">R$ {{number_format($product->price, 2, ",", ".")}}</td>
-                        @if($product->discount)
-                            <td class="text-center" style="white-space: nowrap;" style="color: red;">R$ {{number_format($product->discount, 2, ",", ".")}}</td>
+                        @if($product->hasDiscount)
+                            <td class="text-center" style="white-space: nowrap;" style="color: red;">R$ {{number_format($product->hasDiscount, 2, ",", ".")}}</td>
                         @else
                             <td class="text-center" style="white-space: nowrap;">SEM DESCONTO</td>
                         @endif

@@ -25,8 +25,8 @@ class ProductController extends Controller
                 'description' => $validation['description'],
                 'price' => $validation['price'],
                 'quantity' => $validation['quantity'],
-                'discount' => $validation['discount'],
-                'total' => $validation['price'] - $validation['discount']
+                'hasDiscount' => $validation['hasDiscount'],
+                'total' => $validation['price'] //- $validation['discount']
             ];
             //TIREI O ID DO CAMINHO POIS AINDA NÃO EXISTIA, PENSAR EM QUAL CAMINHO POSSO DEIXAR DEPOIS DISSO
             if($reqStore->hasFile('image')){
@@ -36,7 +36,6 @@ class ProductController extends Controller
             $createdProduct = $product->create($createProduct);
             return redirect()->route('category-associate-to-product', ['product' => $createdProduct]);
         }catch(Throwable $e){
-            throw $e;
             return back()->withErrors($e->getMessage());
         }
     }
@@ -47,23 +46,27 @@ class ProductController extends Controller
     }
 
     public function update(ProductUpdateRequest $request, Product $product){
-        $validation = $request->validated();
-        $formProduct = [
-            'name' => $validation['name'],
-            'slug' => Str::slug($validation['name']),
-            'description' => $validation['description'],
-            'price' => $validation['price'],
-            'quantity' => $validation['quantity'],
-            'discount' => $validation['discount'],
-            'total' => $validation['price'] - $validation['discount'],
-        ];
+        try{
+            $validation = $request->validated();
+            $formProduct = [
+                'name' => $validation['name'],
+                'slug' => Str::slug($validation['name']),
+                'description' => $validation['description'],
+                'price' => $validation['price'],
+                'quantity' => $validation['quantity'],
+                'hasDiscount' => $validation['hasDiscount'],
+                'total' => $validation['price'],
+            ];
 
-        if($request->hasFile('image')){
-            $formProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
+            if($request->hasFile('image')){
+                $formProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
+            }
+
+            $product->update($formProduct);
+            return redirect()->route('category-associate-to-product', ['product' => $product->slug])->with('message', 'Produto atualizado com sucesso.');
+        }catch(Throwable $e){
+            return back()->withErrors('Erro ao atualizar o produto. ' . $e->getMessage());
         }
-
-        $product->update($formProduct);
-        return redirect()->route('category-associate-to-product', ['product' => $product->slug])->with('message', 'Produto atualizado com sucesso.');
     }
 
     public function show(){
