@@ -70,7 +70,7 @@ class Product extends Model
         return $this->hasMany(Wish::class, 'product_id', 'id');
     }
 
-    public function discounts(): HasMany{
-        return $this->hasMany(Discount::class, 'product_id', 'id');
+    public function discounts(): BelongsToMany{
+        return $this->belongsToMany(Discount::class, 'discounts_products');
     }
 }

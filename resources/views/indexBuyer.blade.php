@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="carousel-item bg-info">
-                <img class="second-slide" src="{{asset("storage/product_images/3/computador.jpg")}}" width="500px" height="500px" alt="Second slide">
+                <img class="second-slide" src="{{asset("storage/product_images/computador.jpg")}}" width="500px" height="500px" alt="Second slide">
                 <div class="container">
                     <div class="carousel-caption text-center text-warning bg-light">
                         <h1>Os queridinhos</h1>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="carousel-item bg-info">
-            <img class="third-slide" src="{{asset("storage/product_images/4/memoria-ram-1.jpg")}}" width="500px" height="500px" alt="Third slide">
+            <img class="third-slide" src="{{asset("storage/product_images/memoria-ram-1.jpg")}}" width="500px" height="500px" alt="Third slide">
             <div class="container">
                 <div class="carousel-caption text-right text-warning">
                 <h1>Queima de estoque</h1>

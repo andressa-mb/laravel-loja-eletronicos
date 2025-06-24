@@ -16,6 +16,7 @@
     <link href="{{ asset('css/cores.css') }}" rel="stylesheet">
     <link href="{{ asset('css/tamanhos.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
 </head>
 <body class="body">
     <div id="app" class="container-fluid">
@@ -148,7 +149,8 @@
         @endif
     @endif
 
-    @yield('scripts')
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
+
 </body>
 </html>

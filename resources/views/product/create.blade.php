@@ -29,41 +29,49 @@
             </div>
 
             {{-- SE HOUVER DESCONTO INFORMAR OS DADOS ABAIXO --}}
-            <div class="form-group">
-                <label for="typeDiscount" class="font-form">Tipo:</label>
-                <select class="form-control w-25" id="typeDiscount">
-                    <option>%</option>
-                    <option>R$</option>
-                </select>
-            </div>
-            {{-- se for o tipo porcentagem mostrar as opções abaixo --}}
-            <div class="form-group">
-                <label for="valueDiscount" class="font-form">Tipo:</label>
-                <select class="form-control w-25" id="valueDiscount">
-                    <option>5%</option>
-                    <option>10%</option>
-                    <option>15%</option>
-                    <option>20%</option>
-                    <option>25%</option>
-                    <option>30%</option>
-                </select>
-            </div>
-            {{-- se for o tipo REAL, inserir o valor --}}
-            <div class="form-group">
-                <label for="valueDiscount" class="font-form">Valor do desconto:</label>
-                <input type="number" step=".01" id="valueDiscount" name="valueDiscount" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label for="startDate" class="font-form">Data de início:</label>
-                <input type="date" id="startDate" name="startDate" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label for="endDate" class="font-form">Data final:</label>
-                <input type="date" id="endDate" name="endDate" class="form-control"/>
-            </div>
+            <div id="discountFields" style="display: none;">
+                <div class="form-group">
+                    <label for="typeDiscount" class="font-form">Tipo:</label>
+                    <select class="form-control w-25" id="typeDiscount">
+                        <option value="" selected></option>
+                        <option value="percent">%</option>
+                        <option value="money">R$</option>
+                    </select>
+                </div>
 
+                {{-- se for o tipo porcentagem mostrar as opções abaixo --}}
+                <div id="percentType" style="display: none;">
+                    <div class="form-group">
+                        <label for="valueDiscount" class="font-form">Desconto:</label>
+                        <select class="form-control w-25" id="valueDiscount">
+                            <option>5%</option>
+                            <option>10%</option>
+                            <option>15%</option>
+                            <option>20%</option>
+                            <option>25%</option>
+                            <option>30%</option>
+                        </select>
+                    </div>
+                </div>
 
+                {{-- se for o tipo REAL, inserir o valor --}}
+                <div id="moneyType" style="display: none;">
+                    <div class="form-group">
+                        <label for="valueDiscount" class="font-form">Valor do desconto:</label>
+                        <input type="number" step=".01" id="valueDiscount" name="valueDiscount" class="form-control"/>
+                    </div>
+                </div>
 
+                {{-- DATA DE INICIO E FIM DA PROMOÇÃO --}}
+                <div class="form-group">
+                    <label for="startDate" class="font-form">Data de início:</label>
+                    <input type="date" id="startDate" name="startDate" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="endDate" class="font-form">Data final:</label>
+                    <input type="date" id="endDate" name="endDate" class="form-control"/>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="image" class="font-form">Imagem:</label>
@@ -75,4 +83,32 @@
             </div>
         </form>
     </div>
+
+    @section('scripts')
+        <script>
+            $(document).ready(function() {
+                $('#hasDiscount').change(function() {
+                    if($(this).is(':checked')){
+                        $('#discountFields').show();
+                        $('input[name=hasDiscount][type=hidden]').val('1')
+                    }else {
+                        $('#discountFields').hide();
+                        $('input[name=hasDiscount][type=hidden]').val('0')
+                    }
+                })
+
+                $('#typeDiscount').change(function(){
+                    if($(this).val() == 'percent'){
+                        $('#percentType').show();
+                        $('#moneyType').hide();
+                    }else {
+                        $('#moneyType').show();
+                        $('#percentType').hide();
+                    }
+                })
+            })
+
+        </script>
+    @endsection
+
 @endsection
