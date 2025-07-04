@@ -17,6 +17,8 @@
             <a class="dropdown-item" href="{{route('product-show')}}">Editar</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{route('product-show')}}">Excluir</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{route('discount-show')}}">Descontos</a>
         </div>
     </li>
     {{-- MENUS EM ANDAMENTO - VERIFICAR SE SERÁ ISSO MESMO --}}

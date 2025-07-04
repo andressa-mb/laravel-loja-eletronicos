@@ -14,10 +14,14 @@
 }
 
 .form-create {
-    height: 1000px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+}
+
+#main-size {
+    max-height: 100vh;
 }
 
 .form-edit {

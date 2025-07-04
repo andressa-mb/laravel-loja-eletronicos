@@ -101,7 +101,7 @@
             @endif
         </header>
 
-        <main class="h-auto pb-5">
+        <main id="main-size">
             {{-- ALERTAS DE ERROS OU MENSAGENS DE SUCESSO --}}
             <div class="row">
                 @if (session('message') || $errors->any())

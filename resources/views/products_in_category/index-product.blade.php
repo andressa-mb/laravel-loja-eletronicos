@@ -6,8 +6,8 @@
     <div id="detalhes-produto" class="row justify-content-center mt-5">
         <div id="foto" class="col d-flex justify-content-center align-items-center flex-column">
             <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
-            <div class="mt-3">
-                @if (Auth::user()->id)
+            @if (Auth::check())
+                <div class="mt-3">
                     @php
                         $user = App\User::find(Auth::user()->id);
                         $hasWish = $user->wishes->where('product_id', $product->id)->first();
@@ -27,8 +27,8 @@
                             <span class="ml-3">Adicionar a lista de desejo</span>
                         </a>
                     @endif
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
         <form class="col" action="{{route('selling-product-info-client', $product)}}" id="info">
             <div class="form-group row">

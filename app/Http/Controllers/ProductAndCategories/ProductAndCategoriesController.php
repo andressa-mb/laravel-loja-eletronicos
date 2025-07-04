@@ -113,6 +113,6 @@ class ProductAndCategoriesController extends Controller
                 $product->categories()->attach($category_id);
             }
         }
-        return redirect()->route('index-adm')->with('message', 'Produto criado e categoria associada.');
+        return redirect()->route('product-show')->with('message', 'Produto criado e categoria associada.');
     }
 }

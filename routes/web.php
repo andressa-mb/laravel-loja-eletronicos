@@ -40,6 +40,14 @@ Route::delete('/delete-user/{user}', 'HomeController@destroy')->name('delete-use
 Route::get('/associate-category-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@associate')->name('category-associate-to-product');
 Route::post('/save-category-associated-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@saveRelationCategoryAndPost')->name('relation-category-post');
 
+//DISCOUNTS
+Route::get('/discount-create', "Discounts\DiscountController@create")->name('discount-create');
+Route::post('/discount-store', "Discounts\DiscountController@store")->name('discount-store');
+Route::get('/discounts-list', "Discounts\DiscountController@show")->name('discount-show');
+Route::get('/edit-discount/{discount}', "Discounts\DiscountController@edit")->name('discount-edit');
+Route::put('/update-discount/{discount}', "Discounts\DiscountController@update")->name('discount-update');
+Route::delete('/delete-discount/{discount}', "Discounts\DiscountController@destroy")->name('discount-delete');
+
 // PRODUCTS
 Route::get('/create-product', 'Products\ProductController@create')->name('product-create');
 Route::post('/save-product', 'Products\ProductController@store')->name('product-store');

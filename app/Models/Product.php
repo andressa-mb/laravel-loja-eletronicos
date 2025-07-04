@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -72,5 +73,36 @@ class Product extends Model
 
     public function discounts(): BelongsToMany{
         return $this->belongsToMany(Discount::class, 'discounts_products');
+    }
+
+    public function getOriginalTotalAttribute() {
+       return $this->price * $this->quantity;
+    }
+
+    public function getTotalWithDiscountAttribute(){
+        $originalTotal = $this->original_total;
+        if(!$this->hasDiscount) return $originalTotal;
+        $discount = $this->discounts->first();
+
+        if(!$discount || !$this->isDiscountActive()) return $originalTotal;
+
+        if($discount->type == "%"){
+            $valuePercent = $originalTotal * ($discount->discount_value / 100);
+            return $originalTotal - $valuePercent;
+        }else if($discount->type == "R$"){
+            return $originalTotal - $discount->discount_value;
+        }
+
+        return 0;
+    }
+
+    public function isDiscountActive(): bool{
+        $discount = $this->discounts->first();
+        if(!$discount) return false;
+        $now = now();
+        return $now->between(
+            Carbon::parse($discount->start_date),
+            Carbon::parse($discount->end_date)
+        );
     }
 }

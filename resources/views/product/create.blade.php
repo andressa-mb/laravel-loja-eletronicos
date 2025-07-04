@@ -30,54 +30,31 @@
 
             {{-- SE HOUVER DESCONTO INFORMAR OS DADOS ABAIXO --}}
             <div id="discountFields" style="display: none;">
+                @php
+                    $discounts = App\Models\Discount::all();
+                @endphp
                 <div class="form-group">
                     <label for="typeDiscount" class="font-form">Tipo:</label>
-                    <select class="form-control w-25" id="typeDiscount">
+                    <select class="form-control w-25" id="typeDiscount" name="typeDiscount">
                         <option value="" selected></option>
-                        <option value="percent">%</option>
-                        <option value="money">R$</option>
+                        <option value="%">%</option>
+                        <option value="R$">R$</option>
                     </select>
                 </div>
-
-                {{-- se for o tipo porcentagem mostrar as opções abaixo --}}
-                <div id="percentType" style="display: none;">
-                    <div class="form-group">
-                        <label for="valueDiscount" class="font-form">Desconto:</label>
-                        <select class="form-control w-25" id="valueDiscount">
-                            <option>5%</option>
-                            <option>10%</option>
-                            <option>15%</option>
-                            <option>20%</option>
-                            <option>25%</option>
-                            <option>30%</option>
-                        </select>
-                    </div>
-                </div>
-
-                {{-- se for o tipo REAL, inserir o valor --}}
-                <div id="moneyType" style="display: none;">
-                    <div class="form-group">
-                        <label for="valueDiscount" class="font-form">Valor do desconto:</label>
-                        <input type="number" step=".01" id="valueDiscount" name="valueDiscount" class="form-control"/>
-                    </div>
-                </div>
-
-                {{-- DATA DE INICIO E FIM DA PROMOÇÃO --}}
                 <div class="form-group">
-                    <label for="startDate" class="font-form">Data de início:</label>
-                    <input type="date" id="startDate" name="startDate" class="form-control"/>
+                    <label for="discount_values" class="font-form">Valores:</label>
+                    <select class="form-control w-25" id="discount_values" name="discount_values">
+
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="endDate" class="font-form">Data final:</label>
-                    <input type="date" id="endDate" name="endDate" class="form-control"/>
-                </div>
+                <div class="form-group" id="datesDiscounts" name="datesDiscounts"></div>
             </div>
 
             <div class="form-group">
                 <label for="image" class="font-form">Imagem:</label>
                 <input type="file" id="image" name="image" class="form-control-file"/>
             </div>
-            <div class="text-center">
+            <div class="text-center pb-5">
                 <button type="submit" class="btn btn-success mr-3">Cadastrar</button>
                 <a type="button" class="btn btn-primary" href="{{route('index-adm')}}">Voltar</a>
             </div>
@@ -97,18 +74,41 @@
                     }
                 })
 
-                $('#typeDiscount').change(function(){
-                    if($(this).val() == 'percent'){
-                        $('#percentType').show();
-                        $('#moneyType').hide();
-                    }else {
-                        $('#moneyType').show();
-                        $('#percentType').hide();
+                const discounts = @json($discounts);
+
+                function showDiscountDates(discountId){
+                    const selectedDiscount = discounts.find(d => d.id == discountId);
+                    if(selectedDiscount){
+                        $("#datesDiscounts").html(`
+                            <p>Início do desconto: ${selectedDiscount.start_date}</p>
+                            <p>Fim do desconto: ${selectedDiscount.end_date}</p>
+                        `)
                     }
+                }
+
+                $("#typeDiscount").change(function(){
+                    const type = $(this).val();
+                    let value = "";
+                    let filterType = discounts.filter(d => d.type == type);
+
+                    if(filterType.length > 0){
+                        value += filterType.map(discount => `
+                                <option value="${discount.id}">
+                                    ${discount.type} ${discount.discount_value}
+                                </option>
+                            `)
+                        showDiscountDates(filterType[0].id);
+                    }else {
+                        value = `<option value="0">0</option>`
+                    }
+                    $("#discount_values").empty().append(value);
+                })
+
+                $("#discount_values").change(function() {
+                    let selectedId = $(this).val();
+                    showDiscountDates(selectedId);
                 })
             })
-
         </script>
     @endsection
-
 @endsection
