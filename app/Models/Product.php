@@ -105,4 +105,8 @@ class Product extends Model
             Carbon::parse($discount->end_date)
         );
     }
+
+    public function scopeWithoutCategory(Builder $builder){
+        return $builder->whereDoesntHave('categories')->get();
+    }
 }

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row justify-content-center form-create-bg">
+    <div class="row">
         <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Cadastro de produtos</h3>
-        <form action="{{route('product-store')}}" method="POST" enctype="multipart/form-data" class="mb-5 w-50 form-create">
+        <form action="{{route('product-store')}}" method="POST" enctype="multipart/form-data" class="m-auto w-50 form-h-size">
             @csrf
             <div class="form-group">
                 <label for="name" class="font-form">Nome:</label>

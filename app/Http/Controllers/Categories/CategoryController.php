@@ -39,7 +39,7 @@ class CategoryController extends Controller
 
     public function show(Category $category){
         $this->authorize('view', $category);
-        return view('category.show', ['categories' => $category->get()]);
+        return view('category.show', ['categories' => $category->paginate(6)]);
     }
 
     public function edit(Category $category){

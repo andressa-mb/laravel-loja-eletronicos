@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row form-create-bg">
+    <div class="row">
         <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Cadastro de categorias</h3>
         <form action="{{route('category-store')}}" method="POST" class="m-auto w-50 form-create">
             @csrf

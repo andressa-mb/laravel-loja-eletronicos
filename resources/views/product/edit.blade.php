@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row form-create-bg">
+    <div class="row">
         <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Alteração dos dados:</h3>
-        <form action="{{route('product-update', $product)}}" method="POST" enctype="multipart/form-data" class="m-auto w-50 form-create form-edit">
+        <form action="{{route('product-update', $product)}}" method="POST" enctype="multipart/form-data" class="m-auto w-50 form-h-size">
             @csrf
             @method('PUT')
             <div class="form-group">

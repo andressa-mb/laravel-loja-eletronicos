@@ -17,7 +17,7 @@ use Throwable;
 class ProductAndCategoriesController extends Controller
 {
     public function index_category(){
-        $categories = Category::get();
+        $categories = Category::paginate(3);
         return view('products_in_category.index-category', ['categories' => $categories]);
     }
 
