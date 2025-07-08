@@ -1,95 +1,113 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row text-right mt-5 ml-5">
-        <a href="{{route('index-buyer')}}" class="btn btn-info">Voltar</a>
-    </div>
-    <div id="detalhes-produto" class="row justify-content-center mt-5">
-        <div id="foto" class="col d-flex justify-content-center align-items-center flex-column">
-            <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
-            @if (Auth::check())
-                <div class="mt-3">
-                    @php
-                        $user = App\User::find(Auth::user()->id);
-                        $hasWish = $user->wishes->where('product_id', $product->id)->first();
-                    @endphp
-                    @if ($hasWish)
-                        <a href="{{route('remove-wish', $hasWish->id)}}" class="d-flex text-decoration-none text-danger font-weight-bold">
-                            <h1>
-                                <i class="bi bi-heart-fill"></i>
-                            </h1>
-                            <span class="ml-3">Remover da lista de desejo</span>
-                        </a>
-                    @else
-                        <a href="{{route('add-wish', $product)}}" class="d-flex text-decoration-none text-danger font-weight-bold">
-                            <h1>
-                                <i class="bi bi-heart"></i>
-                            </h1>
-                            <span class="ml-3">Adicionar a lista de desejo</span>
-                        </a>
-                    @endif
-                </div>
-            @endif
+    <div class="row">
+        <div class="col-12 my-5 text-right">
+            <a href="{{route('index-buyer')}}" class="btn btn-info">Voltar</a>
         </div>
-        <form class="col" action="{{route('selling-product-info-client', $product)}}" id="info">
-            <div class="form-group row">
-                <input type="hidden" name="product_id" value="{{$product->id}}">
-                <input name="name" class="col-md-12 rounded-pill mt-3 mb-3 text-white bg-info text-center w-border position-static" id="withoutLabel" value="{{$product->name}}" aria-label="name">
+        <div id="detalhes-produto" class="col-12 row d-flex justify-content-center align-items-center">
+            {{-- IMAGEM DO PRODUTO --}}
+            <div id="foto" class="col-6 d-flex justify-content-center align-items-center flex-column">
+                <img src="{{asset("storage/{$product->image}")}}" width="510px" height="510px" alt="{{$product->name}}">
+                @if (Auth::check())
+                    <div class="mt-3">
+                        @php
+                            $user = App\User::find(Auth::user()->id);
+                            $hasWish = $user->wishes->where('product_id', $product->id)->first();
+                        @endphp
+                        @if ($hasWish)
+                            <a href="{{route('remove-wish', $hasWish->id)}}" class="d-flex text-decoration-none text-danger font-weight-bold">
+                                <h1>
+                                    <i class="bi bi-heart-fill"></i>
+                                </h1>
+                                <span class="ml-3">Remover da lista de desejo</span>
+                            </a>
+                        @else
+                            <a href="{{route('add-wish', $product)}}" class="d-flex text-decoration-none text-danger font-weight-bold">
+                                <h1>
+                                    <i class="bi bi-heart"></i>
+                                </h1>
+                                <span class="ml-3">Adicionar a lista de desejo</span>
+                            </a>
+                        @endif
+                    </div>
+                @endif
             </div>
-            <div class="form-group col-md-12">
-                <label for="description" class="font-form"><strong>Descrição:</strong></label>
-                <textarea name="description" id="description" cols="12" rows="4" readonly class="form-control-plaintext">{{$product->description}}</textarea>
-            </div>
-            @if ($product->quantity > 0)
-                <div class="form-group col-md-12">
-                    <label for="quantity" class="font-form"><strong>Quantidade:</strong></label>
-                    <input type="number" name="quantity" id="quantity" class="form-control" min=1 max="{{$product->quantity}}" value=1 data-toggle="tooltip" data-placement="top" title="{{"Quantidade máxima: ". $product->quantity}}">
+
+            {{-- DADOS DO PRODUTO --}}
+            <form class="col-6" action="{{route('selling-product-info-client', $product)}}" id="info">
+                <div class="form-group row">
+                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                    <input name="name" class="col-12 rounded-pill mt-3 mb-3 text-white bg-info text-center w-border position-static" id="withoutLabel" value="{{$product->name}}" aria-label="name">
                 </div>
-            @else
-                <div class="form-group col-md-12">
-                    <label for="quantity" class="font-form"><strong>Quantidade:</strong></label>
-                    <input type="text" name="quantity" disabled class="font-weight-bold text-danger" id="quantity" name="quantity" value="ESGOTADO">
+                <div class="form-group col-12">
+                    <label for="description" class="font-form"><strong>Descrição:</strong></label>
+                    <textarea name="description" id="description" cols="12" rows="4" readonly class="form-control-plaintext">{{$product->description}}</textarea>
                 </div>
-            @endif
-                <div class="form-group col-md-12">
+                {{-- QUANTIDADE --}}
+                @if ($product->quantity > 0)
+                    <div class="form-group col-12">
+                        <label for="quantity" class="font-form"><strong>Quantidade:</strong></label>
+                        <input type="number" name="quantity" id="quantity" class="form-control" min=1 max="{{$product->quantity}}" data-toggle="tooltip" data-placement="top" title="{{"Quantidade máxima: ". $product->quantity}}" value= 1>
+                    </div>
+                @else
+                    <div class="form-group col-12">
+                        <label for="quantity" class="font-form"><strong>Quantidade:</strong></label>
+                        <input type="text" name="quantity" class="font-weight-bold text-danger" id="quantity" name="quantity" value="ESGOTADO" disabled>
+                    </div>
+                @endif
+                {{-- CATEGORIAS --}}
+                <div class="form-group col-12">
                     <label for="category" class="font-form"><strong>Categoria:</strong></label>
                     @if ($product->categories->isEmpty())
-                        <input type="text" name="category" readonly class="form-control-plaintext" id="category" value="Sem categoria atribuída.">
+                        <input type="text" name="category" class="form-control-plaintext" id="category" value="Sem categoria atribuída." readonly>
                     @else
                         @foreach ($product->categories as $category)
-                            <input type="text" name="category" readonly class="form-control-plaintext" id="category" value="{{$category->name}}">
+                            <input type="text" name="category" class="form-control-plaintext" id="category" value="{{$category->name}}" readonly>
                         @endforeach
                     @endif
                 </div>
-                <div class="form-group col-md-12">
+                {{-- PREÇO --}}
+                <div class="form-group col-12">
                     <label for="price" class="font-form"><strong>Valor do produto:</strong></label>
-                    <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->price, 2, ",", ".")}}">
+                    <input type="text" class="form-control-plaintext" name="price" id="price" value="R$ {{number_format($product->price, 2, ",", ".")}}" readonly>
                     <input type="hidden" name="price" id="price" value="{{$product->price}}">
                 </div>
-            @if ($product->hasDiscount != 0)
-                <div class="form-group col-md-12">
-                    <label for="hasDiscount" class="font-form"><strong>Desconto:</strong></label>
-                    <input type="text" readonly class="form-control-plaintext" value="R$ {{number_format($product->hasDiscount, 2, ",", ".")}}">
-                    <input type="hidden" name="hasDiscount" id="hasDiscount" value="{{$product->hasDiscount}}">
-                </div>
-            @endif
-            <div class="form-group col-md-12">
-                <label for="total" class="font-form"><strong>Total:</strong></label>
-                <input type="text" name="total" readonly class="form-control-plaintext" id="total" value="R$ {{number_format($product->total, 2, ",", ".")}}">
-            </div>
-            @if (Auth::user())
-                @if ($product->quantity <= 0)
-                    <button type="submit" class="btn btn-success mt-3" disabled data-toggle="tooltip" data-placement="top" title="Produto indisponível">Comprar</button>
+                {{-- DESCONTO --}}
+                @if ($product->hasDiscount && $product->isDiscountActive())
+                    <div class="form-group col-12">
+                        <label for="discount_type" class="font-form"><strong>Desconto:</strong></label>
+                        <div class="d-flex justify-content-start">
+                            <input type="text" class="form-control-plaintext w-25" id="discount_type" name="discount_type" value="{{$product->discount_data->type}}" readonly>
+                            <input type="text" class="form-control-plaintext w-25" id="discount_value" name="discount_value" value="{{$product->discount_data->discount_value}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="total" class="font-form"><strong>Total:</strong></label>
+                        <input type="text" class="form-control-plaintext" id="total" name="total" value="R$ {{number_format($product->total_with_discount, 2, ",", ".")}}" readonly>
+                    </div>
                 @else
-                    <button type="submit" class="btn btn-success mt-3" name="action" value="comprar">Comprar</button>
-                    <button type="submit" class="btn btn-primary mt-3" name="action" value="carrinho">Carrinho</button>
+                    <div class="form-group col-12">
+                        <label for="total" class="font-form"><strong>Total:</strong></label>
+                        <input type="text" class="form-control-plaintext" id="total" name="total" value="R$ {{number_format($product->total, 2, ",", ".")}}" readonly>
+                    </div>
+
                 @endif
-            @else
-                <p class="mt-3"><strong class="text-danger">Você deve estar logado para realizar a compra!</strong></p>
-            @endif
-        </form>
-    </div>
-    <div class="text-right">
-        <a href="{{route('index-buyer')}}" class="mt-5 mb-5 btn btn-info">Voltar</a>
+                {{-- BOTÕES DE COMPRA --}}
+                @if (Auth::user())
+                    @if ($product->quantity <= 0)
+                        <button type="submit" class="btn btn-success mt-3" disabled data-toggle="tooltip" data-placement="top" title="Produto indisponível">Comprar</button>
+                    @else
+                        <button type="submit" class="btn btn-success mt-3" name="action" value="comprar">Comprar</button>
+                        <button type="submit" class="btn btn-primary mt-3" name="action" value="carrinho">Carrinho</button>
+                    @endif
+                @else
+                    <p class="mt-3"><strong class="text-danger">Você deve estar logado para realizar a compra!</strong></p>
+                @endif
+            </form>
+        </div>
+        <div class="col-12 my-5 text-right">
+            <a href="{{route('index-buyer')}}" class="btn btn-info">Voltar</a>
+        </div>
     </div>
 @endsection
 
@@ -97,18 +115,36 @@
     document.addEventListener('DOMContentLoaded', function () {
         let qtdElement = document.getElementById('quantity');
         let priceElement = document.getElementById('price');
-        let discountElement = document.getElementById('discount');
         let totalElement = document.getElementById('total');
+        let discountValueElement = document.getElementById('discount_value');
+        let discountTypeElement = document.getElementById('discount_type');
 
-        function updateTotal(){
-            let qtd = parseInt(qtdElement.value);
-            let price = parseFloat(priceElement.value.replace("R$ ", ""));
-            let discount = discountElement ? parseFloat(discountElement.value.replace("R$ ", "")) : 0;
-            let total = parseFloat(totalElement.value.replace("R$ ", ""));
-            let newValue = (price - discount) * qtd;
-            totalElement.value = newValue.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+        function calculateTotal(){
+            let quantity = parseInt(qtdElement.value) || 1;
+            let price = parseFloat(priceElement.value.replace("R$ ", "").replace('.', '').replace(',', '.').trim());
+            let total = parseFloat(totalElement.value.replace("R$ ", "").replace('.', '').replace(',', '.').trim());
+
+            if (discountTypeElement && discountValueElement) {
+                const discountType = discountTypeElement.value;
+                const discountValue = parseFloat(discountValueElement.value);
+
+                if (discountType == '%') {
+                    total = price - (price * (discountValue / 100));
+                } else if (discountType == 'R$') {
+                    total = price - discountValue;
+                }
+            }
+
+            total = total * quantity;
+
+            totalElement.value = total.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
         }
 
-        qtdElement.addEventListener('input', updateTotal);
+        calculateTotal();
+
+        qtdElement.addEventListener('input', calculateTotal);
     })
 </script>

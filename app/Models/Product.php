@@ -75,12 +75,20 @@ class Product extends Model
         return $this->belongsToMany(Discount::class, 'discounts_products');
     }
 
+    public function getDiscountDataAttribute(){
+        return $this->discounts->first();
+    }
+
     public function getOriginalTotalAttribute() {
        return $this->price * $this->quantity;
     }
 
+    public function getTotalAttribute() {
+       return $this->price;
+    }
+
     public function getTotalWithDiscountAttribute(){
-        $originalTotal = $this->original_total;
+        $originalTotal = $this->total;
         if(!$this->hasDiscount) return $originalTotal;
         $discount = $this->discounts->first();
 
