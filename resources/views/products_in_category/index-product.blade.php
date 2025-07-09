@@ -80,6 +80,7 @@
                         <div class="d-flex justify-content-start">
                             <input type="text" class="form-control-plaintext w-25" id="discount_type" name="discount_type" value="{{$product->discount_data->type}}" readonly>
                             <input type="text" class="form-control-plaintext w-25" id="discount_value" name="discount_value" value="{{$product->discount_data->discount_value}}" readonly>
+                            <input type="text" name="hasDiscount" value="{{$product->hasDiscount}}" hidden>
                         </div>
                     </div>
                     <div class="form-group col-12">
@@ -88,6 +89,7 @@
                     </div>
                 @else
                     <div class="form-group col-12">
+                        <input type="text" name="hasDiscount" value="0" hidden>
                         <label for="total" class="font-form"><strong>Total:</strong></label>
                         <input type="text" class="form-control-plaintext" id="total" name="total" value="R$ {{number_format($product->total, 2, ",", ".")}}" readonly>
                     </div>

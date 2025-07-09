@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <form action="{{route('user-data-to-send-product')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('user-data-to-send-product')}}" method="POST" enctype="multipart/form-data" class="form-h-size">
         @csrf
         <div class="form-group">
             <label for="fullname">Nome Completo:</label>
@@ -77,6 +77,8 @@
                 @include('selling_product.page', ['product' => $product, 'index' => 0])
             @endif
         </div>
-        <button type="submit" class="mt-4 btn btn-success">Enviar</button>
+        <div class="h-25">
+            <button type="submit" class="mt-4 btn btn-success">Enviar</button>
+        </div>
     </form>
 @endsection

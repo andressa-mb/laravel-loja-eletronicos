@@ -30,7 +30,7 @@ class CategoryController extends Controller
 
             Category::create($category);
 
-            return redirect()->route('index-adm')->with('message', 'Categoria criada com sucesso.');
+            return redirect()->route('category-show')->with('message', 'Categoria criada com sucesso.');
 
         }catch(Throwable $e){
             return back()->withErrors("Erro ao criar a categoria. " . $e->getMessage());

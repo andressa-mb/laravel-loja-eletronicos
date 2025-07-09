@@ -10,7 +10,7 @@ class OrderProductItem extends Model
 {
     protected $table = 'order_product_items';
     protected $fillable = [
-        'order_id', 'product_id', 'order_quantity', 'order_price', 'order_discount', 'order_total'
+        'order_id', 'product_id', 'order_quantity', 'order_price', 'order_discount_type', 'order_discount_value', 'order_total'
     ];
 
     public function order(): BelongsTo{

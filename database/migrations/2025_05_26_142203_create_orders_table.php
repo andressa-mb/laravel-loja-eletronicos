@@ -43,7 +43,8 @@ class CreateOrdersTable extends Migration
             ->onDelete('restrict');
             $table->integer('order_quantity');
             $table->decimal('order_price', 8, 2);
-            $table->decimal('order_discount', 8, 2)->nullable();
+            $table->string('order_discount_type', 2)->nullable();
+            $table->decimal('order_discount_value', 8, 2)->nullable();
             $table->decimal('order_total', 8, 2);
             $table->timestamps();
         });

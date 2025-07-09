@@ -19,18 +19,24 @@ class SellService {
             'user_id' => auth()->id(),
             'user_data_id' => $userDataId->id
         ]);
+
         $qtdConvertion = str_replace("Quantidade: ", "", $prod['quantity']);
         $newQtd = $product->quantity <= $qtdConvertion ? 0 : $product->quantity - $qtdConvertion;
         $product->update([
             'quantity' => $newQtd
         ]);
+
+        $totalNumerico = str_replace(['.', ','], ['', '.'], $prod['total']);
+        $totalNumerico = (float)preg_replace('/[^0-9.]/', '', $totalNumerico);
+
         OrderProductItem::create([
             'order_id' => $newOrder->id,
             'product_id' => $prod['id'],
             'order_quantity' => $qtdConvertion,
             'order_price' => floatval(str_replace(['Preço: ', '.', ','], ['', '', '.'], $prod['price'])),
-            'order_discount' => floatval(str_replace(['Desconto: ', '.', ','], ['', '', '.'], $prod['discount'])),
-            'order_total' => floatval(str_replace(['Total: ', '.', ','], ['', '', '.'], $prod['total']))
+            'order_discount_type' => $product->discount_data->type ? $product->discount_data->type : null,
+            'order_discount_value' => $product->discount_data->discount_value ? $product->discount_data->discount_value : null,
+            'order_total' => $totalNumerico
         ]);
 
         return $newOrder;

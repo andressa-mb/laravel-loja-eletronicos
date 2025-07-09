@@ -31,21 +31,30 @@ class ProductAndCategoriesController extends Controller
             $cart_list = session()->get('cart_list', []);
             $idModel = Product::find($request->product_id);
 
-            $totalDiscount = (int)$request->quantity * (double)$request->discount;
-            $totalPrice = (int)$request->quantity * (double)$request->price;
-            $totalResult = $totalPrice - $totalDiscount;
+            $total = (double)$request->price;
 
-            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $request->price, 'discount' => $request->discount, 'total' => $totalResult, 'stock' => $idModel->quantity]);
+            if($request->hasDiscount){
+                if($request->discount_type == "%"){
+                    $total = $total - ($total * ((double)$request->discount_value /100));
+                } else if($request->discount_type == "R$"){
+                    $total = $total - (double)$request->discount_value;
+                }
+            }
+
+            $total = (int)$request->quantity * $total;
+
+
+            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $total, 'hasDiscount' => $request->hasDiscount, 'total' => $total, 'stock' => $idModel->quantity]);
             session(['cart_list' => $cart_list]);
             return redirect()->action([static::class, 'cart_list']);
         }
+
         $product = Product::find($request->product_id);
-        $product->quantity = $request->quantity;
-        $product->price = $request->price;
-        $product->discount = $request->discount;
-        $totalDiscount = (int)$request->quantity * (double)$request->discount;
-        $totalPrice = (int)$request->quantity * (double)$request->price;
-        $product->total = $totalPrice - $totalDiscount;
+        $product->quantity = (int)$request->quantity;
+        $product->price = (double)$request->price;
+        $product->hasDiscount = $request->hasDiscount;
+        $totalPrice = $product->quantity * $product->price;
+        $product->total = $totalPrice;
         $this->data['product'] = $product;
         return view('selling_product.form-client', $this->data);
     }

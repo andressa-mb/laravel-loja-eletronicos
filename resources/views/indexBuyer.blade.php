@@ -95,7 +95,20 @@
                                 <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
                             @endif
                             <p class="card-text">Quantidade: {{$product->quantity}}</p>
-                            <p class="card-text">R$ {{number_format($product->price, 2, ",", ".")}}</p>
+                            @if($product->hasDiscount && $product->isDiscountActive())
+                                <p class="card-text text-success font-weight-bolder">
+                                    OFF {{$product->discount_data->type}} {{$product->discount_data->discount_value}}
+                                </p>
+                                <p class="card-text text-decoration-line-through">
+                                    <del>R$ {{number_format($product->price, 2, ",", ".")}}</del>
+                                    <i class="bi bi-arrow-right font-weight-bolder"></i>
+                                    <span class="text-success font-weight-bolder">R$ {{number_format($product->total_with_discount, 2, ",", ".")}}</span>
+                                </p>
+                            @else
+                                <p class="card-text">
+                                    R$ {{number_format($product->price, 2, ",", ".")}}
+                                </p>
+                            @endif
                             <a href="{{route('view-product', $product)}}">
                                 <i class="bi bi-eye-fill">Ver produto</i>
                             </a>
