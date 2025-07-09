@@ -71,6 +71,7 @@
                     <label for="price" class="font-form"><strong>Valor do produto:</strong></label>
                     <input type="text" class="form-control-plaintext" name="price" id="price" value="R$ {{number_format($product->price, 2, ",", ".")}}" readonly>
                     <input type="hidden" name="price" id="price" value="{{$product->price}}">
+
                 </div>
                 {{-- DESCONTO --}}
                 @if ($product->hasDiscount && $product->isDiscountActive())
@@ -114,15 +115,15 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let qtdElement = document.getElementById('quantity');
-        let priceElement = document.getElementById('price');
+        let priceElement = document.querySelector('input[type="hidden"][name="price"]');
         let totalElement = document.getElementById('total');
         let discountValueElement = document.getElementById('discount_value');
         let discountTypeElement = document.getElementById('discount_type');
 
         function calculateTotal(){
             let quantity = parseInt(qtdElement.value) || 1;
-            let price = parseFloat(priceElement.value.replace("R$ ", "").replace('.', '').replace(',', '.').trim());
-            let total = parseFloat(totalElement.value.replace("R$ ", "").replace('.', '').replace(',', '.').trim());
+            let price = parseFloat(priceElement.value);
+            let total = price;
 
             if (discountTypeElement && discountValueElement) {
                 const discountType = discountTypeElement.value;

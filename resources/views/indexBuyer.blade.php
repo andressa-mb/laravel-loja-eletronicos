@@ -103,7 +103,7 @@
                     </div>
                 </div>
             @endforeach
-            <div class="col-12">
+            <div class="col-12 h-25">
                 {{$products->links()}}
             </div>
         </div>
