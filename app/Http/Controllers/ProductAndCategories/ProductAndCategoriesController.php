@@ -30,7 +30,6 @@ class ProductAndCategoriesController extends Controller
        if($request->action == 'carrinho'){
             $cart_list = session()->get('cart_list', []);
             $idModel = Product::find($request->product_id);
-
             $total = (double)$request->price;
 
             if($request->hasDiscount){
@@ -44,7 +43,7 @@ class ProductAndCategoriesController extends Controller
             $total = (int)$request->quantity * $total;
 
 
-            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $total, 'hasDiscount' => $request->hasDiscount, 'total' => $total, 'stock' => $idModel->quantity]);
+            array_push($cart_list, ['product_id' => $request->product_id, 'name' => $request->name, 'quantity' => $request->quantity, 'price' => $request->price, 'hasDiscount' => $request->hasDiscount, 'total' => $total, 'stock' => $idModel->quantity]);
             session(['cart_list' => $cart_list]);
             return redirect()->action([static::class, 'cart_list']);
         }
@@ -65,7 +64,9 @@ class ProductAndCategoriesController extends Controller
     }
 
     public function selling_itens_cart_list(Request $request){
-        $productIdsInCart = $request->input('productsCarts');
+        $productIdsInCart = $request->input('productsCarts', []);
+        if(is_null($productIdsInCart)) return back()->with('message', 'Para finalizar compra é preciso selecionar um item.');
+
         $quantities = $request->input('quantities', []);
         app()->make(CartProductsService::class)->updateCart($quantities);
         $result = app()->make(CartProductsService::class)->addProducts($productIdsInCart);
@@ -79,20 +80,19 @@ class ProductAndCategoriesController extends Controller
 
     public function send_userdata(UserDataStoreRequest $reqStore){
         try{
-            $products = $reqStore->input('product');
+            $products = $reqStore->input('product', []);
             $user_data = $reqStore->validated();
 
-            if(is_array($products)){
-                foreach($products as $prod){
-                    $findProduct = Product::find($prod['id']);
-                    if($findProduct){
-                        $user_data = UserDataToSend::create($user_data);
-                        $created_new_order = SellService::new()->newOrder($user_data, $findProduct, $prod);
-                    } else {
-                        return back()->withErrors("Erro ao encontrar o produto.");
-                    }
+            $user_data = UserDataToSend::create($user_data);
+            foreach($products as $prod){
+                $findProduct = Product::find($prod['id']);
+                if($findProduct){
+                    $created_new_order = SellService::new()->newOrder($user_data, $findProduct, $prod);
+                } else {
+                    return back()->withErrors("Erro ao encontrar o produto.");
                 }
             }
+
             $user = User::find(auth()->user()->id);
             broadcast(new NewOrderReceived(
                 $created_new_order,

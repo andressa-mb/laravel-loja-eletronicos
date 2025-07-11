@@ -112,42 +112,44 @@
             <a href="{{route('index-buyer')}}" class="btn btn-info">Voltar</a>
         </div>
     </div>
-@endsection
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let qtdElement = document.getElementById('quantity');
-        let priceElement = document.querySelector('input[type="hidden"][name="price"]');
-        let totalElement = document.getElementById('total');
-        let discountValueElement = document.getElementById('discount_value');
-        let discountTypeElement = document.getElementById('discount_type');
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let qtdElement = document.getElementById('quantity');
+                let priceElement = document.querySelector('input[type="hidden"][name="price"]');
+                let totalElement = document.getElementById('total');
+                let discountValueElement = document.getElementById('discount_value');
+                let discountTypeElement = document.getElementById('discount_type');
 
-        function calculateTotal(){
-            let quantity = parseInt(qtdElement.value) || 1;
-            let price = parseFloat(priceElement.value);
-            let total = price;
+                function calculateTotal(){
+                    let quantity = parseInt(qtdElement.value) || 1;
+                    let price = parseFloat(priceElement.value);
+                    let total = price;
 
-            if (discountTypeElement && discountValueElement) {
-                const discountType = discountTypeElement.value;
-                const discountValue = parseFloat(discountValueElement.value);
+                    if (discountTypeElement && discountValueElement) {
+                        const discountType = discountTypeElement.value;
+                        const discountValue = parseFloat(discountValueElement.value);
 
-                if (discountType == '%') {
-                    total = price - (price * (discountValue / 100));
-                } else if (discountType == 'R$') {
-                    total = price - discountValue;
+                        if (discountType == '%') {
+                            total = price - (price * (discountValue / 100));
+                        } else if (discountType == 'R$') {
+                            total = price - discountValue;
+                        }
+                    }
+
+                    total = total * quantity;
+
+                    totalElement.value = total.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL"
+                    });
                 }
-            }
 
-            total = total * quantity;
+                calculateTotal();
 
-            totalElement.value = total.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            });
-        }
-
-        calculateTotal();
-
-        qtdElement.addEventListener('input', calculateTotal);
-    })
-</script>
+                qtdElement.addEventListener('input', calculateTotal);
+            })
+        </script>
+    @endsection
+@endsection

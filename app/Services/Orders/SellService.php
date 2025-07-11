@@ -14,28 +14,41 @@ class SellService {
     }
 
     public function newOrder(UserDataToSend $userDataId, Product $product, array $prod): Order{
+        $qtdConvertion = is_array($prod['quantity'])
+            ? str_replace("Quantidade: ", "", $prod['quantity'][0] ?? '1')
+            : str_replace("Quantidade: ", "", $prod['quantity']);
+
+        $price = is_array($prod['price'])
+            ? floatval(str_replace(['Preço: ', '.', ','], ['', '', '.'], $prod['price'][0] ?? '0'))
+            : floatval(str_replace(['Preço: ', '.', ','], ['', '', '.'], $prod['price']));
+
+        $totalNumerico = str_replace(['.', ','], ['', '.'], $prod['total']);
+        $totalNumerico = (float)preg_replace('/[^0-9.]/', '', $totalNumerico);
+
+        $discountType = null;
+        $discountValue = null;
+
+        if ($product->hasDiscount) {
+            $discountType = $product->discount_data->type;
+            $discountValue = $product->discount_data->discount_value;
+        }
+
         $newOrder = Order::create([
             'status' => Order::pendente,
             'user_id' => auth()->id(),
             'user_data_id' => $userDataId->id
         ]);
 
-        $qtdConvertion = str_replace("Quantidade: ", "", $prod['quantity']);
         $newQtd = $product->quantity <= $qtdConvertion ? 0 : $product->quantity - $qtdConvertion;
-        $product->update([
-            'quantity' => $newQtd
-        ]);
-
-        $totalNumerico = str_replace(['.', ','], ['', '.'], $prod['total']);
-        $totalNumerico = (float)preg_replace('/[^0-9.]/', '', $totalNumerico);
+        $product->update(['quantity' => $newQtd]);
 
         OrderProductItem::create([
             'order_id' => $newOrder->id,
-            'product_id' => $prod['id'],
-            'order_quantity' => $qtdConvertion,
-            'order_price' => floatval(str_replace(['Preço: ', '.', ','], ['', '', '.'], $prod['price'])),
-            'order_discount_type' => $product->discount_data->type ? $product->discount_data->type : null,
-            'order_discount_value' => $product->discount_data->discount_value ? $product->discount_data->discount_value : null,
+            'product_id' => is_array($prod['id']) ? $prod['id'][0] : $prod['id'],
+            'order_quantity' => (int)$qtdConvertion,
+            'order_price' => $price,
+            'order_discount_type' => $discountType,
+            'order_discount_value' => $discountValue,
             'order_total' => $totalNumerico
         ]);
 
