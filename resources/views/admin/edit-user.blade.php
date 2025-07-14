@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label class="font-form">Alterar permissões:</label>
                 <div class="d-flex flex-column">
-                    @foreach (App\Models\Roles::get() as $role)
+                    @foreach (App\Models\Role::get() as $role)
                         <div class="form-check my-1">
                             <input class="form-check-input" type="radio" name="role" value="{{$role->id}}" id="role-{{$role->id}}"
                             {{$user->roles->contains($role->id) ? 'checked': ''}}
@@ -32,7 +32,7 @@
 
             <div>
                 <button type="submit" class="btn btn-success">Salvar</button>
-                <a type="button" class="btn btn-primary" href="{{route('index-adm')}}">Voltar</a>
+                <a type="button" class="btn btn-primary" href="{{route('users-list')}}">Voltar</a>
             </div>
         </form>
     </div>
