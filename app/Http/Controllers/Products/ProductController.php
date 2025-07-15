@@ -33,6 +33,7 @@ class ProductController extends Controller
             if($reqStore->hasFile('image')){
                 $createProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
             }
+
             $createdProduct = $product->create($createProduct);
             /* ASSOCIAR AO DESCONTO */
             if($reqStore->hasDiscount == 1){
@@ -68,18 +69,17 @@ class ProductController extends Controller
                 $formProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
             }
 
-            $product->update($formProduct);
-
             /* ASSOCIAR AO DESCONTO */
             if($request->hasDiscount == 1 && $request->filled('discount_values')){
-                $discount = Discount::find($request->discount_values);
-                var_dump($discount);
-                if($discount){
-                    $product->discounts()->sync([$discount->id]);
+                $valueDiscount = Discount::find($request->discount_values);
+                if($valueDiscount){
+                    $product->discounts()->sync([$valueDiscount->id]);
                 }
             }else {
                 $product->discounts()->detach();
             }
+
+            $product->update($formProduct);
 
             return redirect()->route('category-associate-to-product', ['product' => $product->slug])->with('message', 'Produto atualizado com sucesso.');
         }catch(Throwable $e){
