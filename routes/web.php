@@ -27,6 +27,10 @@ Route::get('/wish-list', 'HomeController@wish')->name('my-wish');
 Route::get('/add-product-to-list/{product}', 'HomeController@addToWish')->name('add-wish');
 Route::get('/remove-wish/{wish}', 'HomeController@removeWish')->name('remove-wish');
 
+Route::get('/notifications', 'Notifications\WishProductNotificationsController@index')->name('notifications.index');
+Route::post('/notifications/mark-as-read', 'Notifications\WishProductNotificationsController@markAsRead')->name('notifications.markAsRead');
+Route::post('/notification/mark-one-as-readed/{notify}', 'Notifications\WishProductNotificationsController@markOneReaded')->name('notification.markOneReaded');
+
 //PÁGINA DO ADM
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
 Route::get('/orders', 'HomeController@orders')->name('orders');
