@@ -27,8 +27,7 @@ class WishProductNotificationsController extends Controller
         $notification = Auth::user()->notifications->where('id', $notify_id)->first();
         if($notification){
             $notification->markAsRead();
-            return response()->json(['success' => true]);
         }
-        return response()->json(['success' => false], 404);
+        return response()->json(['success' => true]);
     }
 }

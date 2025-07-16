@@ -154,84 +154,90 @@
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 
-    <script>
-        $(document).ready(function() {
-            function getNotifications(){
-                $.get('{{route('notifications.index')}}', function(data){
-                    let counter = JSON.stringify(data.count);
-                    $('#notification-count').text(counter);
-                    $('#notification-list ul').empty();
+    @if (Auth::check())
+        <script>
+            $(document).ready(function() {
+                function getNotifications(){
+                    $.get('{{route('notifications.index')}}', function(data){
+                        let counter = JSON.stringify(data.count);
+                        $('#notification-count').text(counter);
+                        $('#notification-list ul').empty();
 
-                    if(counter > 0){
-                        $('#notification-list ul').append(
-                            `<li class="dropdown-divider"></li>
-                            <li class="dropdown-item">
-                                <a href="#" id="mark-all-readed">Marcar todas como lidas</a>
-                            </li>`
-                        );
+                        if(counter > 0){
+                            $('#notification-list ul').append(
+                                `<li class="dropdown-divider"></li>
+                                <li class="dropdown-item">
+                                    <a href="#" id="mark-all-readed">Marcar todas como lidas</a>
+                                </li>`
+                            );
 
-                        $(data.notifications).each(function (index, element) {
-                            let notificationText = element.data.message;
-                            let rawDate = new Date(element.updated_at);
-                            let notify_id = element.id;
+                            $(data.notifications).each(function (index, element) {
+                                let notificationText = element.data.message;
+                                let rawDate = new Date(element.updated_at);
+                                let notify_id = element.id;
 
-                            let day = String(rawDate.getDate()).padStart(2, '0');
-                            let month = String(rawDate.getMonth() + 1).padStart(2, '0');
-                            let year = rawDate.getFullYear();
-                            let formattedDate = `${day}/${month}/${year}`;
+                                let day = String(rawDate.getDate()).padStart(2, '0');
+                                let month = String(rawDate.getMonth() + 1).padStart(2, '0');
+                                let year = rawDate.getFullYear();
+                                let formattedDate = `${day}/${month}/${year}`;
 
-                            let $notificationItem = $(
-                                `<li class="dropdown-item" id="${element.id}">
-                                    <a href="${element.data.url}">${notificationText} em ${formattedDate}</a>
-                                </li>`);
+                                let $notificationItem = $(
+                                    `<li class="dropdown-item" id="${element.id}">
+                                        <a href="${element.data.url}">${notificationText} em ${formattedDate}</a>
+                                    </li>`);
 
-                            $notificationItem.on('click',function(e){
-                                e.preventDefault();
-                                const url = $(this).find('a').attr('href');
-                                return setOneReaded(notify_id, url);
-                            });
-
-                            $('#notification-list ul').append($notificationItem);
-
-                            $('#mark-all-readed').on('click', function(e){
-                                e.preventDefault();
-                                $.post('{{route('notifications.markAsRead')}}', {
-                                    _token: '{{ csrf_token() }}'
-                                }).done(function(response) {
-                                    getNotifications();
+                                $notificationItem.on('click',function(e){
+                                    e.preventDefault();
+                                    const url = $(this).find('a').attr('href');
+                                    return setOneReaded(notify_id, url);
                                 });
-                            })
-                        });
-                    } else {
-                        $('#notification-list ul').append(
-                            `<li class="dropdown-item" id="no-notify">Sem notificações</a>
-                            </li>`
-                        );
-                    }
-                });
-            }
 
-            getNotifications();
+                                $('#notification-list ul').append($notificationItem);
 
-            function setOneReaded(notify_id, url){
-                $.post('{{route('notification.markOneReaded', "")}}/' + notify_id, {
-                    _token: '{{ csrf_token() }}'
-                }).done(function(response) {
-                    window.location.href = url
-                    getNotifications();
-                });
-            }
+                                $('#mark-all-readed').on('click', function(e){
+                                    e.preventDefault();
+                                    $.post('{{route('notifications.markAsRead')}}', {
+                                        _token: '{{ csrf_token() }}'
+                                    }).done(function(response) {
+                                        getNotifications();
+                                    }).fail(function() {
+                                        console.error('Erro ao marcar como lida');
+                                    });
+                                })
+                            });
+                        } else {
+                            $('#notification-list ul').append(
+                                `<li class="dropdown-item" id="no-notify">Sem notificações</a>
+                                </li>`
+                            );
+                        }
+                    });
+                }
 
-            setInterval(function() {
-                $.get('{{ route("notifications.index") }}', function(data) {
-                    if(data.count > parseInt($('#notification-count').text())) {
-                        getNotifications();
-                    }
-                });
-            }, 30000);
+                getNotifications();
 
-        });
-    </script>
+                function setOneReaded(notify_id, url){
+                    $.post('{{route('notification.markOneReaded', "")}}/' + notify_id, {
+                        _token: '{{ csrf_token() }}'
+                    }).done(function(response) {
+                        window.location.href = url;
+                    }).fail(function(){
+                        console.error('Erro ao marcar como lida.');
+                        window.location.href = url;
+                    });
+                }
+
+                setInterval(function() {
+                    $.get('{{ route("notifications.index") }}', function(data) {
+                        if(data.count > parseInt($('#notification-count').text())) {
+                            getNotifications();
+                        }
+                    });
+                }, 30000);
+
+            });
+        </script>
+    @endif
 
 </body>
 </html>
