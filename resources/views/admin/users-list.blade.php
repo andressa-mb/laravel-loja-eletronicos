@@ -1,18 +1,18 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Lista de usuários cadastrados no sistema</h1>
+        <h1 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_usuarios_sistema')}}</h1>
     </div>
     <div class="row">
         <table class="table table-hover col-12">
             <thead class="thead-dark">
                 <tr class="text-center">
                     <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Tipo de usuário</th>
-                    <th scope="col">Inscrito desde</th>
-                    <th>Ações</th>
+                    <th scope="col">{{__('messages.nome')}}</th>
+                    <th scope="col">{{__('messages.email')}}</th>
+                    <th scope="col">{{__('messages.tipo_usuario')}}</th>
+                    <th scope="col">{{__('messages.inscrito_desde')}}</th>
+                    <th>{{__('messages.acoes')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,9 +22,9 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     @if ($user->isAdmin())
-                        <td>Administrador</td>
+                        <td>{{__('messages.administrador')}}</td>
                     @else
-                        <td>Comprador</td>
+                        <td>{{__('messages.comprador')}}</td>
                     @endif
                     <td>{{$user->created_at->format('d/m/y')}}</td>
                     <td class="row">
@@ -52,7 +52,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myDeleteLabel">Confirmar exclusão de usuário:</h5>
+                    <h5 class="modal-title" id="myDeleteLabel">{{__('messages.confirmar_exclusao')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -61,12 +61,12 @@
                     @csrf
                     @method('DELETE')
                     <div class="modal-body">
-                        <p>Confirmar exclusão do usuário: <strong id="userName"></strong></p>
-                        <p class="text-danger">Esta ação não pode ser desfeita!</p>
+                        <p>{{__('messages.confirmar_exclusao')}}: <strong id="userName"></strong></p>
+                        <p class="text-danger">{{__('messages.msg_acao_desfeita')}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Confirmar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">{{__('messages.btn_confirmar')}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('messages.btn_cancelar')}}</button>
                     </div>
                 </form>
             </div>

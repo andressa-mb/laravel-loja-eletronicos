@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12 my-2">
             <a href="{{route('category-create')}}" class="btn btn-success rounded">
-                Nova Categoria
+                {{__('messages.nova_categoria')}}
             </a>
         </div>
         <div class="col-12 form-h-size">
@@ -13,10 +13,10 @@
             <table class="table border border-black">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col" class="text-center">Editar</th>
-                        <th scope="col" class="text-center">Excluir</th>
+                        <th scope="col">{{__('messages.id')}}</th>
+                        <th scope="col">{{__('messages.categoria')}}</th>
+                        <th scope="col" class="text-center">{{__('messages.editar')}}</th>
+                        <th scope="col" class="text-center">{{__('messages.excluir')}}</th>
                     </tr>
                 </thead>
                 <tbody class="table table-striped">
@@ -48,7 +48,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myDeleteLabel">Confirmar exclusão de categoria:</h5>
+                    <h5 class="modal-title" id="myDeleteLabel">{{__('messages.confirmar_exclusao_cat')}}:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -57,12 +57,12 @@
                     @csrf
                     @method('DELETE')
                     <div class="modal-body">
-                        <p>Confirmar exclusão de categoria: <strong id="categoryName"></strong></p>
-                        <p class="text-danger">Esta ação não pode ser desfeita!</p>
+                        <p>{{__('messages.confirmar_exclusao_cat')}}: <strong id="categoryName"></strong></p>
+                        <p class="text-danger">{{__('messages.msg_acao_desfeita')}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Confirmar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">{{__('messages.btn_confirmar')}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('messages.btn_cancelar')}}</button>
                     </div>
                 </form>
             </div>

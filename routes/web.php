@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Products\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@indexBuyer')->name('index-buyer');
 Route::get('/profile/{user}', 'HomeController@indexProfile')->name('my-profile');
 Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
+Route::get('/language/{lang}', 'LangController@setLang')->name('language');
 
 //PÁGINA DA LISTA DE DESEJOS
 Route::get('/wish-list', 'HomeController@wish')->name('my-wish');

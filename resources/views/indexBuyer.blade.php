@@ -71,10 +71,10 @@
                 <label for="sort" class="mr-2">Ordenar por:</label>
                 <select class="w-25 custom-select custom-select-sm" id="sort" name="sort" onchange="this.form.submit()" required>
                     <option value="" selected></option>
-                    <option value="popular">Popular</option>
-                    <option value="lowest_price">Menor preço</option>
-                    <option value="highest_price">Maior preço</option>
-                    <option value="recent">Mais recente</option>
+                    <option value="popular">{{__('messages.popular')}}</option>
+                    <option value="lowest_price">{{__('messages.menor_preco')}}</option>
+                    <option value="highest_price">{{__('messages.maior_preco')}}</option>
+                    <option value="recent">{{__('messages.mais_recente')}}</option>
                 </select>
             </div>
         </form>
@@ -92,12 +92,12 @@
                             <h4 class="card-title">{{$product->name}}</h4>
                             <p class="card-text">{{Str::limit($product->description, 60)}}</p>
                             @if (Str::length($product->description) >= 60)
-                                <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">Continuar lendo...</a></p>
+                                <p class="text-right font-italic"><a href="{{route('view-product', $product)}}">{{__('messages.continuar_lendo')}}</a></p>
                             @endif
-                            <p class="card-text">Quantidade: {{$product->quantity}}</p>
+                            <p class="card-text">{{__('messages.quantidade')}}: {{$product->quantity}}</p>
                             @if($product->hasDiscount && $product->isDiscountActive())
                                 <p class="card-text text-success font-weight-bolder">
-                                    OFF {{$product->discount_data->type}} {{$product->discount_data->discount_value}}
+                                    {{__('messages.off')}} {{$product->discount_data->type}} {{$product->discount_data->discount_value}}
                                 </p>
                                 <p class="card-text text-decoration-line-through">
                                     <del>R$ {{number_format($product->price, 2, ",", ".")}}</del>
@@ -110,7 +110,9 @@
                                 </p>
                             @endif
                             <a href="{{route('view-product', $product)}}">
-                                <i class="bi bi-eye-fill">Ver produto</i>
+                                <i class="bi bi-eye-fill">
+                                    {{__('messages.ver_produto')}}
+                                </i>
                             </a>
                         </div>
                     </div>

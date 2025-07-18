@@ -6,7 +6,7 @@
         </div>
     @else
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Lista de desejos</h1>
+            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_desejos')}}</h1>
 
             <div class="d-flex flex-wrap justify-content-center align-items-start form-h-size">
                 <div class="col-12">
@@ -20,15 +20,15 @@
                                 <br>
                                 @if ($wish->products->hasDiscount && $wish->products->isDiscountActive())
                                     <p class="card-text">
-                                        <del>Preço: R$ {{number_format($wish->products->price, 2, ",", ".")}}</del>
+                                        <del>{{__('messages.preco')}}: R$ {{number_format($wish->products->price, 2, ",", ".")}}</del>
                                     </p>
-                                    <p class="card-text">Desconto: {{$wish->products->discount_data->type}} {{$wish->products->discount_data->discount_value}}</p>
-                                    <p class="card-text">Total: R$ {{number_format($wish->products->total_with_discount, 2, ",", ".")}}
+                                    <p class="card-text">{{__('messages.desconto')}}: {{$wish->products->discount_data->type}} {{$wish->products->discount_data->discount_value}}</p>
+                                    <p class="card-text">{{__('messages.total')}}: R$ {{number_format($wish->products->total_with_discount, 2, ",", ".")}}
                                 @else
-                                    <p class="card-text">Total: R$ {{number_format($wish->products->total, 2, ",", ".")}}</p>
+                                    <p class="card-text">{{__('messages.total')}}: R$ {{number_format($wish->products->total, 2, ",", ".")}}</p>
                                 @endif
                                 <hr>
-                                <a href="{{route('view-product', $wish->products->slug)}}" class="btn btn-primary float-right">Comprar</a>
+                                <a href="{{route('view-product', $wish->products->slug)}}" class="btn btn-primary float-right">{{__('messages.comprar')}}</a>
                             </div>
                         </div>
                     </div>

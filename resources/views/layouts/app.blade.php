@@ -28,15 +28,26 @@
                     </a>
                     @if(Auth::check())
                         @if (Auth::user()->roles()->adminRole()->exists())
-                            <a class="navbar-brand text-white" href="{{route('index-adm')}}">Home ADM</a>
+                            <a class="navbar-brand text-white" href="{{route('index-adm')}}">{{ __('messages.home') }}</a>
                         @endif
                     @endif
                 </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar - DO LADO DO NOME DA LOJA -->
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown icon-size-p">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-globe"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="country_list">
+                                <a class="dropdown-item" href="{{route('language', ['lang' => 'pt_BR'])}}">Português BR</a>
+                                <a class="dropdown-item" href="{{route('language', ['lang' => 'en'])}}">Inglês</a>
+                                <a class="dropdown-item" href="{{route('language', ['lang' => 'es'])}}">Espanhol</a>
+                            </div>
+                        </li>
+                    </ul>
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto ">
+                    <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -63,7 +74,6 @@
                             <li class="icon-size-p">
                                 <a href="{{route('my-wish')}}" name="wish" class="text-danger">
                                     <i class="bi bi-heart-fill"></i>
-                                    {{-- <i class="bi bi-heart-fill"></i> --}}
                                 </a>
                             </li>
                         {{-- BARRA PARA NOTIFICAÇÕES --}}
@@ -74,7 +84,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" id="notification-list">
                                     <ul>
-                                        <li class="dropdown-item" id="no-notify">Sem notificações</li>
+                                        <li class="dropdown-item" id="no-notify">{{ __('messages.sem_notificacoes') }}</li>
                                     </ul>
                                 </div>
                             </li>
@@ -84,7 +94,7 @@
                                     <i class="bi bi-cart-fill"></i>
                                 </a>
                             </li>
-                        @endguest
+                            @endguest
                     </ul>
                 </div>
             </nav>

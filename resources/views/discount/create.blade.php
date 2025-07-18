@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center form-create-bg">
-        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Cadastro de desconto</h3>
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.cadastro_descontos')}}</h3>
         <form action="{{route('discount-store')}}" method="POST" enctype="multipart/form-data" class="mb-5 w-50 form-create">
             @csrf
             <div id="discountFields">
                 <div class="form-group">
-                    <label for="messageDiscount" class="font-form">Texto referente ao desconto:</label>
+                    <label for="messageDiscount" class="font-form">{{__('messages.texto_desconto')}}:</label>
                     <input type="text" id="messageDiscount" name="messageDiscount" class="form-control"/>
                 </div>
                 <div class="form-group">
-                    <label for="typeDiscount" class="font-form">Tipo:</label>
+                    <label for="typeDiscount" class="font-form">{{__('messages.tipo')}}:</label>
                     <select class="form-control w-25" id="typeDiscount" name="typeDiscount">
                         <option value="" selected></option>
                         <option value="%">%</option>
@@ -21,7 +21,7 @@
                 {{-- se for o tipo porcentagem mostrar as opções abaixo --}}
                 <div id="percentType" style="display: none;">
                     <div class="form-group">
-                        <label for="percentDiscount" class="font-form">Desconto:</label>
+                        <label for="percentDiscount" class="font-form">{{__('messages.desconto')}}:</label>
                         <select class="form-control w-25" id="percentDiscount" name="percentDiscount">
                             <option value="5">5%</option>
                             <option value="10">10%</option>
@@ -36,24 +36,24 @@
                 {{-- se for o tipo DINHEIRO, inserir o valor --}}
                 <div id="moneyType" style="display: none;">
                     <div class="form-group">
-                        <label for="valueDiscount" class="font-form">Valor do desconto:</label>
+                        <label for="valueDiscount" class="font-form">{{__('messages.valor_desconto')}}:</label>
                         <input type="number" step=".01" id="valueDiscount" name="valueDiscount" class="form-control"/>
                     </div>
                 </div>
 
                 {{-- DATA DE INICIO E FIM DA PROMOÇÃO --}}
                 <div class="form-group">
-                    <label for="startDate" class="font-form">Data de início:</label>
+                    <label for="startDate" class="font-form">{{__('messages.data_inicio')}}:</label>
                     <input type="date" id="startDate" name="startDate" class="form-control"/>
                 </div>
                 <div class="form-group">
-                    <label for="endDate" class="font-form">Data final:</label>
+                    <label for="endDate" class="font-form">{{__('messages.data_final')}}:</label>
                     <input type="date" id="endDate" name="endDate" class="form-control"/>
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-success mr-3">Cadastrar</button>
-                <a type="button" class="btn btn-primary" href="{{route('discount-show')}}">Voltar</a>
+                <button type="submit" class="btn btn-success mr-3">{{__('messages.cadastrar')}}</button>
+                <a type="button" class="btn btn-primary" href="{{route('discount-show')}}">{{__('messages.voltar')}}</a>
             </div>
         </form>
     </div>

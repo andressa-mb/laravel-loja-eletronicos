@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center form-create-bg">
-        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Qual categoria para o produto cadastrado?</h3>
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.cat_para_prod')}}</h3>
         <form action="{{route('relation-category-post', $product)}}" method="post" class="mb-5 w-50 form-create">
             @csrf
             <div class="form-group">
-                <label for="product" class="font-form">Produto:</label>
+                <label for="product" class="font-form">{{__('messages.produto')}}:</label>
                 <input class="form-control" type="text" value="{{$product->name}}" disabled>
             </div>
             <div class="form-group">
@@ -26,7 +26,7 @@
                     </div>
                 @endforeach
             </div>
-            <button type="submit" class="btn btn-success">Enviar</button>
+            <button type="submit" class="btn btn-success">{{__('messages.enviar')}}</button>
         </form>
     </div>
 @endsection

@@ -1,8 +1,8 @@
 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item" href="{{route('my-profile', Auth::user())}}">Meu perfil</a>
-    <a class="dropdown-item" href="{{route('users-list')}}">Usuários do Sistema</a>
-    <a class="dropdown-item" href="{{route('my-purchases')}}">Minhas compras</a>
-    <a class="dropdown-item" href="{{route('orders')}}">Lista de pedidos</a>
+    <a class="dropdown-item" href="{{route('my-profile', Auth::user())}}">{{ __('messages.perfil') }}</a>
+    <a class="dropdown-item" href="{{route('users-list')}}">{{ __('messages.usuarios_sistema') }}</a>
+    <a class="dropdown-item" href="{{route('my-purchases')}}">{{ __('messages.compras') }}</a>
+    <a class="dropdown-item" href="{{route('orders')}}">{{ __('messages.pedidos') }}</a>
 
     <a class="dropdown-item" href="{{ route('logout') }}"
     onclick="event.preventDefault();

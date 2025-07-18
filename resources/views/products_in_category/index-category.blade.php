@@ -2,7 +2,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <a href="{{route('index-buyer')}}" class="my-5 btn btn-info">Voltar</a>
+            <a href="{{route('index-buyer')}}" class="my-5 btn btn-info">{{__('messages.voltar')}}</a>
         </div>
         <div class="table-responsive-md m-auto col-6">
             <div>
@@ -15,11 +15,11 @@
                 <table class="table border border-black">
                     <thead class="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col" style="white-space: nowrap;">Quantidade em estoque</th>
-                        <th scope="col" style="white-space: nowrap;">Valor total</th>
+                        <th scope="col">{{__('messages.id')}}</th>
+                        <th scope="col">{{__('messages.nome')}}</th>
+                        <th scope="col">{{__('messages.descricao')}}</th>
+                        <th scope="col" style="white-space: nowrap;">{{__('messages.quantidade_estoque')}}</th>
+                        <th scope="col" style="white-space: nowrap;">{{__('messages.valor_total')}}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -41,16 +41,16 @@
 
         <div class="table-responsive-md col-6">
             <div class="col-12">
-                <h3 class="text-center mt-4">Produtos sem categoria</h3>
+                <h3 class="text-center mt-4">{{__('messages.prod_sem_cat')}}</h3>
             </div>
             <table class="table border border-black">
                 <thead class="table-dark">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Descrição</th>
-                    <th scope="col" style="white-space: nowrap;">Quantidade em estoque</th>
-                    <th scope="col" style="white-space: nowrap;">Valor total</th>
+                    <th scope="col">{{__('messages.id')}}</th>
+                    <th scope="col">{{__('messages.nome')}}</th>
+                    <th scope="col">{{__('messages.descricao')}}</th>
+                    <th scope="col" style="white-space: nowrap;">{{__('messages.quantidade_estoque')}}</th>
+                    <th scope="col" style="white-space: nowrap;">{{__('messages.valor_total')}}</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="col-12">
-            <a href="{{route('index-buyer')}}" class="my-5 btn btn-info">Voltar</a>
+            <a href="{{route('index-buyer')}}" class="my-5 btn btn-info">{{__('messages.voltar')}}</a>
         </div>
 
     </div>

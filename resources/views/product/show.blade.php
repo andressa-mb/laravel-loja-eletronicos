@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12 my-2">
             <a href="{{route('product-create')}}" class="btn btn-success rounded">
-                Novo Produto
+                {{__('messages.novo_produto')}}
             </a>
         </div>
         <div class="col-12 form-h-size">
@@ -12,19 +12,19 @@
             </div>
             <table class="w-100 table border border-black">
                 <thead class="table-dark">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Imagem</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Quantidade</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Preço</th>
-                        <th scope="col">Desconto</th>
-                        <th scope="col">Válido até</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col" style="white-space: nowrap;">Excluir</th>
+                    <tr class="text-center">
+                        <th scope="col">{{__('messages.id')}}</th>
+                        <th scope="col">{{__('messages.imagem')}}</th>
+                        <th scope="col">{{__('messages.nome')}}</th>
+                        <th scope="col">{{__('messages.descricao')}}</th>
+                        <th scope="col">{{__('messages.quantidade')}}</th>
+                        <th scope="col">{{__('messages.categoria')}}</th>
+                        <th scope="col">{{__('messages.preco')}}</th>
+                        <th scope="col">{{__('messages.desconto')}}</th>
+                        <th scope="col">{{__('messages.valido_ate')}}</th>
+                        <th scope="col">{{__('messages.total')}}</th>
+                        <th scope="col">{{__('messages.editar')}}</th>
+                        <th scope="col" style="white-space: nowrap;">{{__('messages.excluir')}}</th>
                     </tr>
                 </thead>
                 <tbody class="table table-striped">
@@ -32,7 +32,7 @@
                         @php
                             $categoryAssociate = $product->categories()->get();
                         @endphp
-                        <tr>
+                        <tr class="text-center">
                             <th scope="row">{{$product->id}}</th>
                             <td>
                                 <img src="{{asset("storage/{$product->image}")}}" id="{{$product->id}}" class="card-img-top rounded" alt="{{$product->image}}" height="70px" width="25px">
@@ -42,7 +42,7 @@
                             <td class="text-center" style="white-space: nowrap;">{{$product->quantity}}</td>
                             <td>
                                 @if($categoryAssociate->isEmpty())
-                                    Sem categoria
+                                    {{__('messages.sem_categoria')}}
                                 @else
                                     {{$categoryAssociate->pluck('name')->join(', ')}}
                                 @endif
@@ -55,14 +55,14 @@
                                         <td class="text-center" style="white-space: nowrap; color: red;">Vencido: {{$discount->end_date}}</td>
                                     @else
                                         <td class="text-center" style="white-space: nowrap; color: green; font-weight: bold;">
-                                            <p>Inicia em: {{$discount->start_date}}</p>
-                                            <p>Válido até: {{$discount->end_date}}</p>
+                                            <p>{{__('messages.inicia_em')}}: {{$discount->start_date}}</p>
+                                            <p>{{__('messages.valido_ate')}}: {{$discount->end_date}}</p>
                                         </td>
                                     @endif
                                 @endforeach
                             @else
-                                <td class="text-center" style="white-space: nowrap; font-weight: bold;">SEM DESCONTO {{$product->hasDiscount}}</td>
-                                <td class="text-center">Não se aplica</td>
+                                <td class="text-center" style="white-space: nowrap; font-weight: bold;">{{__('messages.sem_desconto')}} {{$product->hasDiscount}}</td>
+                                <td class="text-center">{{__('messages.nao_aplica')}}</td>
                             @endif
                             @if ($product->hasDiscount && $product->isDiscountActive())
                                 <td class="text-center" style="white-space: nowrap;">
@@ -109,7 +109,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myDeleteLabel">Confirmar exclusão de produto:</h5>
+                    <h5 class="modal-title" id="myDeleteLabel">{{__('messages.confirmar_exclusao_prod')}}:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -118,12 +118,12 @@
                     @csrf
                     @method('DELETE')
                     <div class="modal-body">
-                        <p>Confirmar exclusão de produto: <strong id="productName"></strong></p>
-                        <p class="text-danger">Esta ação não pode ser desfeita!</p>
+                        <p>{{__('messages.confirmar_exclusao_prod')}}: <strong id="productName"></strong></p>
+                        <p class="text-danger">{{__('messages.msg_acao_desfeita')}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Confirmar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">{{__('messages.btn_confirmar')}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('messages.btn_cancelar')}}</button>
                     </div>
                 </form>
             </div>

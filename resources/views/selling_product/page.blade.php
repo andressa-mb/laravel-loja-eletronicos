@@ -27,7 +27,7 @@
             </li>
         @else
             <li class="list-group-item">
-                <p class="text-danger">Sem desconto</p>
+                <p class="text-danger">{{__('messages.sem_desconto')}}</p>
                 <input type="hidden" name="product[{{$index}}][hasDiscount]" value="{{$product['hasDiscount']}}">
             </li>
             <li class="list-group-item">

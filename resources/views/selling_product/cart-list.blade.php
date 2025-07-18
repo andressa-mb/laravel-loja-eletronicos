@@ -12,12 +12,12 @@
                 <thead>
                     <tr>
                         <th scope="col" class="text-center">#</th>
-                        <th scope="col" class="text-center">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col" class="text-center">Quantidade</th>
-                        <th scope="col" class="text-center">Preço</th>
-                        <th scope="col" class="text-center">Desconto</th>
-                        <th scope="col" class="text-center">Total</th>
+                        <th scope="col" class="text-center">{{__('messages.id')}}</th>
+                        <th scope="col">{{__('messages.nome')}}</th>
+                        <th scope="col" class="text-center">{{__('messages.quantidade')}}</th>
+                        <th scope="col" class="text-center">{{__('messages.preco')}}</th>
+                        <th scope="col" class="text-center">{{__('messages.desconto')}}</th>
+                        <th scope="col" class="text-center">{{__('messages.total')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,18 +67,18 @@
                             </tr>
                         @endforeach
                     @else
-                        <p><strong>Não há produtos no carrinho.</strong></p>
+                        <p><strong>{{__('messages.carrinho_vazio')}}</strong></p>
                     @endif
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-success">Finalizar compra</button>
+            <button type="submit" class="btn btn-success">{{__('messages.finalizar_compra')}}</button>
         </form>
     </div>
     <div class="row ml-1 my-2">
         @if (is_null($cart_list))
-            <a href="{{route('index-buyer')}}" class="btn btn-primary">Voltar</a>
+            <a href="{{route('index-buyer')}}" class="btn btn-primary">{{__('messages.voltar')}}</a>
         @else
-            <a href="{{route('index-buyer')}}" class="btn btn-primary">Continuar comprando</a>
+            <a href="{{route('index-buyer')}}" class="btn btn-primary">{{__('messages.continuar_comprando')}}</a>
         @endif
     </div>
 

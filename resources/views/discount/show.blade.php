@@ -2,7 +2,7 @@
 @section('content')
     <div class="row">
         <div class="col-12 my-2">
-            <a href="{{route('discount-create')}}" class="btn btn-success rounded m-4">Novo Desconto</a>
+            <a href="{{route('discount-create')}}" class="btn btn-success rounded m-4">{{__('messages.novo_desconto')}}</a>
         </div>
         <div class="col-12 form-h-size">
             <div class="float-right">
@@ -59,7 +59,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myDeleteLabel">Confirmar exclusão de desconto:</h5>
+                    <h5 class="modal-title" id="myDeleteLabel">{{__('messages.confirmar_exclusao_desc')}}:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -68,12 +68,12 @@
                     @csrf
                     @method('DELETE')
                     <div class="modal-body">
-                        <p>Confirmar exclusão de desconto: <strong id="messageDisc"></strong></p>
-                        <p class="text-danger">Esta ação não pode ser desfeita!</p>
+                        <p>{{__('messages.confirmar_exclusao_desc')}}: <strong id="messageDisc"></strong></p>
+                        <p class="text-danger">{{__('messages.msg_acao_desfeita')}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Confirmar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">{{__('messages.btn_confirmar')}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('messages.btn_cancelar')}}</button>
                     </div>
                 </form>
             </div>

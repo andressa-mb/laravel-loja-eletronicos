@@ -1,26 +1,26 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Alteração dos dados:</h3>
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.alteracao_dados')}}:</h3>
         <form action="{{route('product-update', $product)}}" method="POST" enctype="multipart/form-data" class="m-auto w-50 form-h-size">
             @csrf
             @method('PUT')
             <div class="form-group">
                 <input type="hidden" name="product_id" value="{{$product->id}}">
-                <label for="name" class="font-form">Nome:</label>
+                <label for="name" class="font-form">{{__('messages.nome')}}:</label>
                 <input type="text" id="name" name="name" class="form-control" value="{{$product->name}}">
-                <label for="description" class="font-form">Descrição:</label>
+                <label for="description" class="font-form">{{__('messages.descricao')}}:</label>
                 <textarea name="description" id="description" cols="18" rows="5" class="form-control">{{$product->description}}</textarea>
-                <label for="price" class="font-form">Valor do produto:</label>
+                <label for="price" class="font-form">{{__('messages.valor_produto')}}:</label>
                 <input type="number" id="price" name="price" step=".01" class="form-control" value="{{$product->price}}">
-                <label for="quantity" class="font-form">Quantidade:</label>
+                <label for="quantity" class="font-form">{{__('messages.quantidade')}}:</label>
                 <input type="number" id="quantity" name="quantity" class="form-control" value="{{$product->quantity}}">
 
                 <div class="form-check d-flex align-items-center">
                     <input type="hidden" name="hasDiscount" value="0">
                     <input class="form-check-input" type="checkbox" value="1" name="hasDiscount" id="hasDiscount">
                     <label class="form-check-label font-form" for="hasDiscount">
-                        Inserir desconto
+                        {{__('messages.inserir_desconto')}}
                     </label>
                 </div>
 
@@ -30,7 +30,7 @@
                         $discounts = App\Models\Discount::all();
                     @endphp
                     <div class="form-group">
-                        <label for="typeDiscount" class="font-form">Tipo:</label>
+                        <label for="typeDiscount" class="font-form">{{__('messages.tipo')}}:</label>
                         <select class="form-control w-25" id="typeDiscount" name="typeDiscount">
                             <option value="" selected></option>
                             <option value="%">%</option>
@@ -38,7 +38,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="discount_values" class="font-form">Valores:</label>
+                        <label for="discount_values" class="font-form">{{__('messages.valores')}}:</label>
                         <select class="form-control w-25" id="discount_values" name="discount_values">
 
                         </select>
@@ -46,12 +46,12 @@
                     <div class="form-group" id="datesDiscounts"></div>
                 </div>
 
-                <label for="image" class="font-form">Imagem:</label>
+                <label for="image" class="font-form">{{__('messages.imagem')}}:</label>
                 <input type="file" id="image" name="image" class="form-control-file" value="{{$product->image}}">
             </div>
             <div class="text-center pb-5">
-                <button type="submit" class="btn btn-success">Salvar</button>
-                <a type="button" class="btn btn-primary" href="{{route('index-adm')}}">Voltar</a>
+                <button type="submit" class="btn btn-success">{{__('messages.salvar')}}</button>
+                <a type="button" class="btn btn-primary" href="{{route('index-adm')}}">{{__('messages.voltar')}}</a>
 
             </div>
         </form>
