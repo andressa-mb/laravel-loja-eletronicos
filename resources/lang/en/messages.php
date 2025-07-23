@@ -3,6 +3,7 @@
 return [
     /* LAYOUT e MENUS */
     'home' => 'Admin Home',
+    'cadastro' => 'Register',
     'perfil' => 'My Profile',
     'compras' => 'My Purchases',
     'usuarios_sistema' => 'System Users',
@@ -87,6 +88,7 @@ return [
     'texto_desconto' => 'Text related to discount',
     'tipo' => 'Type',
     'desconto' => 'Discount',
+    'desconto_vencido' => 'Expired Discount',
     'valor_desconto' => 'Discount value',
     'data_inicio' => 'Start date',
     'data_final' => 'End date',

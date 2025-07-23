@@ -10,8 +10,8 @@ class LangController extends Controller
 {
     public function setLang(Request $request){
         $lang = $request->lang;
-        if(!in_array($lang, ['pt_BR', 'en', 'es'])){
-            $lang = 'pt_BR';
+        if(!in_array($lang, ['pt-BR', 'en', 'es'])){
+            $lang = 'pt-BR';
         }
         App::setLocale($lang);
         session(['locale' => $lang]);

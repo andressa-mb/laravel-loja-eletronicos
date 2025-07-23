@@ -87,6 +87,7 @@ return [
     'texto_desconto' => 'Texto referente al descuento',
     'tipo' => 'Tipo',
     'desconto' => 'Descuento',
+    'desconto_vencido' => 'Descuento Caducado',
     'valor_desconto' => 'Valor del descuento',
     'data_inicio' => 'Fecha de inicio',
     'data_final' => 'Fecha final',

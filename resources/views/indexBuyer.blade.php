@@ -2,6 +2,7 @@
 @section('content')
     <div class="row">
         {{-- CARROSSEL --}}
+        {{$latest_discount}}
         <div id="myCarousel" class="carousel slide col-12" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -10,12 +11,12 @@
             </ol>
             <div class="carousel-inner text-center">
                 <div class="carousel-item active bg-info">
-                    <img class="first-slide" src="{{asset("storage/product_images/example1.jpg")}}" width="500px" height="500px" alt="First slide">
+                    <img class="first-slide" src="{{asset("storage/$latest_discount->image")}}" width="500px" height="500px" alt="First slide">
                     <div class="container">
                         <div class="carousel-caption text-left text-danger">
                             <h1>PROMOÇÃO</h1>
                             <p>Verifique os produtos em promoção!</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Em Promoção</a></p>
+                            <p><a class="btn btn-lg btn-primary" href="{{route('discount-products')}}" role="button">Em Promoção</a></p>
                         </div>
                     </div>
                 </div>

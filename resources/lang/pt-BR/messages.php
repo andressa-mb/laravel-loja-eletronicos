@@ -3,6 +3,7 @@
 return [
     /* LAYOUT e MENUS */
     'home' => 'Home ADM',
+    'cadastro' => 'Cadastrar',
     'perfil' => 'Meu Perfil',
     'compras' => 'Minhas Compras',
     'usuarios_sistema' => 'Usuários do Sistema',
@@ -87,6 +88,7 @@ return [
     'texto_desconto' => 'Texto referente ao desconto',
     'tipo' => 'Tipo',
     'desconto' => 'Desconto',
+    'desconto_vencido' => 'Desconto Vencido',
     'valor_desconto' => 'Valor do desconto',
     'data_inicio' => 'Data de início',
     'data_final' => 'Data final',

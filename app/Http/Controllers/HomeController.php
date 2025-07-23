@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewDiscountProducts;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
@@ -9,6 +10,7 @@ use App\Models\Wish;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class HomeController extends Controller
@@ -61,6 +63,11 @@ class HomeController extends Controller
         }
         $data['products'] = $query->paginate(6);
 
+        if(Cache::has('discount_products')){
+            $data['latest_discount'] = Cache::get('discount_products');
+        } else {
+            $data['latest_discount'] = $product->where('hasDiscount', true)->orderByDesc('updated_at')->first();
+        }
         return view('indexBuyer', $data);
     }
 

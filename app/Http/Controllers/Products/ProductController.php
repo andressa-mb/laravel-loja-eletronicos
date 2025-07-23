@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Products;
 
+use App\Events\ProductsUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\Discount;
+use App\Services\Product\ProductService;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -17,31 +19,14 @@ class ProductController extends Controller
         return view('product.create');
     }
 
-    public function store(ProductStoreRequest $reqStore, Product $product){
+    public function store(ProductStoreRequest $reqStore, ProductService $service){
         try{
-            $validation = $reqStore->validated();
-            $createProduct = [
-                'name' => $validation['name'],
-                'slug' => Str::slug($validation['name']),
-                'description' => $validation['description'],
-                'price' => $validation['price'],
-                'quantity' => $validation['quantity'],
-                'hasDiscount' => $validation['hasDiscount'],
-                'total' => 0
-            ];
-            //TIREI O ID DO CAMINHO POIS AINDA NÃO EXISTIA, PENSAR EM QUAL CAMINHO POSSO DEIXAR DEPOIS DISSO
-            if($reqStore->hasFile('image')){
-                $createProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
-            }
+            //validates, redirecionamentos e chamadas de model
+            $validation = $reqStore->validated(); //array com os dados do form
+            $discountId = $reqStore->hasDiscount ? $reqStore->discount_values : null;
+            $newProduct = $service->storeProduct($validation, $discountId);
 
-            $createdProduct = $product->create($createProduct);
-            /* ASSOCIAR AO DESCONTO */
-            if($reqStore->hasDiscount == 1){
-                $discount = Discount::find($reqStore->discount_values);
-                $createdProduct->discounts()->attach($discount->id);
-            }
-
-            return redirect()->route('category-associate-to-product', ['product' => $createdProduct]);
+            return redirect()->route('category-associate-to-product', ['product' => $newProduct]);
         }catch(Throwable $e){
             return back()->withErrors($e->getMessage());
         }
@@ -75,6 +60,8 @@ class ProductController extends Controller
                 if($valueDiscount){
                     $product->discounts()->sync([$valueDiscount->id]);
                 }
+                //evento aqui pois algum produto foi atualizado com desconto
+                event(new ProductsUpdated($product, false));
             }else {
                 $product->discounts()->detach();
             }

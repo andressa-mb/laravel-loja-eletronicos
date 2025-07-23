@@ -13,7 +13,10 @@ return [
     |
     */
 
+    'reset-senha' => 'Reset Password',
     'reset' => 'Your password has been reset!',
+    'confirmar-senha' => 'Please confirm your password before continuing.',
+    'enviar-link' => 'Send Password Reset Link',
     'sent' => 'We have emailed your password reset link!',
     'throttled' => 'Please wait before retrying.',
     'token' => 'This password reset token is invalid.',

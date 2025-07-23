@@ -40,7 +40,7 @@
                                 <i class="bi bi-globe"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="country_list">
-                                <a class="dropdown-item" href="{{route('language', ['lang' => 'pt_BR'])}}">Português BR</a>
+                                <a class="dropdown-item" href="{{route('language', ['lang' => 'pt-BR'])}}">Português BR</a>
                                 <a class="dropdown-item" href="{{route('language', ['lang' => 'en'])}}">Inglês</a>
                                 <a class="dropdown-item" href="{{route('language', ['lang' => 'es'])}}">Espanhol</a>
                             </div>
@@ -51,11 +51,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('auth.cadastro') }}</a>
                                 </li>
                             @endif
                         @else

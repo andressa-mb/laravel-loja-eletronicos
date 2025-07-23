@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Discounts\DiscountUpdateRequest;
 use App\Http\Requests\Discounts\DiscountStoreRequest;
 use App\Models\Discount;
+use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class DiscountController extends Controller
@@ -13,6 +15,15 @@ class DiscountController extends Controller
     public function show(){
         $this->authorize('view', Discount::class);
         return view('discount.show', ['discounts' => Discount::paginate(6)]);
+    }
+
+    public function showForBuyer(){
+        if(Cache::has('discount_products')){
+            $new_discount = Cache::get('discount_products');
+        } else {
+            $new_discount = Product::where('hasDiscount', true)->orderByDesc('updated_at')->first();
+        }
+        return view('discount.showForBuyers', ['latest_discount' => $new_discount]);
     }
 
     public function create(){

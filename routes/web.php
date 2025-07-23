@@ -50,6 +50,7 @@ Route::get('/discounts-list', "Discounts\DiscountController@show")->name('discou
 Route::get('/edit-discount/{discount}', "Discounts\DiscountController@edit")->name('discount-edit');
 Route::put('/update-discount/{discount}', "Discounts\DiscountController@update")->name('discount-update');
 Route::delete('/delete-discount/{discount}', "Discounts\DiscountController@destroy")->name('discount-delete');
+Route::get('/discount-products', "Discounts\DiscountController@showForBuyer")->name('discount-products');
 
 // PRODUCTS
 Route::get('/create-product', 'Products\ProductController@create')->name('product-create');

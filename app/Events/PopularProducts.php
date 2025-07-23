@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Product;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -9,21 +10,24 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class OrderStatusUpdated implements ShouldBroadcast
+class PopularProducts
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $product;
+    public $isNewProduct;
     /**
      * Create a new event instance.
      *
      * @return void
-     *
      */
-    public $user;
-    public function __construct($user)
+    public function __construct(Product $product, bool $isNewProduct)
     {
-        $this->user = $user;
+        $this->product = $product;
+        $this->isNewProduct = $isNewProduct;
+        Log::alert('Produto com desconto: ' . $product . ' produto novo: ' . $isNewProduct);
     }
 
     /**
@@ -33,10 +37,6 @@ class OrderStatusUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('teste.', $this->user->id);
-    }
-
-    public function broadcastAs() {
-        return 'n-teste';
+        return new PrivateChannel('channel-name');
     }
 }
