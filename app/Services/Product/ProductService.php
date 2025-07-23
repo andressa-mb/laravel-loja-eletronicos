@@ -30,10 +30,38 @@ class ProductService {
         /* ASSOCIAR AO DESCONTO */
        if($validation['hasDiscount'] == 1){
             $createdProduct->discounts()->attach($discountId);
-            //evento aqui pq é um novo produto com desconto
             event(new ProductsUpdated($createdProduct, true));
         }
 
         return $createdProduct;
+    }
+
+    public function updateProduct(Product $product, array $validation, ?int $discountId = null) : Product{
+        $productToUpdate = [
+            'name' => $validation['name'],
+            'slug' => Str::slug($validation['name']),
+            'description' => $validation['description'],
+            'price' => $validation['price'],
+            'quantity' => $validation['quantity'],
+            'hasDiscount' => $validation['hasDiscount'],
+            'total' => $validation['price'],
+            'image' => $validation['image'] ?? null,
+        ];
+
+        if(isset($validation['image'])){
+            $productToUpdate['image'] = $product->configImage($product, "product_images", $validation['image']);
+        }
+
+        $product->update($productToUpdate);
+
+        /* ASSOCIAR AO DESCONTO */
+        if(intval($validation['hasDiscount']) == 1){
+            $product->discounts()->sync([$discountId]);
+            event(new ProductsUpdated($product, false));
+        }else {
+            $product->discounts()->detach();
+        }
+
+        return $product;
     }
 }

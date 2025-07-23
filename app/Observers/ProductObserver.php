@@ -23,6 +23,7 @@ class ProductObserver
             }
         }
         if($product->wasChanged('hasDiscount')){
+            $valueDiscount = '0 - SEM DESCONTO';
             if(!is_null($product->discount_data)){
                 if($product->discount_data->type == '%'){
                     $valueDiscount = "{$product->discount_data->discount_value}%";
@@ -30,8 +31,7 @@ class ProductObserver
                     $valueDiscount = "R$ {$product->discount_data->discount_value}";
                 }
             }
-            $new = $product->hasDiscount ? $valueDiscount : '0 - SEM DESCONTO';
-            $changes[] = "Desconto alterado para {$new}";
+            $changes[] = "Desconto alterado para {$valueDiscount}";
         }
         return $changes;
     }

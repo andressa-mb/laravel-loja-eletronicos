@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Products;
 
-use App\Events\ProductsUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
-use App\Models\Discount;
 use App\Services\Product\ProductService;
-use Illuminate\Support\Str;
 use Throwable;
 
 class ProductController extends Controller
@@ -19,11 +16,11 @@ class ProductController extends Controller
         return view('product.create');
     }
 
-    public function store(ProductStoreRequest $reqStore, ProductService $service){
+    public function store(ProductStoreRequest $request, ProductService $service){
         try{
             //validates, redirecionamentos e chamadas de model
-            $validation = $reqStore->validated(); //array com os dados do form
-            $discountId = $reqStore->hasDiscount ? $reqStore->discount_values : null;
+            $validation = $request->validated(); //array com os dados do form
+            $discountId = $request->hasDiscount ? $request->discount_values : null;
             $newProduct = $service->storeProduct($validation, $discountId);
 
             return redirect()->route('category-associate-to-product', ['product' => $newProduct]);
@@ -37,38 +34,13 @@ class ProductController extends Controller
         return view('product.edit', ['product' => $product]);
     }
 
-    public function update(ProductUpdateRequest $request, Product $product){
+    public function update(ProductUpdateRequest $request, Product $product, ProductService $service){
         try{
             $validation = $request->validated();
-            $formProduct = [
-                'name' => $validation['name'],
-                'slug' => Str::slug($validation['name']),
-                'description' => $validation['description'],
-                'price' => $validation['price'],
-                'quantity' => $validation['quantity'],
-                'hasDiscount' => $validation['hasDiscount'],
-                'total' => 0,
-            ];
+            $discountId = $request->hasDiscount ? $request->discount_values : null;
+            $updatedProduct = $service->updateProduct($product, $validation, $discountId);
 
-            if($request->hasFile('image')){
-                $formProduct['image'] = $product->configImage($product, "product_images", $validation['image']);
-            }
-
-            /* ASSOCIAR AO DESCONTO */
-            if($request->hasDiscount == 1 && $request->filled('discount_values')){
-                $valueDiscount = Discount::find($request->discount_values);
-                if($valueDiscount){
-                    $product->discounts()->sync([$valueDiscount->id]);
-                }
-                //evento aqui pois algum produto foi atualizado com desconto
-                event(new ProductsUpdated($product, false));
-            }else {
-                $product->discounts()->detach();
-            }
-
-            $product->update($formProduct);
-
-            return redirect()->route('category-associate-to-product', ['product' => $product->slug])->with('message', 'Produto atualizado com sucesso.');
+            return redirect()->route('category-associate-to-product', ['product' => $updatedProduct->slug])->with('message', 'Produto atualizado com sucesso.');
         }catch(Throwable $e){
             return back()->withErrors('Erro ao atualizar o produto. ' . $e->getMessage());
         }
