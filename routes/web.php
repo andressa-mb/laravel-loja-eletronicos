@@ -15,33 +15,38 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//PÁGINA DO COMPRADOR E PROFILE
-Route::get('/', 'HomeController@indexBuyer')->name('index-buyer');
-Route::get('/profile/{user}', 'HomeController@indexProfile')->name('my-profile');
-Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
-Route::get('/language/{lang}', 'LangController@setLang')->name('language');
-
-//PÁGINA DA LISTA DE DESEJOS
-Route::get('/wish-list', 'HomeController@wish')->name('my-wish');
-Route::get('/add-product-to-list/{product}', 'HomeController@addToWish')->name('add-wish');
-Route::get('/remove-wish/{wish}', 'HomeController@removeWish')->name('remove-wish');
-
-Route::get('/notifications', 'Notifications\WishProductNotificationsController@index')->name('notifications.index');
-Route::post('/notifications/mark-as-read', 'Notifications\WishProductNotificationsController@markAsRead')->name('notifications.markAsRead');
-Route::post('/notification/mark-one-as-readed/{notify}', 'Notifications\WishProductNotificationsController@markOneReaded')->name('notification.markOneReaded');
 
 //PÁGINA DO ADM
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
 Route::get('/orders', 'HomeController@orders')->name('orders');
-Route::get('/users-list', 'HomeController@usersList')->name('users-list');
-Route::get('/user/{user}', 'HomeController@editUser')->name('edit-user');
-Route::put('/update-user/{user}', 'HomeController@updateUser')->name('update-user');
-Route::delete('/delete-user/{user}', 'HomeController@destroy')->name('delete-user');
 
-//ADMS
+//USUÁRIOS
+Route::get('/users-list', 'User\UserController@usersList')->name('users-list');
+Route::get('/user/{user}', 'User\UserController@editUser')->name('edit-user');
+Route::put('/update-user/{user}', 'User\UserController@updateUser')->name('update-user');
+Route::delete('/delete-user/{user}', 'User\UserController@destroy')->name('delete-user');
+
 //ASSOCIAÇÃO DE PRODUTOS COM CATEGORIAS - APENAS ADMS FAZEM
 Route::get('/associate-category-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@associate')->name('category-associate-to-product');
 Route::post('/save-category-associated-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@saveRelationCategoryAndPost')->name('relation-category-post');
+
+//PÁGINA DO COMPRADOR E PROFILE
+Route::get('/', 'HomeController@indexBuyer')->name('index-buyer');
+Route::get('/profile/{user}', 'HomeController@indexProfile')->name('my-profile');
+Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
+
+//IDIOMA
+Route::get('/language/{lang}', 'LangController@setLang')->name('language');
+
+//PÁGINA DA LISTA DE DESEJOS
+Route::get('/wish-list', 'Wish\WishController@wish')->name('my-wish');
+Route::get('/add-product-to-list/{product}', 'Wish\WishController@addToWish')->name('add-wish');
+Route::get('/remove-wish/{wish}', 'Wish\WishController@removeWish')->name('remove-wish');
+
+//NOTIFICAÇÕES
+Route::get('/notifications', 'Notifications\WishProductNotificationsController@index')->name('notifications.index');
+Route::post('/notifications/mark-as-read', 'Notifications\WishProductNotificationsController@markAsRead')->name('notifications.markAsRead');
+Route::post('/notification/mark-one-as-readed/{notify}', 'Notifications\WishProductNotificationsController@markOneReaded')->name('notification.markOneReaded');
 
 //DISCOUNTS
 Route::get('/discount-create', "Discounts\DiscountController@create")->name('discount-create');
@@ -68,7 +73,7 @@ Route::put('/update-category/{category}', 'Categories\CategoryController@update'
 Route::get('/show-categories', 'Categories\CategoryController@show')->name('category-show');
 Route::delete('/delete-category/{category}', 'Categories\CategoryController@destroy')->name('category-delete');
 
-// PRODUCT AND CATEGORIES RELATIONS - VIEWS E SELLINGS
+// PRODUCT AND CATEGORIES RELATIONS - CART E SELLINGS
 Route::get('/view-product-category/{product}', 'ProductAndCategories\ProductAndCategoriesController@index_product')->name('view-product');
 Route::get('/products-associates-in-category', 'ProductAndCategories\ProductAndCategoriesController@index_category')->name('products-associates');
 Route::get('/selling-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@selling_product')->name('selling-product-info-client');
