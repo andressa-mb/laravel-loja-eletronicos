@@ -7,6 +7,7 @@ use App\Http\Requests\Products\ProductStoreRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\Product\ProductService;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class ProductController extends Controller
@@ -50,6 +51,15 @@ class ProductController extends Controller
         $this->authorize('view', Product::class);
         $products = Product::paginate(6);
         return view('product.show', ['products' => $products]);
+    }
+
+    public function showForBuyer(){
+        if(Cache::has('popular_product')){
+            $popular = Cache::get('popular_product');
+        } else {
+            $popular = Product::orderByDesc('updated_at')->first();
+        }
+        return view('product.showForBuyers', ['popular' => $popular]);
     }
 
     public function destroy(Product $product){

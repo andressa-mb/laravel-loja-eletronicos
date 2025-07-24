@@ -51,6 +51,14 @@ class HomeController extends Controller
         } else {
             $data['latest_discount'] = $product->where('hasDiscount', true)->orderByDesc('updated_at')->first();
         }
+
+        if(Cache::has('popular_product')){
+            $data['popular_product'] = Cache::get('popular_product');
+        } else {
+            $data['popular_product'] =$product->orderByDesc('updated_at')->first();
+        }
+        //view imagem = {{asset("storage/$popular_product->image")}}
+
         return view('indexBuyer', $data);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\ProductsUpdated;
 use App\Models\Product;
 use App\Models\Wish;
 use App\Notifications\ProductChangeNotification;
@@ -36,6 +37,14 @@ class ProductObserver
         return $changes;
     }
 
+    public function getQuantityChange(Product $product){
+        $original = $product->getOriginal('quantity');
+
+        if($product->wasChanged('quantity') && $product->quantity != $original){
+            return $product;
+        }
+    }
+
     /**
      * Handle the product "created" event.
      *
@@ -67,6 +76,10 @@ class ProductObserver
                 $user = $wish->user;
                 $user->notify(new ProductChangeNotification($product, $wish));
             }
+        }
+
+        if($this->getQuantityChange($product)){
+            event(new ProductsUpdated($product, false));
         }
 
     }

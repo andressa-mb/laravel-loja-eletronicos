@@ -64,6 +64,7 @@ Route::get('/edit-product/{product}', 'Products\ProductController@edit')->name('
 Route::put('/update-product/{product}', 'Products\ProductController@update')->name('product-update');
 Route::get('/show-products', 'Products\ProductController@show')->name('product-show');
 Route::delete('/delete-product/{product}', 'Products\ProductController@destroy')->name('product-delete');
+Route::get('/popular-products', "Products\ProductController@showForBuyer")->name('popular-products');
 
 // CATEGORIES
 Route::get('/create-category', 'Categories\CategoryController@create')->name('category-create');

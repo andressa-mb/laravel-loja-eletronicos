@@ -2,7 +2,6 @@
 @section('content')
     <div class="row">
         {{-- CARROSSEL --}}
-        {{$latest_discount}}
         <div id="myCarousel" class="carousel slide col-12" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -21,12 +20,11 @@
                     </div>
                 </div>
                 <div class="carousel-item bg-info">
-                    <img class="second-slide" src="{{asset("storage/product_images/computador.jpg")}}" width="500px" height="500px" alt="Second slide">
+                    <img class="second-slide" src="{{$popular_product->image ? asset("storage/$popular_product->image") : asset("storage/default_images/mais_pedidos.png")}}" width="500px" height="500px" alt="Second slide">
                     <div class="container">
-                        <div class="carousel-caption text-center text-warning bg-light">
+                        <div class="carousel-caption text-right text-warning">
                             <h1>Os queridinhos</h1>
-                            <p>Produtos mais pedidos.</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Mais pedidos</a></p>
+                            <p><a class="btn btn-lg btn-primary" href="{{route('popular-products')}}" role="button">Mais pedidos</a></p>
                         </div>
                     </div>
                 </div>

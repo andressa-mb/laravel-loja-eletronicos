@@ -3,8 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\ProductsUpdated;
+use App\Models\Product;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class LatestPopularProducts
 {
@@ -26,6 +29,8 @@ class LatestPopularProducts
      */
     public function handle(ProductsUpdated $event)
     {
-        //
+        Log::info('LISTENER = Produto alterado a quantidade.... ', [$event]);
+        Cache::put('popular_product', $event, now()->addDays(10));
     }
+
 }
