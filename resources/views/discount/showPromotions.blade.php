@@ -3,7 +3,7 @@
     <div class="row">
         <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Produtos em Promoção</h1>
 
-        <div class="d-flex flex-wrap justify-content-center align-items-start form-h-size">
+        <div class="col-12 d-flex flex-wrap justify-content-center align-items-start form-h-size">
             <div class="col-12 d-flex justify-content-center">
                 <div class="card m-2" style="width: 18rem;">
                     <div class="card-body">
@@ -17,9 +17,6 @@
                             <p class="card-text">{{__('messages.desconto')}}: {{$latest_discount->discount_data->type}} {{$latest_discount->discount_data->discount_value}}</p>
                             <p class="card-text">{{__('messages.total')}}: R$ {{number_format($latest_discount->total_with_discount, 2, ",", ".")}}
                         @else
-                            <p class="card-text text-danger">
-                                {{__('messages.desconto_vencido')}}
-                            </p>
                             <p class="card-text">{{__('messages.total')}}: R$ {{number_format($latest_discount->total, 2, ",", ".")}}</p>
                         @endif
                         <hr>
@@ -28,14 +25,14 @@
                 </div>
             </div>
             @php
-                $products = App\Models\Product::paginate(6);
+                $products = App\Models\Product::promotionProducts()->paginate(6);
             @endphp
 
             <div class="col-12 mt-2 float-right">
                 {{ $products->links() }}
             </div>
             @foreach ($products as $productWDiscount)
-                <div class="col">
+                <div class="col d-flex justify-content-center">
                     <div class="card m-2" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title text-center">{{$productWDiscount->name}}</h5>

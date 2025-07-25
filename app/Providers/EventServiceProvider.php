@@ -22,6 +22,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ProductsUpdated' => [
             'App\Listeners\UpdateProductsWithDiscount',
             'App\Listeners\LatestPopularProducts',
+            'App\Listeners\LiquidationProducts',
         ]
     ];
 

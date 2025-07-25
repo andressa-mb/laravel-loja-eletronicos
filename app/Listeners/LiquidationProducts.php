@@ -3,16 +3,16 @@
 namespace App\Listeners;
 
 use App\Events\ProductsUpdated;
-use App\Models\Product;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;;
 
-class UpdateProductsWithDiscount
+class LiquidationProducts
 {
     /**
      * Create the event listener.
+     *
      * @return void
      */
     public function __construct()
@@ -23,15 +23,16 @@ class UpdateProductsWithDiscount
     /**
      * Handle the event.
      *
-     * @param  NewDiscountProducts  $event
-     *
+     * @param  ProductsUpdated  $event
      * @return void
      */
     public function handle(ProductsUpdated $event)
     {
-        Log::info('LISTENER - Produto com desconto... ', [$event]);
-        $latestDiscount = Product::where('hasDiscount', true)->orderByDesc('updated_at')->first();
+        Log::info('LISTENER = Produto com quantidade menor? ', [$event]);
 
-        Cache::put('discount_products', $latestDiscount, now()->addDays(10));
+        if($event->product->quantity < $event->product->getOriginal('quantity')){
+            Log::info('LISTENER = Produto acabando... ', [$event]);
+            Cache::put('liquidation_product', $event->product, now()->addDays(10));
+        }
     }
 }

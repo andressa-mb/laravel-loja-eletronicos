@@ -10,31 +10,35 @@
             </ol>
             <div class="carousel-inner text-center">
                 <div class="carousel-item active bg-info">
-                    <img class="first-slide" src="{{asset("storage/$latest_discount->image")}}" width="500px" height="500px" alt="First slide">
+                    <img class="first-slide" src="{{$latest_discount->image ? asset("storage/$latest_discount->image") : asset("storage/default_images/mais_pedidos.png")}}" width="500px" height="500px" alt="First slide">
                     <div class="container">
                         <div class="carousel-caption text-left text-danger">
-                            <h1>PROMOÇÃO</h1>
-                            <p>Verifique os produtos em promoção!</p>
-                            <p><a class="btn btn-lg btn-primary" href="{{route('discount-products')}}" role="button">Em Promoção</a></p>
+                            <div class="texto-badge">
+                                <h1>PROMOÇÃO</h1>
+                                <p>Verifique os produtos em promoção!</p>
+                            </div>
+                            <p><a class="btn btn-lg btn-success" href="{{route('discount-products')}}" role="button">Em Promoção</a></p>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item bg-info">
                     <img class="second-slide" src="{{$popular_product->image ? asset("storage/$popular_product->image") : asset("storage/default_images/mais_pedidos.png")}}" width="500px" height="500px" alt="Second slide">
                     <div class="container">
-                        <div class="carousel-caption text-right text-warning">
-                            <h1>Os queridinhos</h1>
-                            <p><a class="btn btn-lg btn-primary" href="{{route('popular-products')}}" role="button">Mais pedidos</a></p>
+                        <div class="carousel-caption text-danger text-left">
+                            <h1 class="texto-badge">Os queridinhos</h1>
+                            <p><a class="btn btn-lg btn-success" href="{{route('popular-products')}}" role="button">Mais pedidos</a></p>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item bg-info">
-                <img class="third-slide" src="{{asset("storage/product_images/memoria-ram-1.jpg")}}" width="500px" height="500px" alt="Third slide">
+                <img class="third-slide" src="{{$liquidation_product->image ? asset("storage/$liquidation_product->image") : asset("storage/default_images/mais_pedidos.png")}}" width="500px" height="500px" alt="Third slide">
                 <div class="container">
-                    <div class="carousel-caption text-right text-warning">
-                    <h1>Queima de estoque</h1>
-                    <p>Estão perto de acabar, corre para garantir o seu!</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Queima de estoque</a></p>
+                    <div class="carousel-caption text-danger text-left">
+                        <div class="texto-badge">
+                            <h1>Queima de estoque</h1>
+                            <p>Estão perto de acabar, corre para garantir o seu!</p>
+                        </div>
+                        <p><a class="btn btn-lg btn-success" href="{{route("liquidation-products")}}" role="button">Queima de estoque</a></p>
                     </div>
                 </div>
                 </div>

@@ -29,8 +29,8 @@ class LatestPopularProducts
      */
     public function handle(ProductsUpdated $event)
     {
-        Log::info('LISTENER = Produto alterado a quantidade.... ', [$event]);
-        Cache::put('popular_product', $event, now()->addDays(10));
+        Log::info('LISTENER = Produto alterado a quantidade... ', [$event]);
+        Cache::put('popular_product', $event->product, now()->addDays(10));
     }
 
 }

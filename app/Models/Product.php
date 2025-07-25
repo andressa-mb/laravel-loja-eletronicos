@@ -63,6 +63,18 @@ class Product extends Model
         return $builder->where('name', 'ILIKE', "%$searchProduct%");
     }
 
+    public function scopeLessQuantities(Builder $builder): Builder {
+        return $builder->where('quantity', '<', 10)->orderByDesc('updated_at');
+    }
+
+    public function scopePopularProducts(Builder $builder): Builder {
+        return $builder->orderByDesc('updated_at');
+    }
+
+    public function scopePromotionProducts(Builder $builder): Builder {
+        return $builder->where('hasDiscount', true)->orderByDesc('updated_at');
+    }
+
     public function orderItems(): HasMany{
         return $this->hasMany(OrderProductItem::class, 'product_id', 'id');
     }

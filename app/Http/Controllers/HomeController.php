@@ -49,15 +49,20 @@ class HomeController extends Controller
         if(Cache::has('discount_products')){
             $data['latest_discount'] = Cache::get('discount_products');
         } else {
-            $data['latest_discount'] = $product->where('hasDiscount', true)->orderByDesc('updated_at')->first();
+            $data['latest_discount'] = $product->promotionProducts()->first();
         }
 
         if(Cache::has('popular_product')){
             $data['popular_product'] = Cache::get('popular_product');
         } else {
-            $data['popular_product'] =$product->orderByDesc('updated_at')->first();
+            $data['popular_product'] = $product->orderByDesc('updated_at')->first();
         }
-        //view imagem = {{asset("storage/$popular_product->image")}}
+
+        if(Cache::has('liquidation_product')){
+            $data['liquidation_product'] = Cache::get('liquidation_product');
+        }else {
+            $data['liquidation_product'] = $product->lessQuantities()->first();
+        }
 
         return view('indexBuyer', $data);
     }

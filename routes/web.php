@@ -55,7 +55,7 @@ Route::get('/discounts-list', "Discounts\DiscountController@show")->name('discou
 Route::get('/edit-discount/{discount}', "Discounts\DiscountController@edit")->name('discount-edit');
 Route::put('/update-discount/{discount}', "Discounts\DiscountController@update")->name('discount-update');
 Route::delete('/delete-discount/{discount}', "Discounts\DiscountController@destroy")->name('discount-delete');
-Route::get('/discount-products', "Discounts\DiscountController@showForBuyer")->name('discount-products');
+Route::get('/discount-products', "Discounts\DiscountController@showPromotions")->name('discount-products');
 
 // PRODUCTS
 Route::get('/create-product', 'Products\ProductController@create')->name('product-create');
@@ -64,7 +64,8 @@ Route::get('/edit-product/{product}', 'Products\ProductController@edit')->name('
 Route::put('/update-product/{product}', 'Products\ProductController@update')->name('product-update');
 Route::get('/show-products', 'Products\ProductController@show')->name('product-show');
 Route::delete('/delete-product/{product}', 'Products\ProductController@destroy')->name('product-delete');
-Route::get('/popular-products', "Products\ProductController@showForBuyer")->name('popular-products');
+Route::get('/popular-products', "Products\ProductController@showPopular")->name('popular-products');
+Route::get('/liquidation-products', "Products\ProductController@showLiquidation")->name('liquidation-products');
 
 // CATEGORIES
 Route::get('/create-category', 'Categories\CategoryController@create')->name('category-create');

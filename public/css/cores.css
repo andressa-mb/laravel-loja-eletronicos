@@ -49,3 +49,11 @@
     height: 30px;
     margin-top: 10px;
 }
+
+.texto-badge {
+    background-color: #c6dbe6;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    width: 30%;
+}

@@ -81,7 +81,6 @@ class ProductObserver
         if($this->getQuantityChange($product)){
             event(new ProductsUpdated($product, false));
         }
-
     }
 
     /**

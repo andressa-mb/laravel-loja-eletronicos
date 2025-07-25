@@ -53,13 +53,22 @@ class ProductController extends Controller
         return view('product.show', ['products' => $products]);
     }
 
-    public function showForBuyer(){
+    public function showPopular(){
         if(Cache::has('popular_product')){
             $popular = Cache::get('popular_product');
         } else {
-            $popular = Product::orderByDesc('updated_at')->first();
+            $popular = Product::popularProducts()->first();
         }
-        return view('product.showForBuyers', ['popular' => $popular]);
+        return view('product.showPopular', ['popular' => $popular]);
+    }
+
+    public function showLiquidation(){
+        if(Cache::has('liquidation_product')){
+            $liquidation = Cache::get('liquidation_product');
+        } else {
+            $liquidation = Product::lessQuantities()->first();
+        }
+        return view('product.showLiquidation', ['liquidation' => $liquidation]);
     }
 
     public function destroy(Product $product){

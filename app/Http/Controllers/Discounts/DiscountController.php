@@ -17,13 +17,13 @@ class DiscountController extends Controller
         return view('discount.show', ['discounts' => Discount::paginate(6)]);
     }
 
-    public function showForBuyer(){
+    public function showPromotions(){
         if(Cache::has('discount_products')){
             $new_discount = Cache::get('discount_products');
         } else {
-            $new_discount = Product::where('hasDiscount', true)->orderByDesc('updated_at')->first();
+            $new_discount = Product::promotionProducts()->first();
         }
-        return view('discount.showForBuyers', ['latest_discount' => $new_discount]);
+        return view('discount.showPromotions', ['latest_discount' => $new_discount]);
     }
 
     public function create(){
