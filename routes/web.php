@@ -20,11 +20,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
 Route::get('/orders', 'HomeController@orders')->name('orders');
 
+//RELATÓRIOS -> ESTOQUE
+Route::get('/stock-list', 'Reports\ReportController@showStock')->name('stock-list');
+
 //USUÁRIOS
-Route::get('/users-list', 'User\UserController@usersList')->name('users-list');
-Route::get('/user/{user}', 'User\UserController@editUser')->name('edit-user');
-Route::put('/update-user/{user}', 'User\UserController@updateUser')->name('update-user');
-Route::delete('/delete-user/{user}', 'User\UserController@destroy')->name('delete-user');
+Route::get('/users-list', 'Users\UserController@usersList')->name('users-list');
+Route::get('/user/{user}', 'Users\UserController@editUser')->name('edit-user');
+Route::put('/update-user/{user}', 'Users\UserController@updateUser')->name('update-user');
+Route::delete('/delete-user/{user}', 'Users\UserController@destroy')->name('delete-user');
 
 //ASSOCIAÇÃO DE PRODUTOS COM CATEGORIAS - APENAS ADMS FAZEM
 Route::get('/associate-category-to-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@associate')->name('category-associate-to-product');

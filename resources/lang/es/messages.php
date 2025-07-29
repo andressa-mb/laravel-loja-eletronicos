@@ -46,6 +46,11 @@ return [
     'menor_preco' => 'Precio más bajo',
     'maior_preco' => 'Precio más alto',
     'mais_recente' => 'Más reciente',
+    'menor_qtd' => 'Cantidad menor',
+    'maior_qtd' => 'Cantidad mayor',
+    'order_alfabetica' => 'Orden alfabético',
+    'menor_id' => 'ID menor',
+    'maior_id' => 'ID mayor',
 
     /* PRODUTOS */
     'quantidade' => 'Cantidad',
