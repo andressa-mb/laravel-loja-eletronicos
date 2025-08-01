@@ -28,7 +28,7 @@
             <a class="dropdown-item" href="#">{{ __('messages.vendas') }}</a>
             <a class="dropdown-item" href="#">{{ __('messages.financeiro') }}</a>
             <a class="dropdown-item" href="{{route('stock-list')}}">{{ __('messages.estoque') }}</a>
-            <a class="dropdown-item" href="#">{{ __('messages.clientes') }}</a>
+            <a class="dropdown-item" href="{{route('client-list')}}">{{ __('messages.clientes') }}</a>
         </div>
     </li>
 </ul>

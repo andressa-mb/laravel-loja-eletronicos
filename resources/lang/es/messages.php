@@ -41,16 +41,19 @@ return [
     'btn_confirmar' => 'Confirmar',
     'btn_cancelar' => 'Cancelar',
 
-    /* ORDENAR PRODUTOS */
+    /* LISTAS PARA ORDENAR */
     'popular' => 'Popular',
     'menor_preco' => 'Precio más bajo',
     'maior_preco' => 'Precio más alto',
     'mais_recente' => 'Más reciente',
     'menor_qtd' => 'Cantidad menor',
     'maior_qtd' => 'Cantidad mayor',
-    'order_alfabetica' => 'Orden alfabético',
+    'ordem_alfabetica' => 'De la A a la Z',
+    'ordem_alfabetica_reversa' => 'De la Z a la A',
     'menor_id' => 'ID menor',
     'maior_id' => 'ID mayor',
+    'mais_novo_usuario' => 'Usuario más reciente',
+    'mais_antigo_usuario' => 'Usuario más antiguo',
 
     /* PRODUTOS */
     'quantidade' => 'Cantidad',

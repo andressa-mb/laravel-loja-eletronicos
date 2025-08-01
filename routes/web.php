@@ -22,6 +22,8 @@ Route::get('/orders', 'HomeController@orders')->name('orders');
 
 //RELATÓRIOS -> ESTOQUE
 Route::get('/stock-list', 'Reports\ReportController@showStock')->name('stock-list');
+Route::get('/pdf-list/{tabelName}', 'Reports\ReportController@downloadPdf')->name('pdf-list');
+Route::get('/client-list', 'Reports\ReportController@showClients')->name('client-list');
 
 //USUÁRIOS
 Route::get('/users-list', 'Users\UserController@usersList')->name('users-list');
