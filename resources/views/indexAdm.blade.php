@@ -1,54 +1,37 @@
 @extends('layouts.app')
 @section('content')
-<div class="row">
-    <div role="main" class="col-md-12 ml-sm-auto col-lg-12 pt-3 px-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <div class="btn-group mr-2">
-                    <button class="btn btn-sm btn-outline-secondary">Compartilhar</button>
-                    <button class="btn btn-sm btn-outline-secondary">Exportar</button>
-                </div>
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                    <span data-feather="calendar"></span>
-                    This week
-                </button>
-            </div>
-        </div>
-
-        <div class="d-flex justify-content-center">
-            <div id="myPlot" style="width:100%;max-width:700px"></div>
-        </div>
-
-        @php
-            $orders = App\Models\OrderProductItem::get();
-        @endphp
-        <h2 class="my-2">Últimos pedidos</h2>
-        <div class="table-responsive form-h-size">
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Produto</th>
-                        <th>Quantidade</th>
-                        <th>Preço</th>
-                        <th>Desconto</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
+@include('admin.reports.grafics', ['orders' => App\Models\OrderProductItem::get()])
+    <div class="row">
+        <div class="col-12 form-h-size">
+            @php
+                $orders = App\Models\OrderProductItem::get();
+            @endphp
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
                         <tr>
-                            <td>{{$order->id}}</td>
-                            <td>{{$order->product->name}}</td>
-                            <td>{{$order->order_quantity}}</td>
-                            <td>R$ {{$order->order_price}}</td>
-                            <td>{{$order->order_discount_type}} {{$order->order_discount_value}}</td>
-                            <td>R$ {{$order->order_total}}</td>
+                            <th>#</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                            <th>Desconto</th>
+                            <th>Total</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($orders as $order)
+                            <tr>
+                                <td>{{$order->id}}</td>
+                                <td>{{$order->product->name}}</td>
+                                <td>{{$order->order_quantity}}</td>
+                                <td>R$ {{$order->order_price}}</td>
+                                <td>{{$order->order_discount_type}} {{$order->order_discount_value}}</td>
+                                <td>R$ {{$order->order_total}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

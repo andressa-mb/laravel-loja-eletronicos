@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderProductItem;
 use App\Models\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -41,6 +42,8 @@ class ReportController extends Controller
             $pdf = PdfDom::loadView('admin.reports.clients.pdf', ['clients' => User::orderBy('id')->get()]);
         } else if ($tabelName == "pdf_stock"){
             $pdf = PdfDom::loadView('admin.reports.stock.pdf', ['products' => Product::orderBy('id')->get()]);
+        } else if ($tabelName == "pdf_orders"){
+            $pdf = PdfDom::loadView('admin.reports.pdf', ['orders' => OrderProductItem::orderBy('id')->get()]);
         }
         $pdf->setPaper('a4', 'portrait')
             ->setOptions([
