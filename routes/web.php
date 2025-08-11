@@ -21,9 +21,10 @@ Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
 Route::get('/orders', 'HomeController@orders')->name('orders');
 
 //RELATÓRIOS -> ESTOQUE
+Route::get('/pdf-list/{tableName}', 'Reports\ReportController@downloadPdf')->name('pdf-list');
 Route::get('/stock-list', 'Reports\ReportController@showStock')->name('stock-list');
-Route::get('/pdf-list/{tabelName}', 'Reports\ReportController@downloadPdf')->name('pdf-list');
 Route::get('/client-list', 'Reports\ReportController@showClients')->name('client-list');
+Route::get('/sales-list', 'Reports\ReportController@showSales')->name('sales-list');
 
 //USUÁRIOS
 Route::get('/users-list', 'Users\UserController@usersList')->name('users-list');

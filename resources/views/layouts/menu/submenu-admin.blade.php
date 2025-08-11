@@ -25,7 +25,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-categories-nav" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('messages.relatorios') }}</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">{{ __('messages.vendas') }}</a>
+            <a class="dropdown-item" href="{{route('sales-list')}}">{{ __('messages.vendas') }}</a>
             <a class="dropdown-item" href="#">{{ __('messages.financeiro') }}</a>
             <a class="dropdown-item" href="{{route('stock-list')}}">{{ __('messages.estoque') }}</a>
             <a class="dropdown-item" href="{{route('client-list')}}">{{ __('messages.clientes') }}</a>

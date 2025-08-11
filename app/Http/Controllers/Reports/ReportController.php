@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\OrderProductItem;
 use App\Models\Product;
+use App\Models\Views\OrderItemView;
 use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PdfDom;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
     public function showStock(Request $request, Product $product){
+        $this->authorize('view', User::class);
         $products = Product::query();
         switch($request->sort){
             case 'smallest_qty':
@@ -37,12 +41,12 @@ class ReportController extends Controller
         return view('admin.reports.stock.show', ['products' => $products->paginate(6), 'allProducts' => $product->get()]);
     }
 
-    public function downloadPdf($tabelName){
-        if($tabelName == "pdf_client"){
+    public function downloadPdf($tableName){
+        if($tableName == "pdf_client"){
             $pdf = PdfDom::loadView('admin.reports.clients.pdf', ['clients' => User::orderBy('id')->get()]);
-        } else if ($tabelName == "pdf_stock"){
+        } else if ($tableName == "pdf_stock"){
             $pdf = PdfDom::loadView('admin.reports.stock.pdf', ['products' => Product::orderBy('id')->get()]);
-        } else if ($tabelName == "pdf_orders"){
+        } else if ($tableName == "pdf_orders"){
             $pdf = PdfDom::loadView('admin.reports.pdf', ['orders' => OrderProductItem::orderBy('id')->get()]);
         }
         $pdf->setPaper('a4', 'portrait')
@@ -55,6 +59,7 @@ class ReportController extends Controller
     }
 
     public function showClients(Request $request, User $client){
+        $this->authorize('view', User::class);
         $clients = User::query();
         switch($request->sort){
             case 'aToZ':
@@ -78,5 +83,15 @@ class ReportController extends Controller
         }
 
         return view('admin.reports.clients.show', ['clients' => $clients->get()]);
+    }
+
+    public function showSales(Request $request){
+        $this->authorize('view', User::class);
+        //produtos mais vendidos e com menos saidas
+        //mais vendidos
+        $orderItems = OrderItemView::get();
+
+
+        return view('admin.reports.sales.show', ['orderItems' => $orderItems]);
     }
 }

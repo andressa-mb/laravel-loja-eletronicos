@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Views;
 
+use App\Models\OrderProductItem;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Models\UserDataToSend;
@@ -9,14 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Order extends Model
+class OrderItemView extends Model
 {
-    const pendente = 'Pendente';
-    const confirmado = 'Confirmado';
-    const cancelado = 'Cancelado';
-    protected $table = 'orders';
-    protected $fillable = [
-        'status', 'user_id', 'user_data_id'
+    protected $table = 'order_item_view';
+
+    public $casts = [
+       'order_date' => 'datetime'
     ];
 
     public function user(): BelongsTo{
@@ -29,6 +29,10 @@ class Order extends Model
 
     public function orderItems(): HasMany{
         return $this->hasMany(OrderProductItem::class, 'order_id', 'id');
+    }
+
+    public function product(): BelongsTo{
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function products(): BelongsToMany{
