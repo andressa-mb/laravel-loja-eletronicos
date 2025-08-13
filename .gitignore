@@ -11,7 +11,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
-/.git-old
+/git-old
 .info
 jeremias.sh
 /resources/views/layouts/antigo_app.blade.php
