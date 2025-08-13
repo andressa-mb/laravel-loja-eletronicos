@@ -26,7 +26,7 @@
                                             <img src="{{asset("storage/{$item->product->image}")}}" width="100px" height="100px" class="card-img-top" alt="IMAGEM DO PRODUTO">
                                         </div>
                                         <div class="flex-column ml-3">
-                                            <p class="card-text">{{__('messages.produto')}}: {{$item->product->name}}</p>
+                                            <p class="card-text">{{__('messages.produto')}}: {{$item->product->name}} / ID: {{$item->product->id}}</p>
                                             <p class="card-text">{{__('messages.quantidade')}}: {{$item->order_quantity}}</p>
                                             <p class="card-text">{{__('messages.total')}}: {{number_format($item->order_total, 2, ",", ".")}}</p>
                                         </div>
@@ -34,8 +34,28 @@
                                     <hr>
                                 @endforeach
                                 <div class="float-right">
-                                    <a href="#" class="btn btn-danger">{{__('messages.cancelar_pedido')}}</a>
-                                    <a href="#" class="btn btn-primary">{{__('messages.rastrear_pedido')}}</a>
+                                    @foreach ($order->orderItems as $o)
+                                        @if ($o->created_at->diffInDays(now()) > 7)
+                                            <button disabled class="btn btn-danger"
+                                                data-toggle="modal"
+                                                data-target="#deleteModal"
+                                                data-id="{{$order->id}}"
+                                                data-name="{{$o->product->name}}"
+                                                data-route="{{route('cancel-order', $order)}}"
+                                                >{{__('messages.cancelar_pedido')}}
+                                            </button>
+                                        @else
+                                            <button class="btn btn-danger"
+                                                data-toggle="modal"
+                                                data-target="#deleteModal"
+                                                data-id="{{$order->id}}"
+                                                data-name="{{$o->product->name}}"
+                                                data-route="{{route('cancel-order', $order)}}"
+                                                >{{__('messages.cancelar_pedido')}}
+                                            </button>
+                                        @endif
+                                        <a href="#" class="btn btn-primary">{{__('messages.rastrear_pedido')}}</a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -47,4 +67,45 @@
             </div>
         </div>
     @endif
+
+    {{-- MODAL DE EXCLUSÃO DE PRODUTO --}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="myDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myDeleteLabel">{{__('messages.confirmar_exclusao_pedido')}}:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-body">
+                        <p>{{__('messages.confirmar_exclusao_pedido')}}: <strong id="orderProdName"></strong></p>
+                        <p class="text-danger">{{__('messages.msg_acao_desfeita')}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{{__('messages.btn_confirmar')}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('messages.btn_cancelar')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                $('#deleteModal').on('show.bs.modal' ,function(event){
+                    var btn = $(event.relatedTarget);
+                    var orderProdName = btn.data('name');
+                    var deleteRoute = btn.data('route');
+                    $('#orderProdName').text(orderProdName);
+                    $('#deleteForm').attr('action', deleteRoute);
+                })
+            })
+        </script>
+    @endsection
+
 @endsection

@@ -134,6 +134,7 @@ return [
     'cancelar_pedido'=> 'Cancel order',
     'editar_pedido' => 'Edit order',
     'rastrear_pedido' => 'Track order',
+    'confirmar_exclusao_pedido' => 'Confirm order deletion',
 
     /* DESEJOS */
     'remover_lista_desejo' => 'Remove from wishlist',

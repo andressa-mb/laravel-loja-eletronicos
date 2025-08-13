@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //PÁGINA DO ADM
 Route::get('/idx-admin', 'HomeController@indexAdm')->name('index-adm');
-Route::get('/orders', 'HomeController@orders')->name('orders');
+Route::get('/orders', 'Orders\OrderController@orders')->name('orders');
 
 //RELATÓRIOS -> ESTOQUE
 Route::get('/pdf-list/{tableName}', 'Reports\ReportController@downloadPdf')->name('pdf-list');
@@ -39,15 +39,22 @@ Route::post('/save-category-associated-to-product/{product}', 'ProductAndCategor
 //PÁGINA DO COMPRADOR E PROFILE
 Route::get('/', 'HomeController@indexBuyer')->name('index-buyer');
 Route::get('/profile/{user}', 'HomeController@indexProfile')->name('my-profile');
-Route::get('/purchases', 'HomeController@purchases')->name('my-purchases');
+Route::get('/purchases', 'Orders\OrderController@purchases')->name('my-purchases');
 
 //IDIOMA
 Route::get('/language/{lang}', 'LangController@setLang')->name('language');
 
+//ORDERS
+Route::get('/selling-product/{product}', 'Orders\OrderController@selling_product')->name('selling-product-info-client');
+Route::get('/products-in-cart', 'Orders\OrderController@cart_list')->name('cart_list');
+Route::get('/selling-products-in-cart', 'Orders\OrderController@selling_itens_cart_list')->name('selling-itens-cart-list');
+Route::post('/user-data-to-send-product', 'Orders\OrderController@send_userdata')->name('user-data-to-send-product');
+Route::delete('/cancel-order/{order}', 'Orders\OrderController@destroy')->name('cancel-order');
+
 //PÁGINA DA LISTA DE DESEJOS
-Route::get('/wish-list', 'Wish\WishController@wish')->name('my-wish');
-Route::get('/add-product-to-list/{product}', 'Wish\WishController@addToWish')->name('add-wish');
-Route::get('/remove-wish/{wish}', 'Wish\WishController@removeWish')->name('remove-wish');
+Route::get('/wish-list', 'Wishes\WishController@wishes')->name('my-wish');
+Route::get('/add-product-to-list/{product}', 'Wishes\WishController@addToWish')->name('add-wish');
+Route::get('/remove-wish/{wish}', 'Wishes\WishController@removeWish')->name('remove-wish');
 
 //NOTIFICAÇÕES
 Route::get('/notifications', 'Notifications\WishProductNotificationsController@index')->name('notifications.index');
@@ -84,10 +91,6 @@ Route::delete('/delete-category/{category}', 'Categories\CategoryController@dest
 // PRODUCT AND CATEGORIES RELATIONS - CART E SELLINGS
 Route::get('/view-product-category/{product}', 'ProductAndCategories\ProductAndCategoriesController@index_product')->name('view-product');
 Route::get('/products-associates-in-category', 'ProductAndCategories\ProductAndCategoriesController@index_category')->name('products-associates');
-Route::get('/selling-product/{product}', 'ProductAndCategories\ProductAndCategoriesController@selling_product')->name('selling-product-info-client');
-Route::get('/products-in-cart', 'ProductAndCategories\ProductAndCategoriesController@cart_list')->name('cart_list');
-Route::get('/selling-products-in-cart', 'ProductAndCategories\ProductAndCategoriesController@selling_itens_cart_list')->name('selling-itens-cart-list');
-Route::post('/user-data-to-send-product', 'ProductAndCategories\ProductAndCategoriesController@send_userdata')->name('user-data-to-send-product');
 
 Auth::routes();
 Broadcast::routes(['middleware' => ['auth']]);

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Wish;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Wish;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class WishController extends Controller{
-    public function wish(){
+    public function wishes(){
         $wish = Wish::where('user_id', auth()->user()->id)->paginate(6);
         return view('wish.show', ['wishList' => $wish]);
     }

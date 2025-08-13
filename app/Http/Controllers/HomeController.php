@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Models\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -69,17 +68,5 @@ class HomeController extends Controller
 
     public function indexProfile(Request $request){
         return view('profile.index', ['user' => $request->user()]);
-    }
-
-    public function purchases(Order $order){
-        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->paginate(6)]);
-    }
-
-    public function orders(){
-       $filterOrder = Order::whereHas('user', function ($query){
-        $query->whereNull('deleted_at');
-       })->paginate(6);
-
-       return view('order.show', ['orderList' => $filterOrder]);
     }
 }

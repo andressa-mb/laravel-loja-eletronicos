@@ -134,6 +134,7 @@ return [
     'cancelar_pedido'=> 'Cancelar pedido',
     'editar_pedido' => 'Editar pedido',
     'rastrear_pedido' => 'Rastrear o pedido',
+    'confirmar_exclusao_pedido' => 'Confirmar a exclusão do pedido',
 
     /* DESEJOS */
     'remover_lista_desejo' => 'Remover da lista de desejos',
