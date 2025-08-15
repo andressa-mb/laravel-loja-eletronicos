@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Produtos em Promoção</h1>
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Produtos em Promoção</h3>
 
         <div class="col-12 d-flex flex-wrap justify-content-center align-items-start form-h-size">
             <div class="col-12 d-flex justify-content-center">

@@ -2,11 +2,11 @@
 @section('content')
     @if($orders->isEmpty())
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Você ainda não possui pedidos.</h1>
+            <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Você ainda não possui pedidos.</h3>
         </div>
     @else
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.meus_pedidos')}}</h1>
+            <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.meus_pedidos')}}</h3>
             <div class="d-flex flex-wrap justify-content-center align-items-start form-h-size">
                 <div class="col-12">
                     {{ $orders->links() }}
@@ -36,14 +36,9 @@
                                 <div class="float-right">
                                     @foreach ($order->orderItems as $o)
                                         @if ($o->created_at->diffInDays(now()) > 7)
-                                            <button disabled class="btn btn-danger"
-                                                data-toggle="modal"
-                                                data-target="#deleteModal"
-                                                data-id="{{$order->id}}"
-                                                data-name="{{$o->product->name}}"
-                                                data-route="{{route('cancel-order', $order)}}"
-                                                >{{__('messages.cancelar_pedido')}}
-                                            </button>
+                                            <span class="d-inline-block" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Período de cancelamento vencido.">
+                                                <button disabled class="btn btn-danger">{{__('messages.cancelar_pedido')}}</button>
+                                            </span>
                                         @else
                                             <button class="btn btn-danger"
                                                 data-toggle="modal"
@@ -54,7 +49,17 @@
                                                 >{{__('messages.cancelar_pedido')}}
                                             </button>
                                         @endif
-                                        <a href="#" class="btn btn-primary">{{__('messages.rastrear_pedido')}}</a>
+                                        @if ($order->status == "Pendente")
+                                            <span class="d-inline-block" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Aguardando pagamento">
+                                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>{{__('messages.rastrear_pedido')}}</button>
+                                            </span>
+                                        @elseif($order->status == "Cancelado")
+                                            <span class="d-inline-block" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Pedido cancelado">
+                                                <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>{{__('messages.rastrear_pedido')}}</button>
+                                            </span>
+                                        @else
+                                            <a href="{{route('track-order', $order)}}" class="btn btn-primary">{{__('messages.rastrear_pedido')}}</a>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -97,6 +102,10 @@
     @section('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function(){
+                $('[data-toggle="popover"]').popover({
+                    trigger: 'hover'
+                })
+
                 $('#deleteModal').on('show.bs.modal' ,function(event){
                     var btn = $(event.relatedTarget);
                     var orderProdName = btn.data('name');

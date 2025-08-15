@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        <h1 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_usuarios_sistema')}}</h1>
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_usuarios_sistema')}}</h3>
     </div>
     <div class="row">
         <table class="table table-hover col-12">

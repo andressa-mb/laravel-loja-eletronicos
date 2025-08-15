@@ -2,11 +2,11 @@
 @section('content')
     @if($orderList->isEmpty())
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Não há pedidos no site.</h1>
+            <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Não há pedidos no site.</h3>
         </div>
     @else
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_pedidos')}}</h1>
+            <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_pedidos')}}</h3>
             <div class="d-flex flex-wrap justify-content-center align-items-start form-h-size">
                 <div class="col-12">
                     {{ $orderList->links() }}

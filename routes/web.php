@@ -51,10 +51,13 @@ Route::get('/selling-products-in-cart', 'Orders\OrderController@selling_itens_ca
 Route::post('/user-data-to-send-product', 'Orders\OrderController@send_userdata')->name('user-data-to-send-product');
 Route::delete('/cancel-order/{order}', 'Orders\OrderController@destroy')->name('cancel-order');
 
+//TRACKS
+Route::get('track-order/{order_id}', 'Tracks\TrackController@index')->name('track-order');
+
 //PÁGINA DA LISTA DE DESEJOS
-Route::get('/wish-list', 'Wishes\WishController@wishes')->name('my-wish');
-Route::get('/add-product-to-list/{product}', 'Wishes\WishController@addToWish')->name('add-wish');
-Route::get('/remove-wish/{wish}', 'Wishes\WishController@removeWish')->name('remove-wish');
+Route::get('/wish-list', 'Wish\WishController@wishes')->name('my-wish');
+Route::get('/add-product-to-list/{product}', 'Wish\WishController@addToWish')->name('add-wish');
+Route::get('/remove-wish/{wish}', 'Wish\WishController@removeWish')->name('remove-wish');
 
 //NOTIFICAÇÕES
 Route::get('/notifications', 'Notifications\WishProductNotificationsController@index')->name('notifications.index');

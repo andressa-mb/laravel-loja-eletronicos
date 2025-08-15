@@ -2,11 +2,11 @@
 @section('content')
     @if($wishList->isEmpty())
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">A lista de desejos está vazia.</h1>
+            <h3 class="col-12 p-2 text-center bg-dark text-white rounded">A lista de desejos está vazia.</h3>
         </div>
     @else
         <div class="row">
-            <h1 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_desejos')}}</h1>
+            <h3 class="col-12 p-2 text-center bg-dark text-white rounded">{{__('messages.lista_desejos')}}</h3>
 
             <div class="d-flex flex-wrap justify-content-center align-items-start form-h-size">
                 <div class="col-12">

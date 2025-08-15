@@ -4,7 +4,7 @@
         $productsCarts = [];
     @endphp
     <div class="row">
-        <h1 class="col-12 p-2 text-center bg-dark text-white rounded">Carrinho de Compras</h1>
+        <h3 class="col-12 p-2 text-center bg-dark text-white rounded">Carrinho de Compras</h3>
     </div>
     <div class="row">
         <form action="{{route('selling-itens-cart-list')}}" class="col">
