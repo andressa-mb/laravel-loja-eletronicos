@@ -57,43 +57,43 @@
             </div>
         </form>
     </div>
-
-    @section('scripts')
-        <script>
-            $(document).ready(function() {
-                function checkType() {
-                    const type = $('#typeDiscount').val();
-                    if(type == "%"){
-                        $("#percentType").show();
-                        $("#moneyType").hide();
-                        $("#moneyType").val('');
-                    } else if (type === "R$") {
-                        $("#percentType").hide();
-                        $("#moneyType").show();
-                        $("#percentType").val('');
-                    }
-                }
-
-                checkType();
-
-                $('#typeDiscount').change(function(){
-                    checkType();
-                })
-
-                $('form').submit(function() {
-                    const type = $('#typeDiscount').val();
-                    if(type == "%") {
-                        $("#valueDiscount").val('');
-                        $("#percentDiscount").prop('disabled', false);
-                        $("#valueDiscount").prop('disabled', true);
-                    } else {
-                        $("#percentDiscount").val('');
-                        $("#percentDiscount").prop('disabled', true);
-                        $("#valueDiscount").prop('disabled', false);
-                    }
-                    return true;
-                });
-            })
-        </script>
-    @endsection
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            function checkType() {
+                const type = $('#typeDiscount').val();
+                if(type == "%"){
+                    $("#percentType").show();
+                    $("#moneyType").hide();
+                    $("#moneyType").val('');
+                } else if (type === "R$") {
+                    $("#percentType").hide();
+                    $("#moneyType").show();
+                    $("#percentType").val('');
+                }
+            }
+
+            checkType();
+
+            $('#typeDiscount').change(function(){
+                checkType();
+            })
+
+            $('form').submit(function() {
+                const type = $('#typeDiscount').val();
+                if(type == "%") {
+                    $("#valueDiscount").val('');
+                    $("#percentDiscount").prop('disabled', false);
+                    $("#valueDiscount").prop('disabled', true);
+                } else {
+                    $("#percentDiscount").val('');
+                    $("#percentDiscount").prop('disabled', true);
+                    $("#valueDiscount").prop('disabled', false);
+                }
+                return true;
+            });
+        })
+    </script>
+@endpush

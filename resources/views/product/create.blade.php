@@ -60,55 +60,55 @@
             </div>
         </form>
     </div>
-
-    @section('scripts')
-        <script>
-            $(document).ready(function() {
-                $('#hasDiscount').change(function() {
-                    if($(this).is(':checked')){
-                        $('#discountFields').show();
-                        $('input[name=hasDiscount][type=hidden]').val('1')
-                    }else {
-                        $('#discountFields').hide();
-                        $('input[name=hasDiscount][type=hidden]').val('0')
-                    }
-                })
-
-                const discounts = @json($discounts);
-
-                function showDiscountDates(discountId){
-                    const selectedDiscount = discounts.find(d => d.id == discountId);
-                    if(selectedDiscount){
-                        $("#datesDiscounts").html(`
-                            <p>Início do desconto: ${selectedDiscount.start_date}</p>
-                            <p>Fim do desconto: ${selectedDiscount.end_date}</p>
-                        `)
-                    }
-                }
-
-                $("#typeDiscount").change(function(){
-                    const type = $(this).val();
-                    let value = "";
-                    let filterType = discounts.filter(d => d.type == type);
-
-                    if(filterType.length > 0){
-                        value += filterType.map(discount => `
-                                <option value="${discount.id}">
-                                    ${discount.type} ${discount.discount_value}
-                                </option>
-                            `)
-                        showDiscountDates(filterType[0].id);
-                    }else {
-                        value = `<option value="0">0</option>`
-                    }
-                    $("#discount_values").empty().append(value);
-                })
-
-                $("#discount_values").change(function() {
-                    let selectedId = $(this).val();
-                    showDiscountDates(selectedId);
-                })
-            })
-        </script>
-    @endsection
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#hasDiscount').change(function() {
+                if($(this).is(':checked')){
+                    $('#discountFields').show();
+                    $('input[name=hasDiscount][type=hidden]').val('1')
+                }else {
+                    $('#discountFields').hide();
+                    $('input[name=hasDiscount][type=hidden]').val('0')
+                }
+            })
+
+            const discounts = @json($discounts);
+
+            function showDiscountDates(discountId){
+                const selectedDiscount = discounts.find(d => d.id == discountId);
+                if(selectedDiscount){
+                    $("#datesDiscounts").html(`
+                        <p>Início do desconto: ${selectedDiscount.start_date}</p>
+                        <p>Fim do desconto: ${selectedDiscount.end_date}</p>
+                    `)
+                }
+            }
+
+            $("#typeDiscount").change(function(){
+                const type = $(this).val();
+                let value = "";
+                let filterType = discounts.filter(d => d.type == type);
+
+                if(filterType.length > 0){
+                    value += filterType.map(discount => `
+                            <option value="${discount.id}">
+                                ${discount.type} ${discount.discount_value}
+                            </option>
+                        `)
+                    showDiscountDates(filterType[0].id);
+                }else {
+                    value = `<option value="0">0</option>`
+                }
+                $("#discount_values").empty().append(value);
+            })
+
+            $("#discount_values").change(function() {
+                let selectedId = $(this).val();
+                showDiscountDates(selectedId);
+            })
+        })
+    </script>
+@endpush

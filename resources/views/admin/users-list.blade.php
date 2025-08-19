@@ -74,16 +74,16 @@
     </div>
 @endsection
 
-@section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-        $('#deleteModal').on('show.bs.modal' ,function(event){
-            var btn = $(event.relatedTarget);
-            var userName = btn.data('name');
-            var deleteRoute = btn.data('route');
-            $('#userName').text(userName);
-            $('#deleteForm').attr('action', deleteRoute);
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            $('#deleteModal').on('show.bs.modal' ,function(event){
+                var btn = $(event.relatedTarget);
+                var userName = btn.data('name');
+                var deleteRoute = btn.data('route');
+                $('#userName').text(userName);
+                $('#deleteForm').attr('action', deleteRoute);
+            })
         })
-    })
-</script>
-@endsection
+    </script>
+@endpush

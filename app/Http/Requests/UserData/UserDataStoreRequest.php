@@ -31,7 +31,7 @@ class UserDataStoreRequest extends FormRequest
             'state' => 'required|string|max:2',
             'street' => 'required|string|max:70',
             'number' => 'required|integer',
-            'additional' => 'required|string|max:20',
+            'additional' => 'string|max:20|nullable',
             'district' => 'required|string|max:50',
             'payment' => 'required|string|max:20',
         ];
@@ -55,7 +55,6 @@ class UserDataStoreRequest extends FormRequest
             'street.max' => 'A rua deve conter até 70 caracteres.',
             'number.required' => 'O número do local é obrigatório.',
             'number.numeric' => 'Deve ser numérico.',
-            'additional.required' => 'O complemento é obrigatório.',
             'additional.max' => 'O complemento deve conter até 20 caracteres.',
             'district.required' => 'O bairro é obrigatório.',
             'district.max' => 'O bairro deve conter até 50 caracteres.',

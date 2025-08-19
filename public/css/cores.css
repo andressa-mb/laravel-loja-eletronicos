@@ -57,3 +57,18 @@
     border-radius: 20px;
     width: 30%;
 }
+
+.send_data:invalid {
+    border: 1px solid red;
+}
+
+.send_data:valid {
+    border: 1px solid green;
+}
+
+.radio_validate {
+    width: 18%;
+    padding: 0 8px;
+    border: 1px solid red;
+    border-radius: 20px;
+}

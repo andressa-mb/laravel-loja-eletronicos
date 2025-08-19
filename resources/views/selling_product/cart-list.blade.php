@@ -81,88 +81,88 @@
             <a href="{{route('index-buyer')}}" class="btn btn-primary">{{__('messages.continuar_comprando')}}</a>
         @endif
     </div>
-
-    @section('scripts')
-        <script>
-            function increaseQtd(productId, stockMax){
-                let qtdSpan = document.getElementById('qtd-' + productId);
-                let priceElement = document.getElementById('price-' + productId);
-                let discountTypeElement = document.querySelector(`#discount-${productId} #discount_type`);
-                let discountValueElement = document.querySelector(`#discount-${productId} #discount_value`);
-                let totalElement = document.getElementById('total-' + productId);
-
-                let hasDiscount = discountTypeElement && discountValueElement;
-                let priceValue = parseFloat(priceElement.innerText.replace("R$ ", "").replace(/\./g, "").replace(",", "."));
-                let convertQtd = parseInt(qtdSpan.innerText);
-
-                if(convertQtd < stockMax){
-                    let newQtd = convertQtd+1;
-                    let qtdInp = document.getElementById('qtdInp-' + productId);
-                    qtdInp.value = newQtd;
-                    qtdSpan.innerText = newQtd;
-
-                    if(convertQtd !== newQtd){
-                        let newTotal = priceValue;
-                        if(hasDiscount){
-                            let discountType = discountTypeElement.innerText.trim();
-                            let discountValue = parseFloat(discountValueElement.innerText);
-                            let totalWithDiscount = 0;
-
-                            if(discountType === '%'){
-                                let discount = discountValue/100;
-                                totalWithDiscount = newTotal - (newTotal * discount);
-                                newTotal = totalWithDiscount;
-                            } else if(discountType === 'R$'){
-                                totalWithDiscount = newTotal - discountValue;
-                                newTotal = totalWithDiscount;
-                            }
-                        }
-
-                        newTotal = newTotal * newQtd;
-                        totalElement.innerText = newTotal.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
-                    }
-                }
-            }
-
-            function decreaseQtd(productId){
-                let qtdSpan = document.getElementById('qtd-' + productId);
-                let priceElement = document.getElementById('price-' + productId);
-                let discountTypeElement = document.querySelector(`#discount-${productId} #discount_type`);
-                let discountValueElement = document.querySelector(`#discount-${productId} #discount_value`);
-                let totalElement = document.getElementById('total-' + productId);
-
-                let hasDiscount = discountTypeElement && discountValueElement;
-                let priceValue = parseFloat(priceElement.innerText.replace("R$ ", "").replace(/\./g, "").replace(",", "."));
-                let convertQtd = parseInt(qtdSpan.innerText);
-
-                if(convertQtd > 1){
-                    let newQtd = convertQtd-1;
-                    let qtdInp = document.getElementById('qtdInp-' + productId);
-                    qtdInp.value = newQtd;
-                    qtdSpan.innerText = newQtd;
-
-                    if(convertQtd != newQtd){
-                        let newTotal = priceValue;
-                        if(hasDiscount){
-                            let discountType = discountTypeElement.innerText.trim();
-                            let discountValue = parseFloat(discountValueElement.innerText);
-                            let totalWithDiscount = 0;
-
-                            if(discountType === '%'){
-                                let discount = discountValue/100;
-                                totalWithDiscount = newTotal - (newTotal * discount);
-                                newTotal = totalWithDiscount;
-                            } else if(discountType === 'R$'){
-                                totalWithDiscount = newTotal - discountValue;
-                                newTotal = totalWithDiscount;
-                            }
-                        }
-
-                        newTotal = newQtd * newTotal;
-                        totalElement.innerText = newTotal.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
-                    }
-                }
-            }
-        </script>
-    @endsection
 @endsection
+
+@push('scripts')
+    <script>
+        function increaseQtd(productId, stockMax){
+            let qtdSpan = document.getElementById('qtd-' + productId);
+            let priceElement = document.getElementById('price-' + productId);
+            let discountTypeElement = document.querySelector(`#discount-${productId} #discount_type`);
+            let discountValueElement = document.querySelector(`#discount-${productId} #discount_value`);
+            let totalElement = document.getElementById('total-' + productId);
+
+            let hasDiscount = discountTypeElement && discountValueElement;
+            let priceValue = parseFloat(priceElement.innerText.replace("R$ ", "").replace(/\./g, "").replace(",", "."));
+            let convertQtd = parseInt(qtdSpan.innerText);
+
+            if(convertQtd < stockMax){
+                let newQtd = convertQtd+1;
+                let qtdInp = document.getElementById('qtdInp-' + productId);
+                qtdInp.value = newQtd;
+                qtdSpan.innerText = newQtd;
+
+                if(convertQtd !== newQtd){
+                    let newTotal = priceValue;
+                    if(hasDiscount){
+                        let discountType = discountTypeElement.innerText.trim();
+                        let discountValue = parseFloat(discountValueElement.innerText);
+                        let totalWithDiscount = 0;
+
+                        if(discountType === '%'){
+                            let discount = discountValue/100;
+                            totalWithDiscount = newTotal - (newTotal * discount);
+                            newTotal = totalWithDiscount;
+                        } else if(discountType === 'R$'){
+                            totalWithDiscount = newTotal - discountValue;
+                            newTotal = totalWithDiscount;
+                        }
+                    }
+
+                    newTotal = newTotal * newQtd;
+                    totalElement.innerText = newTotal.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+                }
+            }
+        }
+
+        function decreaseQtd(productId){
+            let qtdSpan = document.getElementById('qtd-' + productId);
+            let priceElement = document.getElementById('price-' + productId);
+            let discountTypeElement = document.querySelector(`#discount-${productId} #discount_type`);
+            let discountValueElement = document.querySelector(`#discount-${productId} #discount_value`);
+            let totalElement = document.getElementById('total-' + productId);
+
+            let hasDiscount = discountTypeElement && discountValueElement;
+            let priceValue = parseFloat(priceElement.innerText.replace("R$ ", "").replace(/\./g, "").replace(",", "."));
+            let convertQtd = parseInt(qtdSpan.innerText);
+
+            if(convertQtd > 1){
+                let newQtd = convertQtd-1;
+                let qtdInp = document.getElementById('qtdInp-' + productId);
+                qtdInp.value = newQtd;
+                qtdSpan.innerText = newQtd;
+
+                if(convertQtd != newQtd){
+                    let newTotal = priceValue;
+                    if(hasDiscount){
+                        let discountType = discountTypeElement.innerText.trim();
+                        let discountValue = parseFloat(discountValueElement.innerText);
+                        let totalWithDiscount = 0;
+
+                        if(discountType === '%'){
+                            let discount = discountValue/100;
+                            totalWithDiscount = newTotal - (newTotal * discount);
+                            newTotal = totalWithDiscount;
+                        } else if(discountType === 'R$'){
+                            totalWithDiscount = newTotal - discountValue;
+                            newTotal = totalWithDiscount;
+                        }
+                    }
+
+                    newTotal = newQtd * newTotal;
+                    totalElement.innerText = newTotal.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+                }
+            }
+        }
+    </script>
+@endpush

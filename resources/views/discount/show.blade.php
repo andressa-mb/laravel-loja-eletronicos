@@ -79,18 +79,17 @@
             </div>
         </div>
     </div>
-
-    @section('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function(){
-                $('#deleteModal').on('show.bs.modal' ,function(event){
-                    var btn = $(event.relatedTarget);
-                    var messageDisc = btn.data('name');
-                    var deleteRoute = btn.data('route');
-                    $('#messageDisc').text(messageDisc);
-                    $('#deleteForm').attr('action', deleteRoute);
-                })
-            })
-        </script>
-    @endsection
 @endsection
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            $('#deleteModal').on('show.bs.modal' ,function(event){
+                var btn = $(event.relatedTarget);
+                var messageDisc = btn.data('name');
+                var deleteRoute = btn.data('route');
+                $('#messageDisc').text(messageDisc);
+                $('#deleteForm').attr('action', deleteRoute);
+            })
+        })
+    </script>
+@endpush

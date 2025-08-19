@@ -37,7 +37,7 @@
     </ul>
 </div>
 
-@section('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.product-container').forEach(container => {
@@ -78,4 +78,4 @@
             })
         })
     </script>
-@endsection
+@endpush

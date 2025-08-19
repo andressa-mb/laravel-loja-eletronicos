@@ -29,7 +29,7 @@ class OrderController extends Controller
     }
 
     public function purchases(Order $order){
-        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->paginate(6)]);
+        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6)]);
     }
 
     public function orders(){

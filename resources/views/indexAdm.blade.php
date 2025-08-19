@@ -34,51 +34,49 @@
             </div>
         </div>
     </div>
+@endsection
+{{-- pelo w3 teste --}}
+@push('scripts')
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    <script>
+        let orderData = @json($orders);
+        let xOrder = [];
+        let yOrder = [];
+        let productData = [];
+        for (let element of orderData) {
+            if(productData.length == 0){
+                productData.push({
+                    'product_id': element.product_id,
+                    'name': element.product.name,
+                    'quantity': element.order_quantity,
+                    'count': 1
+                })
+            } else{
+                let findProdData = productData.find(item => {
+                    return item.product_id == element.product_id;
+                })
 
-    {{-- pelo w3 teste --}}
-    @section('scripts')
-        <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
-        <script>
-            let orderData = @json($orders);
-            let xOrder = [];
-            let yOrder = [];
-            let productData = [];
-            for (let element of orderData) {
-                if(productData.length == 0){
-                    productData.push({
+                if(findProdData){
+                    findProdData.quantity += element.order_quantity,
+                    findProdData.count += 1
+                } else {
+                        productData.push({
                         'product_id': element.product_id,
                         'name': element.product.name,
                         'quantity': element.order_quantity,
                         'count': 1
                     })
-                } else{
-                    let findProdData = productData.find(item => {
-                        return item.product_id == element.product_id;
-                    })
-
-                    if(findProdData){
-                        findProdData.quantity += element.order_quantity,
-                        findProdData.count += 1
-                    } else {
-                         productData.push({
-                            'product_id': element.product_id,
-                            'name': element.product.name,
-                            'quantity': element.order_quantity,
-                            'count': 1
-                        })
-                    }
                 }
             }
+        }
 
-            for(let item of productData){
-                xOrder.push(item.name);
-                yOrder.push(item.quantity);
-            }
+        for(let item of productData){
+            xOrder.push(item.name);
+            yOrder.push(item.quantity);
+        }
 
-            const layout = {title:"Itens mais vendidos"};
-            const data = [{labels:xOrder, values:yOrder, type:"pie"}];
-            Plotly.newPlot("myPlot", data, layout);
-        </script>
-    @endsection
-
-@endsection
+        const layout = {title:"Itens mais vendidos"};
+        const data = [{labels:xOrder, values:yOrder, type:"pie"}];
+        Plotly.newPlot("myPlot", data, layout);
+    </script>
+@endpush

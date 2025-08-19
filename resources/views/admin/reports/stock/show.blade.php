@@ -90,23 +90,22 @@
             </div>
         </div>
     </div>
-
-
-    @section('scripts')
-        <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
-        <script>
-            let prods = @json($allProducts);
-            console.log(prods);
-            let xProdNames = [];
-            let yProdQts = [];
-            for(let prod of prods){
-                xProdNames.push(prod.name);
-                yProdQts.push(prod.quantity);
-            }
-
-            const layout = {title:"Itens em estoque"};
-            const data = [{labels:xProdNames, values:yProdQts, type:"pie"}];
-            Plotly.newPlot("myPlot", data, layout);
-        </script>
-    @endsection
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    <script>
+        let prods = @json($allProducts);
+        console.log(prods);
+        let xProdNames = [];
+        let yProdQts = [];
+        for(let prod of prods){
+            xProdNames.push(prod.name);
+            yProdQts.push(prod.quantity);
+        }
+
+        const layout = {title:"Itens em estoque"};
+        const data = [{labels:xProdNames, values:yProdQts, type:"pie"}];
+        Plotly.newPlot("myPlot", data, layout);
+    </script>
+@endpush

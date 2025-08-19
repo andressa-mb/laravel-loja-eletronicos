@@ -22,7 +22,7 @@ class CreateUserDataToSendsTable extends Migration
             $table->string('state', 2);
             $table->string('street', 70);
             $table->integer('number');
-            $table->string('additional', 20);
+            $table->string('additional', 20)->nullable();
             $table->string('district', 50);
             $table->string('payment', 20);
             $table->timestamps();

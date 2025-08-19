@@ -44,13 +44,12 @@
         </div>
 
     </div>
-
-    @section('scripts')
-        <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
-        <script>
-            let salesData = @json($orderItems);
-
-            //Plotly.newPlot("myPlot", data, layout); */
-        </script>
-    @endsection
 @endsection
+@push('scripts')
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    <script>
+        let salesData = @json($orderItems);
+
+        //Plotly.newPlot("myPlot", data, layout); */
+    </script>
+@endpush

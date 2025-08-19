@@ -98,23 +98,22 @@
             </div>
         </div>
     </div>
-
-    @section('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function(){
-                $('[data-toggle="popover"]').popover({
-                    trigger: 'hover'
-                })
-
-                $('#deleteModal').on('show.bs.modal' ,function(event){
-                    var btn = $(event.relatedTarget);
-                    var orderProdName = btn.data('name');
-                    var deleteRoute = btn.data('route');
-                    $('#orderProdName').text(orderProdName);
-                    $('#deleteForm').attr('action', deleteRoute);
-                })
-            })
-        </script>
-    @endsection
-
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            $('[data-toggle="popover"]').popover({
+                trigger: 'hover'
+            })
+
+            $('#deleteModal').on('show.bs.modal' ,function(event){
+                var btn = $(event.relatedTarget);
+                var orderProdName = btn.data('name');
+                var deleteRoute = btn.data('route');
+                $('#orderProdName').text(orderProdName);
+                $('#deleteForm').attr('action', deleteRoute);
+            })
+        })
+    </script>
+@endpush
