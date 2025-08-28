@@ -53,8 +53,6 @@
                     <h4 class="mt-4">Previsão de entrega:</h4><span>{{$track->estimated_delivery->format('d/m/Y')}}</span>
                 </div>
             </div>
-
-
         </div>
     @endif
 @endsection

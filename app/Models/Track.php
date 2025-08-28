@@ -18,6 +18,6 @@ class Track extends Model
     ];
 
     public function orders(): HasMany {
-        return $this->hasMany(Order::class, 'order_id', 'id');
+        return $this->hasMany(Order::class, 'id', 'order_id');
     }
 }

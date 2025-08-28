@@ -45,7 +45,7 @@
             </div>
 
         </div>
-        <h4 class="radio_validate">* {{__('messages.forma_pagamento')}}:</h4>
+        <h4>* {{__('messages.forma_pagamento')}}:</h4>
         <div id="itens_radio">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="payment" id="payment1" value="pix" required>

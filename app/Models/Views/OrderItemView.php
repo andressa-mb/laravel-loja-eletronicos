@@ -4,6 +4,9 @@ namespace App\Models\Views;
 
 use App\Models\OrderProductItem;
 use App\Models\Product;
+use App\Models\Traits\WithProduct;
+use App\Models\Traits\WithUser;
+use App\Models\Traits\WithUserData;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Models\UserDataToSend;
@@ -13,26 +16,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrderItemView extends Model
 {
+    use WithProduct;
+    use WithUser;
+    use WithUserData;
     protected $table = 'order_item_view';
 
     public $casts = [
        'order_date' => 'datetime'
     ];
 
-    public function user(): BelongsTo{
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function userData(): BelongsTo{
-        return $this->belongsTo(UserDataToSend::class, 'user_data_id', 'id');
-    }
-
     public function orderItems(): HasMany{
         return $this->hasMany(OrderProductItem::class, 'order_id', 'id');
-    }
-
-    public function product(): BelongsTo{
-        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function products(): BelongsToMany{

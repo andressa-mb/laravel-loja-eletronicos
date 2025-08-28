@@ -52,7 +52,7 @@ Route::post('/user-data-to-send-product', 'Orders\OrderController@send_userdata'
 Route::delete('/cancel-order/{order}', 'Orders\OrderController@destroy')->name('cancel-order');
 
 //TRACKS
-Route::get('track-order/{order_id}', 'Tracks\TrackController@index')->name('track-order');
+Route::get('track-order/{order_id}', 'Tracks\TrackController@show')->name('track-order');
 
 //PÁGINA DA LISTA DE DESEJOS
 Route::get('/wish-list', 'Wish\WishController@wishes')->name('my-wish');

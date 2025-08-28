@@ -14,20 +14,9 @@ class TrackController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $orderId)
+    public function index(Request $request)
     {
-        $order = Order::find($orderId);
 
-        $track = Track::where('order_id', $order->id)->exists() ? Track::where('order_id', $order->id)->first() : null;
-
-        if(!$track){
-            $track = Track::create([
-                'order_id' => $order->id,
-                'estimated_delivery' => $order->updated_at->addDays(15)
-            ]);
-        }
-
-        return view('track.show', ['order' => $order, 'track' => $track]);
     }
 
     /**
@@ -57,9 +46,20 @@ class TrackController extends Controller
      * @param  \App\Models\Track  $track
      * @return \Illuminate\Http\Response
      */
-    public function show(Track $track)
+    public function show(Request $request, $orderId, Track $track)
     {
-        //
+        $order = Order::find($orderId);
+
+        $tckExiste = $track->where('order_id', $order->id)->exists() ? Track::where('order_id', $order->id)->first() : null;
+
+        if(!$tckExiste){
+            $tckExiste = Track::create([
+                'order_id' => $order->id,
+                'estimated_delivery' => $order->updated_at->addDays(15)
+            ]);
+        }
+
+        return view('track.show', ['order' => $order, 'track' => $tckExiste]);
     }
 
     /**
