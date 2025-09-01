@@ -21,8 +21,22 @@ class OrderPolicy
         //
     }
 
+    public function view(User $user)
+    {
+        return $user->isAdmin();
+    }
+
+    public function edit(User $user)
+    {
+        return $user->isAdmin();
+    }
+
     public function delete(User $user, Order $order)
     {
+        if($user->isAdmin()){
+            return true;
+        }
+
         return $user->id == $order->user_id;
     }
 }

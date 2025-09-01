@@ -24,6 +24,10 @@ class Order extends Model
         'status', 'user_id', 'user_data_id'
     ];
 
+    public function getStatusAttribute(){
+        return $this->attributes['status'];
+    }
+
     public function orderItems(): HasMany{
         return $this->hasMany(OrderProductItem::class, 'order_id', 'id');
     }

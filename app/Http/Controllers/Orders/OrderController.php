@@ -17,27 +17,65 @@ use Throwable;
 class OrderController extends Controller
 {
 
-    public function destroy(Order $order){
-        $this->authorize('delete', $order);
+    public function edit(Request $request, $idOrder){
+        try{
+            $this->authorize('edit', Order::class);
 
-        if($order->created_at->diffInDays(now()) > 7){
-            return redirect()->route('my-purchases')->withErrors('Pedido passou do período de cancelamento de 7 dias.');
+            return view('order.edit', ['order' => Order::find($idOrder)]);
+        }catch(Throwable $e){
+            return back()->withErrors($e->getMessage());
         }
+    }
 
-        $order->findOrFail($order->id)->delete();
-        return redirect()->route('my-purchases')->with('message', 'Pedido excluído com sucesso.');
+    public function update(Request $request, $idOrder){
+        try{
+            $orderToUpdate = Order::find($idOrder);
+            $orderToUpdate->update([
+                'status' => $request->input('statusPedido')
+            ]);
+
+            return redirect()->route('orders')->with('message', "Pedido alterado com sucesso.");
+        }catch(Throwable $e){
+            return back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function destroy(Order $order){
+        try{
+            $this->authorize('delete', $order);
+
+            if($order->created_at->diffInDays(now()) > 7){
+                return redirect()->route('my-purchases')->withErrors('Pedido passou do período de cancelamento de 7 dias.');
+            }
+
+            $order->findOrFail($order->id)->delete();
+            return redirect()->route('my-purchases')->with('message', 'Pedido excluído com sucesso.');
+        }catch(Throwable $e){
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function purchases(Order $order){
-        return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6)]);
+        try {
+            $this->authorize('view', Order::class);
+
+            return view('profile.my-purchases', ['orders' =>  $order->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6)]);
+        } catch(Throwable $e){
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function orders(){
-       $filterOrder = Order::whereHas('user', function ($query){
-        $query->whereNull('deleted_at');
-       })->paginate(6);
+        try{
+            $this->authorize('view', Order::class);
+            $filterOrder = Order::whereHas('user', function ($query){
+                $query->whereNull('deleted_at');
+            })->orderBy('id', 'desc')->paginate(6);
 
-       return view('order.show', ['orderList' => $filterOrder]);
+            return view('order.show', ['orderList' => $filterOrder]);
+        } catch(Throwable $e){
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     public function selling_product(Request $request){

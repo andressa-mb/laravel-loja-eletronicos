@@ -50,6 +50,9 @@ Route::get('/products-in-cart', 'Orders\OrderController@cart_list')->name('cart_
 Route::get('/selling-products-in-cart', 'Orders\OrderController@selling_itens_cart_list')->name('selling-itens-cart-list');
 Route::post('/user-data-to-send-product', 'Orders\OrderController@send_userdata')->name('user-data-to-send-product');
 Route::delete('/cancel-order/{order}', 'Orders\OrderController@destroy')->name('cancel-order');
+Route::get('/edit-order/{order}', 'Orders\OrderController@edit')->name('edit-order');
+Route::put('/update-order/{order}', 'Orders\OrderController@update')->name('order-update');
+//^^ EM ADMIN ^^ para ver todos os pedidos
 
 //TRACKS
 Route::get('track-order/{order_id}', 'Tracks\TrackController@show')->name('track-order');
